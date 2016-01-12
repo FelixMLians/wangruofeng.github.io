@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/</loc>
+    <lastmod>2016-01-13T05:14:59+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/</loc>
     <lastmod>2016-01-13T05:05:09+08:00</lastmod>
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/iosli-cheng-bei-shi-jian/</loc>
     <lastmod>2016-01-13T04:46:48+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/</loc>
-    <lastmod>2016-01-13T04:40:17+08:00</lastmod>
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/you-ya-chu-li-uiimagetu-pian-xuan-zhuan/</loc>
@@ -54,12 +54,12 @@
     <loc>http://wangruofeng.github.io/blog/categories/ji-qiao/</loc>
   </url>
   <url>
+    <loc>http://wangruofeng.github.io/blog/categories/zi-liao-shou-cang/</loc>
+  </url>
+  <url>
     <loc>http://wangruofeng.github.io/blog/categories/oc/</loc>
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/categories/wang-luo/</loc>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/categories/zi-liao-shou-cang/</loc>
   </url>
 </urlset>

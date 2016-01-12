@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技巧 | 王若风的小窝]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ji-qiao/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T05:06:51+08:00</updated>
+  <updated>2016-01-13T05:16:40+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
@@ -213,58 +213,107 @@
 </code></pre>
 
 <p>现在再优化一下原来<code>+ (UIImage *)rotateImage:(UIImage *)oldImage orientation:(UIImageOrientation)orientation</code> 方法,修改成这样
-```objective-c
-+ (UIImage <em>)rotateImage:(UIImage </em>)oldImage orientation:(UIImageOrientation)orientation{</p>
-
-<pre><code>UIImage *newImage = [UIImage imageWithCGImage:oldImage.CGImage scale:1 orientation:orientation];
-
-//fix original Image with gived orientation.
-UIImage *fixedRotationImage = [newImage fixedRotation];
-
-NSString *orientationStr = nil;
-switch (orientation) {
-    case UIImageOrientationUp: {
-        orientationStr = @"UIImageOrientationUp";
-        break;
-    }
-    case UIImageOrientationDown: {
-        orientationStr = @"UIImageOrientationDown";
-        break;
-    }
-    case UIImageOrientationLeft: {
-        orientationStr = @"UIImageOrientationLeft";
-        break;
-    }
-    case UIImageOrientationRight: {
-        orientationStr = @"UIImageOrientationRight";
-        break;
-    }
-    case UIImageOrientationUpMirrored: {
-        orientationStr = @"UIImageOrientationUpMirrored";
-        break;
-    }
-    case UIImageOrientationDownMirrored: {
-        orientationStr = @"UIImageOrientationDownMirrored";
-        break;
-    }
-    case UIImageOrientationLeftMirrored: {
-        orientationStr = @"UIImageOrientationLeftMirrored";
-        break;
-    }
-    case UIImageOrientationRightMirrored: {
-        orientationStr = @"UIImageOrientationRightMirrored";
-        break;
-    }
-
-}
-
-NSLog(@"current orientation: %@",orientationStr);
-
-return fixedRotationImage;
-</code></pre>
-
-<p>}
-```
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">rotateImage:</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">oldImage</span> <span class="nf">orientation:</span><span class="p">(</span><span class="n">UIImageOrientation</span><span class="p">)</span><span class="nv">orientation</span><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">newImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageWithCGImage</span><span class="p">:</span><span class="n">oldImage</span><span class="p">.</span><span class="bp">CGImage</span> <span class="nl">scale</span><span class="p">:</span><span class="mi">1</span> <span class="nl">orientation</span><span class="p">:</span><span class="n">orientation</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//fix original Image with gived orientation.</span>
+</span><span class='line'><span class="bp">UIImage</span> <span class="o">*</span><span class="n">fixedRotationImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">newImage</span> <span class="n">fixedRotation</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">orientationStr</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationUp</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationUp&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationDown</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationDown&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationLeft</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationLeft&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationRight</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationRight&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationUpMirrored</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationUpMirrored&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationDownMirrored</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationDownMirrored&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationLeftMirrored</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationLeftMirrored&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationRightMirrored</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationRightMirrored&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;current orientation: %@&quot;</span><span class="p">,</span><span class="n">orientationStr</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">fixedRotationImage</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
  现在再测试一下，well，It‘s OK。</p>
 
 <p> have fun!!!</p>

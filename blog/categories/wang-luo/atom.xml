@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 网络 | 王若风的小窝]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/wang-luo/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T05:06:51+08:00</updated>
+  <updated>2016-01-13T05:16:40+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[多线程之NSOperation]]></title>
     <link href="http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/"/>
-    <updated>2016-01-13T04:40:17+08:00</updated>
+    <updated>2016-01-13T05:14:59+08:00</updated>
     <id>http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation</id>
     <content type="html"><![CDATA[<h3>本文目录</h3>
 
@@ -151,33 +151,27 @@
 
 <h3>a.继承NSOperation，重写main方法</h3>
 
-<p><em>DownloadOperation.h</em>
-```objective-c</p>
+<p><em>DownloadOperation.h</em></p>
 
-<h1>import &lt;Foundation/Foundation.h></h1>
+<pre><code class="objective-c">#import &lt;Foundation/Foundation.h&gt;
+@protocol DownloadOperationDelegate;
 
-<p>@protocol DownloadOperationDelegate;</p>
-
-<p>@interface DownloadOperation : NSOperation
+@interface DownloadOperation : NSOperation
 // 图片的url路径
 @property (nonatomic, copy) NSString *imageUrl;
 // 代理
-@property (nonatomic, assign) id<DownloadOperationDelegate> delegate;</p>
+@property (nonatomic, assign) id&lt;DownloadOperationDelegate&gt; delegate;
 
-<ul>
-<li>(id)initWithUrl:(NSString *)url delegate:(id<DownloadOperationDelegate>)delegate;
-@end</li>
-</ul>
+- (id)initWithUrl:(NSString *)url delegate:(id&lt;DownloadOperationDelegate&gt;)delegate;
+@end
 
-
-<p>// 图片下载的协议
-@protocol DownloadOperationDelegate <NSObject>
+// 图片下载的协议
+@protocol DownloadOperationDelegate &lt;NSObject&gt;
 - (void)downloadFinishWithImage:(UIImage *)image;
 @end
-```</p>
+</code></pre>
 
-<p>*DownloadOperation.m
-*</p>
+<p>*DownloadOperation.m</p>
 
 <pre><code class="objective-c">#import "DownloadOperation.h"
 
