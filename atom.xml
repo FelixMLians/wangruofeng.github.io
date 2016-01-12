@@ -4,7 +4,7 @@
   <title><![CDATA[王若风的小窝]]></title>
   <link href="http://wangruofeng.github.io/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T04:22:04+08:00</updated>
+  <updated>2016-01-13T04:24:29+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
@@ -18,9 +18,7 @@
     <link href="http://wangruofeng.github.io/blog/2016/01/13/attribute/"/>
     <updated>2016-01-13T04:10:33+08:00</updated>
     <id>http://wangruofeng.github.io/blog/2016/01/13/attribute</id>
-    <content type="html"><![CDATA[<h1><strong>attribute</strong></h1>
-
-<ul>
+    <content type="html"><![CDATA[<ul>
 <li>译自 Written by <a href="http://nshipster.com/authors/mattt-thompson/">Mattt Thompson</a> — January 14th, 2013</li>
 <li>原文链接：<a href="http://nshipster.com/__attribute__/">http://nshipster.com/__attribute__/</a></li>
 <li>译者<a href="https://twitter.com/oneruofeng">@oneruofeng</a></li>
