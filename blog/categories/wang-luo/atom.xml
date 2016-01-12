@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 网络 | 王若风的小窝]]></title>
+  <link href="http://wangruofeng.github.io/blog/categories/wang-luo/atom.xml" rel="self"/>
+  <link href="http://wangruofeng.github.io/"/>
+  <updated>2016-01-13T04:15:19+08:00</updated>
+  <id>http://wangruofeng.github.io/</id>
+  <author>
+    <name><![CDATA[Ace]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[多线程之NSThread]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsthread/"/>
+    <updated>2016-01-13T03:35:48+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsthread</id>
+    <content type="html"><![CDATA[<h2>本文目录</h2>
+
+<ul>
+<li>前言</li>
+<li>1.获取当前线程</li>
+<li>2.获取主线程</li>
+<li>3.NSThread的创建</li>
+<li>4.暂停当前线程</li>
+<li>5.线程的其他操作</li>
+<li>6.优缺点</li>
+</ul>
+
+
+<h3>前言</h3>
+
+<p>每个iOS应用程序都有个专门用来更新显示UI界面、处理用户触摸事件的主线程，因此不能将其他太耗时的操作放在主线程中执行，不然会造成主线程堵塞(出现卡机现象)，带来极坏的用户体验。一般的解决方案就是将那些耗时的操作放到另外一个线程中去执行，多线程编程是防止主线程堵塞，增加运行效率的最佳方法。</p>
+
+<p>iOS中有3种常见的多线程编程方法
+1. <code>NSThread</code>
+这种方法需要管理线程的生命周期、同步、加锁问题，会导致一定的性能开销</p>
+
+<ol>
+<li><p><code>NSOperation</code>和<code>NSOperationQueue</code>
+是基于OC实现的。NSOperation以面向对象的方式封装了需要执行的操作，然后可以将这个操作放到一个NSOperationQueue中去异步执行。不必关心线程管理、同步等问题。</p></li>
+<li><p><code>Grand Centeral Dispatch</code>
+简称GCD，iOS4才开始支持，是纯C语言的API。自iPad2开始，苹果设备开始有了双核CPU，为了充分利用这2个核，GCD提供了一些新特性来支持多核并行编程</p></li>
+</ol>
+
+
+<p>这篇文章简单介绍<code>NSThread这</code>个类，一个<code>NSThread</code>实例就代表着一条线程</p>
+
+<h3>1.获取当前线程</h3>
+
+<pre><code class="objective-c">    NSThread *current = [NSThread currentThread];
+</code></pre>
+
+<h3>2.获取主线程</h3>
+
+<pre><code class="objective-c">    NSThread *main = [NSThread mainThread];
+    NSLog(@"主线程:%@", main);    
+</code></pre>
+
+<p>打印结果是：</p>
+
+<pre><code>2013-04-18 21:36:38.599 thread[7499:c07] 主线程:&lt;NSThread: 0x71434e0&gt;{name = (null), num = 1}
+</code></pre>
+
+<p>num相当于线程的id，主线程的num是为1的</p>
+
+<h3>3.NSThread的创建</h3>
+
+<h4>a.动态方法</h4>
+
+<pre><code>- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)argument;
+</code></pre>
+
+<p>在第2行创建了一条新线程，然后在第4行调用<code>start</code>方法启动线程，线程启动后会调用self的<code>run:</code>方法，并且将@&ldquo;mj"作为方法参数</p>
+
+<pre><code class="objective-c">// 初始化线程
+NSThread *thread = [[[NSThread alloc] initWithTarget:self selector:@selector(run:) object:@"mj"] autorelease];
+// 开启线程
+[thread start];
+</code></pre>
+
+<p>假如run:方法是这样的：</p>
+
+<pre><code class="objective-c">- (void)run:(NSString *)string {
+     NSThread *current = [NSThread currentThread];
+     NSLog(@"执行了run:方法-参数：%@，当前线程：%@", string, current);
+}
+</code></pre>
+
+<p>打印结果为：</p>
+
+<pre><code>2013-04-18 21:40:33.102 thread[7542:3e13] 执行了run:方法-参数：mj，当前线程：&lt;NSThread: 0x889e8d0&gt;{name = (null), num = 3}
+</code></pre>
+
+<p>可以发现，这条线程的num值为3，说明不是主线程，主线程的num为1</p>
+
+<h4>b.静态方法</h4>
+
+<pre><code class="objective-c">    + (void)detachNewThreadSelector:(SEL)selector toTarget:(id)target withObject:(id)argument;
+</code></pre>
+
+<pre><code class="objective-c">[NSThread detachNewThreadSelector:@selector(run:) toTarget:self withObject:@"mj"];
+</code></pre>
+
+<h4>c.隐式创建线程</h4>
+
+<pre><code class="objective-c">[self performSelectorInBackground:@selector(run:) withObject:@"mj"];
+</code></pre>
+
+<p>会隐式地创建一条新线程，并且在这条线程上调用self的run:方法，以@&ldquo;mj"为方法参数</p>
+
+<h3>4.暂停当前线程</h3>
+
+<pre><code class="objective-c">    [NSThread sleepForTimeInterval:2];
+</code></pre>
+
+<pre><code class="objective-c">NSDate *date = [NSDate dateWithTimeInterval:2 sinceDate:[NSDate date]];  
+[NSThread sleepUntilDate:date];
+</code></pre>
+
+<p>上面两种做法都是暂停当前线程2秒</p>
+
+<h3>5.线程的其他操作</h3>
+
+<h4>a.在指定线程上执行操作</h4>
+
+<pre><code class="objective-c"> [self performSelector:@selector(run) onThread:thread withObject:nil waitUntilDone:YES];
+</code></pre>
+
+<ul>
+<li>上面代码的意思是在thread这条线程上调用self的run方法</li>
+<li>最后的YES代表：上面的代码会阻塞，等run方法在thread线程执行完毕后，上面的代码才会通过</li>
+</ul>
+
+
+<h4>b.在主线程上执行操作</h4>
+
+<pre><code class="objective-c">[self performSelectorOnMainThread:@selector(run) withObject:nil waitUntilDone:YES];  
+</code></pre>
+
+<p>在主线程调用self的run方法</p>
+
+<h4>c.在当前线程执行操作</h4>
+
+<pre><code class="objective-c">[self performSelector:@selector(run) withObject:nil];
+</code></pre>
+
+<p>在当前线程调用self的run方法</p>
+
+<h3>6.优缺点</h3>
+
+<ol>
+<li>优点：<code>NSThread</code>比其他多线程方案较轻量级，更直观地控制线程对象</li>
+<li>缺点：需要自己管理线程的生命周期，线程同步。线程同步对数据的加锁会有一定的系统开销</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
