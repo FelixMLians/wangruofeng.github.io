@@ -9,10 +9,10 @@
   <meta name="author" content="Ace">
 
   
-  <meta name="description" content="3种工厂模式 概述：工厂模式是个系列，分为简单工厂模式， 工厂方法模式， 抽象工厂模式，这三种模式也非常常用。这些模式最最经典的就例子就是设计计算器。
-* Factory Method (工厂方法模式)
-* Abstract Factory (抽象工厂模式）
-* Simple Factory（ &hellip;">
+  <meta name="description" content="参考资料： Sending Multipart Forms with Objective-C
+POST multipart/form-data with Objective-C
+Sending an HTTP POST request on iOS
+The Multipart Content- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,171 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T05:45:41+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:45 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>参考资料：</p>
+
+<ul>
+<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
+</ul>
+
+
+<p>注意事项：</p>
+
+<ul>
+<li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
+<li><p>通过</p>
+
+<p>  <code>NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];</code>     <br/>
+计算数据的长度</p></li>
+</ul>
+
+
+<h4>POST参数设置</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">//设置header Content-Length</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setValue</span><span class="p">:</span><span class="n">postLength</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Length&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//设置header contentType</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setValue</span><span class="p">:</span><span class="s">@&quot;application/x-www-form-urlencoded&quot;</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Current-Type&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//设置body</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setHTTPBody</span><span class="p">:</span><span class="n">postData</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>备注:普通<code>post</code>的<code>header</code>的<code>Current-Type</code>为<code>application/x-www-form-urlencoded</code></p></blockquote>
+
+<h4>Multipart Forms POST参数设置</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">//设置header contentType</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">contentType</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;multipart/form-data; boundary=%@&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="n">contentType</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Type&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//设置body contentType</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="s">@&quot;Content-Type: application/octet-stream</span><span class="se">\r\n\r\n</span><span class="s">&quot;</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>备注:<code>Multipart Forms</code>的<code>header</code>的<code>Current-Type</code>为<code>multipart/form-data</code></p></blockquote>
+
+<p>request body like this</p>
+
+<pre><code>    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="photo"; filename="calm.jpg"
+    Content-Type: image/jpeg
+
+    YOUR_IMAGE_DATA_GOES_HERE
+    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="message"
+
+    My first message
+    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="user"
+
+    1
+    --YOUR_BOUNDARY_STRING
+</code></pre>
+
+<p>I’m sending over three variables: an image named photo, a string named message, and an integer named user. It’s important to note the linebreaks and the dashes before the boundary string. These must be included in order to build a good request. Now lets write some objective-c:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">boundary</span> <span class="o">=</span> <span class="s">@&quot;YOUR_BOUNDARY_STRING&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">contentType</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;multipart/form-data; boundary=%@&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="n">contentType</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Type&quot;</span><span class="p">];</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="bp">NSMutableData</span> <span class="o">*</span><span class="n">body</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">photo</span><span class="se">\&quot;</span><span class="s">; filename=</span><span class="se">\&quot;</span><span class="s">%@.jpg</span><span class="se">\&quot;\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">photoKey</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="s">@&quot;Content-Type: application/octet-stream</span><span class="se">\r\n\r\n</span><span class="s">&quot;</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="bp">NSData</span> <span class="nl">dataWithData</span><span class="p">:</span><span class="n">imageData</span><span class="p">]];</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">message</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">message</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">user</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%d&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setHTTPBody</span><span class="p">:</span><span class="n">body</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now all we need to do is make a connection to the server and send the request:</p>
+
+<pre><code>[request setHTTPBody:body];
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">;</span>
+</span><span class='line'><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="bp">NSURLConnection</span> <span class="nl">sendSynchronousRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">returningResponse</span><span class="p">:</span><span class="o">&amp;</span><span class="n">response</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3596,95 +3761,6 @@ UITouchPhaseCancelled（触摸取消）*/
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/13/autoreleasingde-li-jie/">__autoreleasing的理解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-13T04:27:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:27 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>__autoreleasing 修饰符</h3>
-
-<p>将对象赋值给附有__autoreleasing 修饰符的变量等同于ARC 无效时调用对象的autorelease方法。我们通过以下源代码来看一下</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@autoreleasepool</span> <span class="p">{</span>
-</span><span class='line'><span class="kt">id</span> <span class="k">__autoreleasing</span> <span class="n">obj</span>  <span class="o">=</span> <span class="p">[[</span><span class="bp">NSObject</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>该源代码主要将NSObject 类对象注册到autoreleasepool 中，可作如下变换：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/* 编译器的模拟代码 */</span>
-</span><span class='line'><span class="kt">id</span> <span class="n">pool</span> <span class="o">=</span> <span class="n">objc_autoreleasePoolPush</span><span class="p">();</span>
-</span><span class='line'><span class="kt">id</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">objc_msgSend</span><span class="p">(</span><span class="bp">NSObject</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="n">alloc</span><span class="p">));</span>
-</span><span class='line'><span class="n">objc_msgSend</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="n">init</span><span class="p">));</span>
-</span><span class='line'><span class="n">objc_autorelease</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
-</span><span class='line'><span class="n">objc_autoreleasePoolPop</span><span class="p">(</span><span class="n">pool</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这与苹果的autorelease 实现中的说明（参考1.2.7 节）完全相同。虽然ARC 有效和无效时，其在源代码上的表现有所不同，但autorelease 的功能完全一样。</p>
-
-<p>在alloc/new/copy/mutableCopy 方法群之外的方法中使用注册到autoreleasepool 中的对象会如何呢？下面我们来看看NSMutableArray 类的array 类方法。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@autoreleasepool</span> <span class="p">{</span>
-</span><span class='line'><span class="kt">id</span> <span class="k">__autoreleasing</span> <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这与前面的源代码有何不同呢？</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/* 编译器的模拟代码 */</span>
-</span><span class='line'><span class="kt">id</span> <span class="n">pool</span> <span class="o">=</span> <span class="n">objc_autoreleasePoolPush</span><span class="p">();</span>
-</span><span class='line'><span class="kt">id</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">objc_msgSend</span><span class="p">(</span><span class="bp">NSMutableArray</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="n">array</span><span class="p">));</span>
-</span><span class='line'><span class="n">objc_retainAutoreleasedReturnValue</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
-</span><span class='line'><span class="n">objc_autorelease</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
-</span><span class='line'><span class="n">objc_autoreleasePoolPop</span><span class="p">(</span><span class="n">pool</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>虽然持有对象的方法从alloc 方法变为objc_retainAutoreleasedReturnValue 函数， 但注册autoreleasepool 的方法没有改变，仍是objc_autorelease 函数。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -3700,6 +3776,10 @@ UITouchPhaseCancelled（触摸取消）*/
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/13/gong-han-mo-shi-xiang-jie/">工厂模式详解</a>
       </li>
     
@@ -3713,10 +3793,6 @@ UITouchPhaseCancelled（触摸取消）*/
     
       <li class="post">
         <a href="/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/">多线程之NSOperation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/">iOS中的触摸事件和手势处理</a>
       </li>
     
   </ul>

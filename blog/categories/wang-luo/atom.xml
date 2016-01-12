@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 网络 | 王若风的小窝]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/wang-luo/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T05:43:42+08:00</updated>
+  <updated>2016-01-13T05:46:32+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Http Post and Multipart Forms]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms/"/>
+    <updated>2016-01-13T05:45:41+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms</id>
+    <content type="html"><![CDATA[<p>参考资料：</p>
+
+<ul>
+<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
+</ul>
+
+
+<p>注意事项：</p>
+
+<ul>
+<li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
+<li><p>通过</p>
+
+<p>  <code>NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];</code>     <br/>
+计算数据的长度</p></li>
+</ul>
+
+
+<h4>POST参数设置</h4>
+
+<pre><code class="objective-c">        //设置header Content-Length
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        //设置header contentType
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+        //设置body
+        [request setHTTPBody:postData];
+</code></pre>
+
+<blockquote><p>备注:普通<code>post</code>的<code>header</code>的<code>Current-Type</code>为<code>application/x-www-form-urlencoded</code></p></blockquote>
+
+<h4>Multipart Forms POST参数设置</h4>
+
+<pre><code class="objective-c">        //设置header contentType
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+
+        //设置body contentType
+        [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+</code></pre>
+
+<blockquote><p>备注:<code>Multipart Forms</code>的<code>header</code>的<code>Current-Type</code>为<code>multipart/form-data</code></p></blockquote>
+
+<p>request body like this</p>
+
+<pre><code>    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="photo"; filename="calm.jpg"
+    Content-Type: image/jpeg
+
+    YOUR_IMAGE_DATA_GOES_HERE
+    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="message"
+
+    My first message
+    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="user"
+
+    1
+    --YOUR_BOUNDARY_STRING
+</code></pre>
+
+<p>I’m sending over three variables: an image named photo, a string named message, and an integer named user. It’s important to note the linebreaks and the dashes before the boundary string. These must be included in order to build a good request. Now lets write some objective-c:</p>
+
+<pre><code class="objective-c">
+    NSString *boundary = @"YOUR_BOUNDARY_STRING";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+
+    NSMutableData *body = [NSMutableData data];
+
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"photo\"; filename=\"%@.jpg\"\r\n", self.message.photoKey] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[NSData dataWithData:imageData]];
+
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"message\"\r\n\r\n%@", self.message.message] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"user\"\r\n\r\n%d", 1] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    [request setHTTPBody:body];
+</code></pre>
+
+<p>Now all we need to do is make a connection to the server and send the request:</p>
+
+<pre><code>[request setHTTPBody:body];
+</code></pre>
+
+<pre><code class="objective-c">    NSURLResponse *response;
+    NSError *error;
+
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&amp;response error:&amp;error];
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[多线程之NSThread]]></title>

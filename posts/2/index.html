@@ -9,9 +9,11 @@
   <meta name="author" content="Ace">
 
   
-  <meta name="description" content="译自 Written by Mattt Thompson — January 14th, 2013
-原文链接：http://nshipster.com/__attribute__/
-译者@oneruofeng 重复发布这个主题已经说明了同编译器保存健康关系的重要性,像任何草稿一样， &hellip;">
+  <meta name="description" content="__autoreleasing 修饰符 将对象赋值给附有__autoreleasing 修饰符的变量等同于ARC 无效时调用对象的autorelease方法。我们通过以下源代码来看一下 1
+2
+3
+@autoreleasepool {
+id __autoreleasing obj = [[ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +69,95 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/13/autoreleasingde-li-jie/">__autoreleasing的理解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T04:27:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:27 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>__autoreleasing 修饰符</h3>
+
+<p>将对象赋值给附有__autoreleasing 修饰符的变量等同于ARC 无效时调用对象的autorelease方法。我们通过以下源代码来看一下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@autoreleasepool</span> <span class="p">{</span>
+</span><span class='line'><span class="kt">id</span> <span class="k">__autoreleasing</span> <span class="n">obj</span>  <span class="o">=</span> <span class="p">[[</span><span class="bp">NSObject</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该源代码主要将NSObject 类对象注册到autoreleasepool 中，可作如下变换：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/* 编译器的模拟代码 */</span>
+</span><span class='line'><span class="kt">id</span> <span class="n">pool</span> <span class="o">=</span> <span class="n">objc_autoreleasePoolPush</span><span class="p">();</span>
+</span><span class='line'><span class="kt">id</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">objc_msgSend</span><span class="p">(</span><span class="bp">NSObject</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="n">alloc</span><span class="p">));</span>
+</span><span class='line'><span class="n">objc_msgSend</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="n">init</span><span class="p">));</span>
+</span><span class='line'><span class="n">objc_autorelease</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+</span><span class='line'><span class="n">objc_autoreleasePoolPop</span><span class="p">(</span><span class="n">pool</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这与苹果的autorelease 实现中的说明（参考1.2.7 节）完全相同。虽然ARC 有效和无效时，其在源代码上的表现有所不同，但autorelease 的功能完全一样。</p>
+
+<p>在alloc/new/copy/mutableCopy 方法群之外的方法中使用注册到autoreleasepool 中的对象会如何呢？下面我们来看看NSMutableArray 类的array 类方法。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@autoreleasepool</span> <span class="p">{</span>
+</span><span class='line'><span class="kt">id</span> <span class="k">__autoreleasing</span> <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这与前面的源代码有何不同呢？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/* 编译器的模拟代码 */</span>
+</span><span class='line'><span class="kt">id</span> <span class="n">pool</span> <span class="o">=</span> <span class="n">objc_autoreleasePoolPush</span><span class="p">();</span>
+</span><span class='line'><span class="kt">id</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">objc_msgSend</span><span class="p">(</span><span class="bp">NSMutableArray</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="n">array</span><span class="p">));</span>
+</span><span class='line'><span class="n">objc_retainAutoreleasedReturnValue</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+</span><span class='line'><span class="n">objc_autorelease</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+</span><span class='line'><span class="n">objc_autoreleasePoolPop</span><span class="p">(</span><span class="n">pool</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>虽然持有对象的方法从alloc 方法变为objc_retainAutoreleasedReturnValue 函数， 但注册autoreleasepool 的方法没有改变，仍是objc_autorelease 函数。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -694,6 +785,10 @@ self.view.tintAdjustmentMode = UIViewTintAdjustmentModeNormal
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/13/gong-han-mo-shi-xiang-jie/">工厂模式详解</a>
       </li>
     
@@ -707,10 +802,6 @@ self.view.tintAdjustmentMode = UIViewTintAdjustmentModeNormal
     
       <li class="post">
         <a href="/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/">多线程之NSOperation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/">iOS中的触摸事件和手势处理</a>
       </li>
     
   </ul>
