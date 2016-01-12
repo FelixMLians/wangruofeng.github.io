@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS7 tintColor详解 - 王若风的小窝</title>
+  <meta name="author" content="Ace">
+
+  
+  <meta name="description" content="为什么需要出现tintColor ？ 解决以前不方便统一设置视图颜色风格的通点，方便自定义系统控件外观 跟UIAppearance协议设计有点类似，UIAppearance是为了方便统一 设置一类控件的外观，而tintColor是为方便设置某个控件的外观，或者 说某个容器内所有控件的风格。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangruofeng.github.io/blog/2016/01/12/ios7-tintcolorxiang-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="王若风的小窝" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">王若风的小窝</a></h1>
+  
+    <h2>诗意的栖居</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="wangruofeng.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS7 tintColor详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-12T04:41:39+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:41 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>为什么需要出现tintColor ？</h3>
+
+<blockquote><p>解决以前不方便统一设置视图颜色风格的通点，方便自定义系统控件外观
+ 跟<code>UIAppearance</code>协议设计有点类似，<code>UIAppearance</code>是为了方便统一 设置一类控件的外观，而<code>tintColor</code>是为方便设置某个控件的外观，或者 说某个容器内所有控件的风格。</p>
+
+<p>像在<code>UIViewController</code> 中，通过这段代码可以实现容器内，所有的子view风格统一化,这样在这个控制器中的所有子view都会以<code>tintColor</code>显示
+<code>objective-c
+self.view.tintAdjustmentMode = UIViewTintAdjustmentModeNormal
+</code></p></blockquote>
+
+<p><code>UIView</code>的<code>tintAdjustmentMode</code>需要说明一下，这是一个<code>UIViewTintAdjustmentMode</code>枚举，
+* UIViewTintAdjustmentModeAutomatic（着色调整模式自动）
+* UIViewTintAdjustmentModeNormal（着色调整模式正常）
+* UIViewTintAdjustmentModeDimmed（着色调整模式变暗，打开控风格会变成灰白模式）</p>
+
+<h3>先看看官方API说明</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/64124373gw1eyvl7cyzvxj20du0kpn43.jpg" alt="tintColor官方说明" /></p>
+
+<blockquote><p>iOS7以后所有的UIView以及它的子类都新增了一个叫tintColor的接口，方便我们对视图进行颜色调整</p></blockquote>
+
+<h3>注意事项</h3>
+
+<blockquote><p><code>UIImageView</code>需要设置<code>renderingMode</code>为<code>UIImageRenderingModeAlwaysTemplate</code>才能生效。
+<code>renderingMode</code>是一个类型为<code>UIImageRenderingMode</code>的枚举
+* UIImageRenderingModeAutomatic （默认渲染模式，自动模式）
+* UIImageRenderingModeAlwaysOriginal（总是绘制原来的图片，不把它当成临时图片来处理）
+* UIImageRenderingModeAlwaysTemplate （总是绘制临时图片，会忽略它原本的颜色信息，也就是根据<code>tintColor</code>生产图片）</p></blockquote>
+
+<h3>UIImageView的使用</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;xxx.png&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">image</span> <span class="nl">imageWithRenderingMode</span><span class="p">:</span><span class="n">UIImageRenderingModeAlwaysTemplate</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>- (void)tintColorDidChange的使用</h3>
+
+<p>在子类中重写<code>- (void)tintColorDidChange</code> 方法，就可以实现每次更新<code>tintColor</code>的时候调用相关配置</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">tintColorDidChange</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>    <span class="n">_tintColorLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">tintColor</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_tintColorBlock</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">tintColor</span><span class="p">;</span>
+</span><span class='line'> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考链接 <a href="https://www.shinobicontrols.com/blog/ios7-day-by-day-day-6-tint-color">Demo - iOS7 tintColor day by day</a></h3>
+
+<hr />
+
+<p>layout: post
+title: &ldquo;iOS7 tintColor详解&rdquo;
+date: 2016-01-13 04:41:39 +0800
+comments: true</p>
+
+<h2>categories: iOS oc 技巧</h2>
+
+<h1>iOS7 tintColor 详解</h1>
+
+<h3>为什么需要出现tintColor ？</h3>
+
+<blockquote><p>解决以前不方便统一设置视图颜色风格的通点，方便自定义系统控件外观
+ 跟<code>UIAppearance</code>协议设计有点类似，<code>UIAppearance</code>是为了方便统一 设置一类控件的外观，而<code>tintColor</code>是为方便设置某个控件的外观，或者 说某个容器内所有控件的风格。</p>
+
+<p>像在<code>UIViewController</code> 中，通过这段代码可以实现容器内，所有的子view风格统一化,这样在这个控制器中的所有子view都会以<code>tintColor</code>显示
+<code>objective-c
+self.view.tintAdjustmentMode = UIViewTintAdjustmentModeNormal
+</code></p></blockquote>
+
+<p><code>UIView</code>的<code>tintAdjustmentMode</code>需要说明一下，这是一个<code>UIViewTintAdjustmentMode</code>枚举，
+* UIViewTintAdjustmentModeAutomatic（着色调整模式自动）
+* UIViewTintAdjustmentModeNormal（着色调整模式正常）
+* UIViewTintAdjustmentModeDimmed（着色调整模式变暗，打开控风格会变成灰白模式）</p>
+
+<h3>先看看官方API说明</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/64124373gw1eyvl7cyzvxj20du0kpn43.jpg" alt="tintColor官方说明" /></p>
+
+<blockquote><p>iOS7以后所有的UIView以及它的子类都新增了一个叫tintColor的接口，方便我们对视图进行颜色调整</p></blockquote>
+
+<h3>注意事项</h3>
+
+<blockquote><p><code>UIImageView</code>需要设置<code>renderingMode</code>为<code>UIImageRenderingModeAlwaysTemplate</code>才能生效。
+<code>renderingMode</code>是一个类型为<code>UIImageRenderingMode</code>的枚举
+* UIImageRenderingModeAutomatic （默认渲染模式，自动模式）
+* UIImageRenderingModeAlwaysOriginal（总是绘制原来的图片，不把它当成临时图片来处理）
+* UIImageRenderingModeAlwaysTemplate （总是绘制临时图片，会忽略它原本的颜色信息，也就是根据<code>tintColor</code>生产图片）</p></blockquote>
+
+<h3>UIImageView的使用</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;xxx.png&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">image</span> <span class="nl">imageWithRenderingMode</span><span class="p">:</span><span class="n">UIImageRenderingModeAlwaysTemplate</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>- (void)tintColorDidChange的使用</h3>
+
+<p>在子类中重写<code>- (void)tintColorDidChange</code> 方法，就可以实现每次更新<code>tintColor</code>的时候调用相关配置</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">tintColorDidChange</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>    <span class="n">_tintColorLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">tintColor</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_tintColorBlock</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">tintColor</span><span class="p">;</span>
+</span><span class='line'> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考链接 <a href="https://www.shinobicontrols.com/blog/ios7-day-by-day-day-6-tint-color">Demo - iOS7 tintColor day by day</a></h3>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ace</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-12T04:41:39+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:41 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/oc/'>oc</a>, <a class='category' href='/blog/categories/ji-qiao/'>技巧</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://wangruofeng.github.io/blog/2016/01/12/ios7-tintcolorxiang-jie/" data-via="" data-counturl="http://wangruofeng.github.io/blog/2016/01/12/ios7-tintcolorxiang-jie/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/12/runloopxiang-jie/" title="Next Post: RunLoop详解">RunLoop详解 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/nsoperation-and-nsoperationqueue-tutorial-in-swift/">NSOperation and NSOperationQueue Tutorial in Swift</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/">多线程之NSOperation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/">iOS中的触摸事件和手势处理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/iosli-cheng-bei-shi-jian/">iOS里程碑事件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/you-ya-chu-li-uiimagetu-pian-xuan-zhuan/">优雅处理UIImage图片旋转</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ace -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
