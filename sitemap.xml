@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://wangruofeng.github.io/blog/2016/01/13/nsoperation-and-nsoperationqueue-tutorial-in-swift/</loc>
+    <lastmod>2016-01-13T05:18:36+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/</loc>
     <lastmod>2016-01-13T05:14:59+08:00</lastmod>
   </url>
@@ -61,5 +65,8 @@
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/categories/wang-luo/</loc>
+  </url>
+  <url>
+    <loc>http://wangruofeng.github.io/blog/categories/swift/</loc>
   </url>
 </urlset>
