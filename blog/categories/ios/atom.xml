@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 王若风的小窝]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T04:39:41+08:00</updated>
+  <updated>2016-01-13T04:52:43+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
@@ -14,968 +14,945 @@
 
   
   <entry>
-    <title type="html"><![CDATA[优雅处理UIImage图片旋转]]></title>
-    <link href="http://wangruofeng.github.io/blog/2016/01/13/you-ya-chu-li-uiimagetu-pian-xuan-zhuan/"/>
-    <updated>2016-01-13T04:38:49+08:00</updated>
-    <id>http://wangruofeng.github.io/blog/2016/01/13/you-ya-chu-li-uiimagetu-pian-xuan-zhuan</id>
-    <content type="html"><![CDATA[<h2>UIImag构造方式</h2>
+    <title type="html"><![CDATA[CocoaPods使用指南]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/"/>
+    <updated>2016-01-13T04:51:14+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/cocoapodsshi-yong-zhi-nan</id>
+    <content type="html"><![CDATA[<h1>CocoaPods安装和使用</h1>
 
-<p>UIImag构造方式大致有4种方式
-* 从本地bundle中加载 <code>imageNamed:</code>，传入一个bundle的文件名即可
-* 从本地一个文件路径读取 <code>imageWithContentsOfFile:</code>，需要传一个文件的文件路径path
-* 通过二进制数据<code>NSData</code>来创建<code>imageWithData:</code>
-* 通过一个<code>CoreGraphics</code>的<code>CGImageRef</code>来创建，<code>initWithCGImage:</code>
-* 通过一个<code>CoreImage</code>的<code>CIImage</code>来创建<code>initWithCIImage</code></p>
+<p>CocoaPods是iOS最常用的第三方类库管理工具，绝大部分有名的开源类库
+支持CocoaPods.
+CocoaPods是用Ruby实现的，要使用它首先需要有Ruby的环境。幸亏是
+OS X系统默认已经可以运行Ruby了，我么只需执行以下命令：</p>
 
-<p>通过查阅Apple官网文档我们发现有2个这样的方法，今天就来一探究竟</p>
-
-<pre><code class="objective-c">+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation NS_AVAILABLE_IOS(4_0);
-+ (UIImage *)imageWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation NS_AVAILABLE_IOS(6_0);
-
-- (instancetype)initWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation NS_AVAILABLE_IOS(4_0);
-- (instancetype)initWithCIImage:(CIImage *)ciImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation NS_AVAILABLE_IOS(6_0);
+<pre><code class="objective-c">sudo gem install cocoapods
 </code></pre>
 
-<p>2个类方法2个实例方法都是类似，这里以<code>CGImageRef</code>为例</p>
+<p>由于某些原因，执行时会出现下面的错误提示：</p>
 
-<pre><code class="objective-c">+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation NS_AVAILABLE_IOS(4_0);
+<pre><code class="objective-c">ERROR :Could not find a valid gem `cocoapods` (&gt;= 0), here is why:
+        Unable to download data from https://rubygems.org/ - Errno::EPIPI:
+        Broken pipe - SSL_connect
+(https://rubygems.org/lastest_specs.4.8.gz)
 </code></pre>
 
-<ol>
-<li>新建的Xcode工程选择single Application</li>
-<li>在storyboard中拖一个<code>UIImageView</code>设置它水平垂直居中对齐，宽带高度随便设一个值不要太大就行，设置<code>UIImageView</code>的<code>contentMode</code>为<code>Aspect Fit</code>方便查看以免变形</li>
-<li>在<code>UIImageView</code>下发放一个<code>UIButton</code>控件方便后面好对图片进行旋转操作</li>
-<li><p>在viewController中建立一个<code>UIImageView</code>引用,拉出一个rotate按钮的<code>IBAction</code></p>
+<p>安装成功后，接着执行命令：</p>
 
-<p> 现在大概界面大概这样
- <img src="http://ww3.sinaimg.cn/mw690/64124373gw1ezhnagzyhpj20x7105doj.jpg" alt="UIImageOrientation效果图" /></p></li>
-<li><p>下面我们实现
-<code>- (IBAction)rotateImage:(id)sender {}</code>这个方法</p>
+<pre><code class="objective-c">pod setup
+</code></pre>
 
-<blockquote><p>在这里我们想通过点击按钮实现图片旋转
-  为了方便使用我们使用Category的方式实现
-  新建一个UIImage的分类取名叫Rotate</p>
+<p>如果Ruby环境不够新，可能需要更新以下：</p>
 
-<p>这里需要传一张要处理的图片和一个待处理成的图片方向</p>
+<pre><code class="objective-c">sudo gem update --system
+</code></pre>
 
-<pre><code class="``objective-c">  + (UIImage *)rotateImage:(UIImage *)oldImage
-           orientation:(UIImageOrientation)orientation;
-</code></pre></blockquote>
+<p>至此安装就完成了，我们可以尝试搜索一个第三方类库：</p>
 
-<pre><code class="``objective-c">  + (UIImage *)rotateImage:(UIImage *)oldImage orientation:(UIImageOrientation)orientation{
+<pre><code class="objective-c">pod search AFNetworking
+</code></pre>
 
-  UIImage *newImage = [UIImage imageWithCGImage:oldImage.CGImage scale:1 orientation:orientation];
+<p>使用CocoaPods第一步，是在当前项目下，新疆一个Podfile文件：</p>
 
-  NSString *orientationStr = nil;
-  switch (orientation) {
-      case UIImageOrientationUp: {
-          orientationStr = @"UIImageOrientationUp";
-          break;
-      }
-      case UIImageOrientationDown: {
-          orientationStr = @"UIImageOrientationDown";
-          break;
-      }
-      case UIImageOrientationLeft: {
-          orientationStr = @"UIImageOrientationLeft";
-          break;
-      }
-      case UIImageOrientationRight: {
-          orientationStr = @"UIImageOrientationRight";
-          break;
-      }
-      case UIImageOrientationUpMirrored: {
-          orientationStr = @"UIImageOrientationUpMirrored";
-          break;
-      }
-      case UIImageOrientationDownMirrored: {
-          orientationStr = @"UIImageOrientationDownMirrored";
-          break;
-      }
-      case UIImageOrientationLeftMirrored: {
-          orientationStr = @"UIImageOrientationLeftMirrored";
-          break;
-      }
-      case UIImageOrientationRightMirrored: {
-          orientationStr = @"UIImageOrientationRightMirrored";
-          break;
-      }
+<pre><code class="objective-c">touch Podfile
+</code></pre>
 
-  }
+<p>然后利用vim打开Podfile文件编辑，加入你想要的类库，格式如下：</p>
 
-  NSLog(@"current orientation: %@",orientationStr);
+<pre><code class="objective-c">platform :ios
+pod  'Reachability', '3.1.0'
 
-  return newImage;
-}
-</code></pre></li>
+platform :ios, '6.0'
+pod 'JSONKit', '1.4'
+pod 'AFNetworking', '~&gt; 2.3,1'
+</code></pre>
+
+<p>如果是拷贝别人的项目，或是一个很久没打开过的项目，可能需要先执行一下：</p>
+
+<pre><code class="objective-c">pod update
+</code></pre>
+
+<p>最后一步，执行命令：</p>
+
+<pre><code class="objective-c">pod install
+</code></pre>
+
+<p>当终端出现类似下面的提示后，就代表成功了：</p>
+
+<pre><code class="objective-c">[!] From now no use `Sample0814.xcworkspace`.
+</code></pre>
+
+<p>这个时候会看到项目文件夹多了一个xxx.xcworkspace,以后要通过这个文件
+打开项目，老项目xxx.xcodeproj不再使用。</p>
+
+<blockquote><ol>
+<li>上面的每一步都可能出现问题，但大部分问题都是因为局域网的原因，用一个网速稳
+定的境外VPN可破</li>
+<li>如果上面因为权限问题安装失败，必须每次都要删除</li>
 </ol>
 
 
-<p>在button点击事件触发时的这样使用</p>
-
-<pre><code class="objective-c">- (IBAction)rotateImage:(id)sender {
-
-    UIImage *oldImage = self.imgView.image;
-
-    UIImage *rotatedImage = [UIImage rotateImage:oldImage orientation:UIImageOrientationLeft];
-
-    self.imgView.image = rotatedImage;
-}
+<pre><code class="objective-c">rm -rf /User/loginname/Library/Caches/CocoaPods/
 </code></pre>
 
-<p>点击按钮测试发现第一次没问题，但是重逢点击无效
-原来<code>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage scale:(CGFloat)scale orientation:(UIImageOrientation)orientation</code>方法执行原理是执行前通过
-<code>@property(nonatomic,readonly) UIImageOrientation imageOrientation;</code>接口先判断当前图片的方向是否为将要旋转的方向，
-如果是就直接返回不做处理，如果不是再作旋转处理，
-也就是说这个方法并没有实际上旋转image的数据，只是用一个枚举标记旋转的状态</p>
+<p>因为这个缓冲中会存下你的github的东西，造成每次调用上次权限问题的缓存。
+3. 关于Podfile文件编辑时，第三方版本号的各种写法:</p></blockquote>
 
-<p>如果我们想每次旋转需要直接改变原始image的数据该怎么办呢？
-在这里我们通过<code>CGBitmapContext</code>,使用<code>CGContextRotateCTM</code>来设置旋转，
-再把UIImage通过<code>drawInRect
-</code>重新绘制出来，通过<code>UIGraphicsGetImageFromCurrentImageContext</code>获得处理后的图片
-下面是具体实现</p>
-
-<pre><code class="objective-c">- (UIImage *)fixedRotation{
-    if (self.imageOrientation == UIImageOrientationUp) return self;
-    CGAffineTransform transform = CGAffineTransformIdentity;
-
-    switch (self.imageOrientation) {
-        case UIImageOrientationDown:
-        case UIImageOrientationDownMirrored:
-            transform = CGAffineTransformTranslate(transform, self.size.width, self.size.height);
-            transform = CGAffineTransformRotate(transform, M_PI);
-            break;
-
-        case UIImageOrientationLeft:
-        case UIImageOrientationLeftMirrored:
-            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
-            transform = CGAffineTransformRotate(transform, M_PI_2);
-            break;
-
-        case UIImageOrientationRight:
-        case UIImageOrientationRightMirrored:
-            transform = CGAffineTransformTranslate(transform, 0, self.size.height);
-            transform = CGAffineTransformRotate(transform, -M_PI_2);
-            break;
-        case UIImageOrientationUp:
-        case UIImageOrientationUpMirrored:
-            break;
-    }
-
-    switch (self.imageOrientation) {
-        case UIImageOrientationUpMirrored:
-        case UIImageOrientationDownMirrored:
-            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
-            transform = CGAffineTransformScale(transform, -1, 1);
-            break;
-
-        case UIImageOrientationLeftMirrored:
-        case UIImageOrientationRightMirrored:
-            transform = CGAffineTransformTranslate(transform, self.size.height, 0);
-            transform = CGAffineTransformScale(transform, -1, 1);
-            break;
-        case UIImageOrientationUp:
-        case UIImageOrientationDown:
-        case UIImageOrientationLeft:
-        case UIImageOrientationRight:
-            break;
-    }
-
-    // Now we draw the underlying CGImage into a new context, applying the transform
-    // calculated above.
-    CGContextRef ctx = CGBitmapContextCreate(NULL, self.size.width, self.size.height,
-                                             CGImageGetBitsPerComponent(self.CGImage), 0,
-                                             CGImageGetColorSpace(self.CGImage),
-                                             CGImageGetBitmapInfo(self.CGImage));
-    CGContextConcatCTM(ctx, transform);
-    switch (self.imageOrientation) {
-        case UIImageOrientationLeft:
-        case UIImageOrientationLeftMirrored:
-        case UIImageOrientationRight:
-        case UIImageOrientationRightMirrored:
-            // Grr...
-            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.height,self.size.width), self.CGImage);
-            break;
-
-        default:
-            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.width,self.size.height), self.CGImage);
-            break;
-    }
-
-    // And now we just create a new UIImage from the drawing context
-    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
-    UIImage *img = [UIImage imageWithCGImage:cgimg];
-    CGContextRelease(ctx);
-    CGImageRelease(cgimg);
-    return img;
-
-}
+<pre><code class="objective-c">pod ‘AFNetworking’      //不显式指定依赖库版本，表示每次都获取最新版本
+pod ‘AFNetworking’,  ‘2.0’     //只使用2.0版本
+pod ‘AFNetworking’, ‘&gt;2.0′     //使用高于2.0的版本
+pod ‘AFNetworking’, ‘&gt;=2.0′     //使用大于或等于2.0的版本
+pod ‘AFNetworking’, ‘&lt;2.0′     //使用小于2.0的版本
+pod ‘AFNetworking’, ‘&lt;=2.0′     //使用小于或等于2.0的版本
+pod ‘AFNetworking’, ‘~&gt;0.1.2′     //使用大于等于0.1.2但小于0.2的版本，相当于&gt;=0.1.2并且&lt;0.2.0
+pod ‘AFNetworking’, ‘~&gt;0.1′     //使用大于等于0.1但小于1.0的版本
+pod ‘AFNetworking’, ‘~&gt;0′     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
 </code></pre>
-
-<p>现在再优化一下原来<code>+ (UIImage *)rotateImage:(UIImage *)oldImage orientation:(UIImageOrientation)orientation</code> 方法,修改成这样
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">rotateImage:</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">oldImage</span> <span class="nf">orientation:</span><span class="p">(</span><span class="n">UIImageOrientation</span><span class="p">)</span><span class="nv">orientation</span><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">newImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageWithCGImage</span><span class="p">:</span><span class="n">oldImage</span><span class="p">.</span><span class="bp">CGImage</span> <span class="nl">scale</span><span class="p">:</span><span class="mi">1</span> <span class="nl">orientation</span><span class="p">:</span><span class="n">orientation</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//fix original Image with gived orientation.</span>
-</span><span class='line'><span class="bp">UIImage</span> <span class="o">*</span><span class="n">fixedRotationImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">newImage</span> <span class="n">fixedRotation</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">orientationStr</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationUp</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationUp&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationDown</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationDown&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationLeft</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationLeft&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationRight</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationRight&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationUpMirrored</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationUpMirrored&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationDownMirrored</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationDownMirrored&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationLeftMirrored</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationLeftMirrored&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIImageOrientationRightMirrored</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">orientationStr</span> <span class="o">=</span> <span class="s">@&quot;UIImageOrientationRightMirrored&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;current orientation: %@&quot;</span><span class="p">,</span><span class="n">orientationStr</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="n">fixedRotationImage</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
- 现在再测试一下，well，It‘s OK。</p>
-
-<p> have fun!!!</p>
-
-<p>参考资料：
-* <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImage_Class/#//apple_ref/c/tdef/UIImageOrientation">Apple-UIImage Class Reference</a>
-* <a href="http://stackoverflow.com/questions/8915630/ios-uiimageview-how-to-handle-uiimage-image-orientation">ios-uiimageview-how-to-handle-uiimage-image-orientation</a>
-* <a href="http://www.galloway.me.uk/2012/01/uiimageorientation-exif-orientation-sample-images/">UIImageOrientation / EXIF orientation sample images</a></p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[动画绘制CAShapeLayer的路径CGPath]]></title>
-    <link href="http://wangruofeng.github.io/blog/2016/01/13/dong-hua-hui-zhi-cashapelayerde-lu-jing-cgpath/"/>
-    <updated>2016-01-13T04:35:42+08:00</updated>
-    <id>http://wangruofeng.github.io/blog/2016/01/13/dong-hua-hui-zhi-cashapelayerde-lu-jing-cgpath</id>
-    <content type="html"><![CDATA[<h1>Animating the Drawing of a CGPath With CAShapeLayer</h1>
+    <title type="html"><![CDATA[Http_post_and_multipart_forms]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms/"/>
+    <updated>2016-01-13T04:50:22+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms</id>
+    <content type="html"><![CDATA[<p>参考资料：</p>
 
 <ul>
-<li><a href="http://oleb.net/blog/2010/12/animating-drawing-of-cgpath-with-cashapelayer/">原文链接</a></li>
+<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
 </ul>
 
 
-<h1>这是什么？</h1>
-
-<blockquote><p>此文将讲解通过形状图层<code>CAShaperLayer</code>的<code>strokeStart</code>和<code>strokeEnd</code>来实现动画绘制路径<code>CGPath</code>,此文是<a href="http://oleb.net">By Ole Begemann</a>创建于December 18, 2010,当时是发布iOS SDK 4.2时<code>CAShapeLayer</code>新增加的两个属性<a href="http://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CAShapeLayer_class/Reference/Reference.html#//apple_ref/doc/uid/TP40008314-CH1-SW16">strokeStart</a>和<a href="http://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CAShapeLayer_class/Reference/Reference.html#//apple_ref/doc/uid/TP40008314-CH1-SW15">strokeEnd</a>,这两个值是两个浮点数取值范围0.0~1.0,用来表明形状图层所指向的路径在绘制开始和结束路径中的相对位置。</p></blockquote>
-
-<p><code>strokeStart</code>默认值是0.0，<code>strokeEnd</code>默认值是1.0，显然这会导致形状图层的路径将一整个被绘制。假如，你想说，如果设置了layer.strokeEnd = 0.5f,只让她绘制前半部分，那该多好。</p>
-
-<p>真正有趣的事情是这些接口都是可动画的。通过动画绘制<code>strokeEnd</code>从0.0到1.0在几秒内，我们就能很容易自己绘制路径像下面这样写：</p>
-
-<pre><code class="objective-c">CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-pathAnimation.duration = 10.0;
-pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-[self.pathLayer addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-</code></pre>
-
-<p>最后，再添加第二个图层包含一个铅笔图片，使用关键帧动画<code>CAKeyframeAnimation</code>来让它随着这个路径以相同的速度绘制，就可以达到完美的错觉效果：</p>
-
-<pre><code class="objective-c">CAKeyframeAnimation *penAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-penAnimation.duration = 10.0;
-penAnimation.path = self.pathLayer.path;
-penAnimation.calculationMode = kCAAnimationPaced;
-[self.penLayer addAnimation:penAnimation forKey:@"penAnimation"];
-</code></pre>
-
-<p><a href="http://oleb.net/media/AnimatedPathsHausVomNikolaus.mp4">绘制普通路径效果视频</a></p>
-
-<p><a href="http://oleb.net/media/AnimatedPathsHausVomNikolaus.mp4">下载地址</a></p>
-
-<p>这个对文本一样有效；我们只需要把字符转化成<code>CGPath</code>。<code>Core Text</code>提供了那样的功能的函数，<a href="http://developer.apple.com/library/ios/documentation/Carbon/Reference/CTFontRef/Reference/reference.html#//apple_ref/c/func/CTFontCreatePathForGlyph">CTFontCreatePathForGlyph( )</a>。为了使用它，我们需要创建一个带属性的字符串用我们想要渲染的文本，先把它们分割成行在分割成一个个字符。在把所有的字符转换成路径后，我们以子路径方式把它添加到一个单个的<code>CGPath</code>路径中。更多细节可以查看<a href="http://www.codeproject.com/script/Membership/View.aspx?mid=2887692">Ohmu</a>写的<a href="http://www.codeproject.com/KB/iPhone/Glyph.aspx">Low-level text rendering</a>这篇文章。结果看以来非常的炫酷：</p>
-
-<p><a href="http://oleb.net/media/AnimatedPathsHelloWorld.mp4">绘制文字路径效果视频</a></p>
-
-<p><a href="http://oleb.net/media/AnimatedPathsHelloWorld.mp4">下载地址</a></p>
-
-<p>从Github上获得<a href="http://github.com/ole/Animated-Paths">iPad版的样品工程</a></p>
-
-<h1>你将学到的知识点</h1>
+<p>注意事项：</p>
 
 <ul>
-<li>使用<code>CAShapeLayer</code>的<code>strokeStart</code>和<code>strokeEnd</code>来实现路径动画,比较高级复杂的效果像google的下拉刷新转圈就可以从这里引申去实现。</li>
-<li><code>CABasicAnimation</code>和<code>CABasicAnimation</code>使用</li>
-<li>深入理解<code>CAShapeLayer</code>和<code>CALayer</code></li>
-<li>通过文本创建路径，核心函数<code>CTFontCreatePathForGlyph()</code></li>
+<li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
+<li><p>通过</p>
+
+<p>  <code>NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];</code>     <br/>
+计算数据的长度</p></li>
 </ul>
 
 
-<h1>补充说明</h1>
+<h4>POST参数设置</h4>
 
-<pre><code class="objective-c">    CAShapeLayer *pathLayer = [CAShapeLayer layer];
-    pathLayer.frame = self.animationLayer.bounds;
-    pathLayer.bounds = pathRect;
-    pathLayer.geometryFlipped = YES;
-    pathLayer.path = path.CGPath;
-    pathLayer.strokeColor = [[UIColor blackColor] CGColor];
-    pathLayer.fillColor = nil;
-    pathLayer.lineWidth = 10.0f;
-    pathLayer.lineJoin = kCALineJoinBevel;
-
-    [self.animationLayer addSublayer:pathLayer];
+<pre><code class="objective-c">        //设置header Content-Length
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        //设置header contentType
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+        //设置body
+        [request setHTTPBody:postData];
 </code></pre>
 
-<p>有一点非常重要，CALayer在iOS系统中相对坐标系是以屏幕左上<code>top-left</code>为坐标原点的，在Mac OS X上以坐下<code>bottom-left</code>为坐标原点,但是可以通过<code>CALayer</code>的接口<code>geometryFlipped</code>垂直翻转坐标系，这个值默认是<code>NO</code>，设置成<code>YES</code>就可以把坐标系转换成左下<code>bottom-left</code>了，这里作者使用的左下<code>bottom-left</code>的坐标系。</p>
+<blockquote><p>备注:普通<code>post</code>的<code>header</code>的<code>Current-Type</code>为<code>application/x-www-form-urlencoded</code></p></blockquote>
 
-<pre><code class="objective-c">@property(getter=isGeometryFlipped) BOOL geometryFlipped;
+<h4>Multipart Forms POST参数设置</h4>
+
+<pre><code class="objective-c">        //设置header contentType
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+
+        //设置body contentType
+        [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 </code></pre>
 
-<p>关于这个属性使用时需要特别注意</p>
+<blockquote><p>备注:<code>Multipart Forms</code>的<code>header</code>的<code>Current-Type</code>为<code>multipart/form-data</code></p></blockquote>
 
-<ol>
-<li>翻转会同时作用于它的子图层</li>
-<li>即使这个属性设置成<code>YES</code>,图片的<code>orientation</code>仍然是不变的（也就是说当设置<code>flipped=YES</code>和<code>flipped=NO</code>时一个<code>CGImageRef</code>储存在<code>contents</code>接口中的内容将会显示一致，赋值并不会真正变换底层的图层）</li>
-</ol>
+<p>request body like this</p>
 
+<pre><code>    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="photo"; filename="calm.jpg"
+    Content-Type: image/jpeg
 
-<h3>pathLayer动画实现原理</h3>
+    YOUR_IMAGE_DATA_GOES_HERE
+    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="message"
 
-<ol>
-<li>先创建一个动画用的图层<code>animationLayer</code>类型<code>CALayer</code>，用来充当动画的画布。</li>
-<li>创建真正的路径图层<code>pathLayer</code>类型为<code>CAShapeLayer</code>,让它的坐标系垂直翻转，并且让图层宽高同时向内收缩100个点,通过<code>CGRectInset(CGRect rect, CGFloat dx, CGFloat dy)</code>实现</li>
-<li>把<code>pathLayer</code>添加到<code>animationLayer</code>的子图层中去</li>
-<li>创建一个铅笔图层<code>penLayer</code>类型为<code>CALayer</code>,把它添加到<code>pathLayer</code>去</li>
-<li>对<code>pathLayer</code>添加<code>CABasicAnimation</code>动画，动画属性为<code>strokeEnd</code></li>
-<li>对<code>penLayer</code>添加<code>CAKeyframeAnimation</code>动画，动画属性为<code>position</code></li>
-</ol>
+    My first message
+    --YOUR_BOUNDARY_STRING
+    Content-Disposition: form-data; name="user"
 
+    1
+    --YOUR_BOUNDARY_STRING
+</code></pre>
 
-<h3>textLayer动画实现原理</h3>
+<p>I’m sending over three variables: an image named photo, a string named message, and an integer named user. It’s important to note the linebreaks and the dashes before the boundary string. These must be included in order to build a good request. Now lets write some objective-c:</p>
 
-<ol>
-<li>先创建一个动画用的图层<code>animationLayer</code>类型<code>CALayer</code>，用来充当动画的画布</li>
-<li>Create path from text,See:<a href="http://www.codeproject.com/KB/iPhone/Glyph.aspx">http://www.codeproject.com/KB/iPhone/Glyph.aspx</a>，最终保存到一个类型为<code>CGMutablePathRef</code>的letter中</li>
-<li>通过letter来创建文字<code>UIBezierPath</code>类型的<code>path</code></li>
-<li>通过path再创建<code>CAShapeLayer</code>pathLayer,并且把pathLayer添加到<code>animationLayer</code>中去</li>
-<li>创建一个铅笔图层<code>penLayer</code>类型为<code>CALayer</code>,把它添加到<code>pathLayer</code>去</li>
-<li>对<code>pathLayer</code>添加<code>CABasicAnimation</code>动画，动画属性为<code>strokeEnd</code></li>
-<li>对<code>penLayer</code>添加<code>CAKeyframeAnimation</code>动画，动画属性为<code>position</code></li>
-</ol>
+<pre><code class="objective-c">
+    NSString *boundary = @"YOUR_BOUNDARY_STRING";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
 
+    NSMutableData *body = [NSMutableData data];
 
-<h3>修复一处bug</h3>
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"photo\"; filename=\"%@.jpg\"\r\n", self.message.photoKey] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[NSData dataWithData:imageData]];
 
-<p>重复点击<code>UISegmentedControl</code>导致铅笔消失，这是设置了<code>penAnimation.delegate = self;</code>在代理方法里面没有判断结束直接将设置<code>self.penLayer.hidden = YES</code>，导致连续切换时铅笔不见了，要修复这个bug只需加一个判断<code>   if (flag)   self.penLayer.hidden = YES;
-</code>即可,这样的意思是只有当动画完成时才设置<code>self.penLayer.hidden</code>的值，好了现在已经非常完美了，快去动手自己试试吧！🍺</p>
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"message\"\r\n\r\n%@", self.message.message] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"user\"\r\n\r\n%d", 1] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    [request setHTTPBody:body];
+</code></pre>
+
+<p>Now all we need to do is make a connection to the server and send the request:</p>
+
+<pre><code>[request setHTTPBody:body];
+</code></pre>
+
+<pre><code class="objective-c">    NSURLResponse *response;
+    NSError *error;
+
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&amp;response error:&amp;error];
+</code></pre>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[iOS中的触摸事件和手势处理]]></title>
-    <link href="http://wangruofeng.github.io/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/"/>
-    <updated>2016-01-13T04:34:00+08:00</updated>
-    <id>http://wangruofeng.github.io/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li</id>
-    <content type="html"><![CDATA[<h3>iOS触摸事件分类</h3>
+    <title type="html"><![CDATA[GET&amp;POST]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/get-and-post/"/>
+    <updated>2016-01-13T04:48:27+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/get-and-post</id>
+    <content type="html"><![CDATA[<blockquote><p>GET和POST是两种最常用的与服务器进行交互的HTTP方法 .</p></blockquote>
+
+<h3>GET</h3>
 
 <ul>
-<li>触摸事件</li>
-<li>加速事件</li>
-<li>远程事件</li>
+<li>GET的语义是获取指定的URL资源, 将数据按照 variable = value 的形式, 添加到action所指向的URL后面, 并且两者使用 &lsquo; ? '连接, 各变量之间使用 &rsquo; &amp; &lsquo;连接 .</li>
+<li>对用户来说不安全, 因为在传输过程中, 数据被放在请求的URL中.</li>
+<li>传输的数据量小, 这主要是因为受URL长度限制.</li>
 </ul>
 
 
-<h3>谁能处理触摸事件?</h3>
+<h3>URL长度限制</h3>
 
-<p><strong>响应者对象</strong></p>
+<p> 在http协议中，其实并没有对url长度作出限制，往往url的最大长度和用户浏览器和Web服务器有关，不一样的浏览器，能接受的最大长度往往是不一样的，当然，不一样的Web服务器能够处理的最大长度的URL的能力也是不一样的。</p>
 
-<p>在iOS中不是任何对象都能处理事件,只有继承了UIResponder的对象才能接收并处理事件.我们称之为<strong>响应者对象</strong>.</p>
+<pre><code>IE浏览器对URL的最大限制为2083个字符，如果超过这个数字，提交按钮没有任何反应。
 
-<p><code>UIApplication</code>,<code>UIViewController</code>,<code>UIView</code>都继承自<code>UIResponder</code>,因此它们都是响应者对象,都能够接收并处理事件.</p>
+Firefox浏览器URL的长度限制为65,536个字符 ;
 
-<h3>UIResponder</h3>
+Apache(Server)能够接受的最大URL长度为8192个字符 ;
 
-<p>UIResponder内部提供了方法来处理事件</p>
+如果浏览器的编码为UTF8的话，一个汉字最终编码后的字符长度为9个字符。
+</code></pre>
+
+<p>GET请求示例</p>
+
+<p><img src="http://static.oschina.net/uploads/space/2014/0602/164040_3SOT_1774273.png" alt="GetRequest" /></p>
+
+<h3>POST</h3>
+
+<ul>
+<li>POST语义是向指定URL的资源添加数据.</li>
+<li>将数据放在数据体中, 按照变量和值相对应的方式, 传递到action所指向的URL.</li>
+<li>所有数据对用户来说不可见.</li>
+<li>可以传输大量数据, 上传文件只能使用POST.</li>
+</ul>
+
+
+<p>POST请求示例</p>
+
+<p><img src="http://static.oschina.net/uploads/space/2014/0602/164119_VRKY_1774273.png" alt="PostRequest" /></p>
+
+<h3>在浏览器中判断GET&amp;POST请求</h3>
+
+<p>因为POST请求会向服务器发送数据体, 因此刷新页面时会出现提示窗口. 而GET请求不会向服务器发送数据体, 因此没有提示 .</p>
+
+<p>从请求本质来看, GET请求要比POST更安全, 效率也会更高 .(对服务器而言)</p>
+
+<h3>iOS网络发送网络请求的步骤</h3>
 
 <ol>
-<li><p>触摸事件</p>
+<li><p>实例化URL( 网络资源 ) ;</p></li>
+<li><p>根据URL建立URLRequest ( 网络请求 ) ;</p>
 
-<p> 一次完成的触摸过程,会经历3个状态;
- UIView的触摸事件处理</p>
-
-<p> 1.一根或多根手指开始触摸view,系统会自动调用view下面的方法:</p>
-
-<pre><code> - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;  //触摸开始
-</code></pre>
-
- 2.一根或者多根手指在view上移动，系统会自动调用view下面的方法（随着手指的移动，会持续调用该方法）
-
-<pre><code> - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;  //触摸移动
-</code></pre>
-
- 3.一根或者多根手指离开view，系统会自动调用view下面的方法
-
-<pre><code> - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;  //触摸结束
-</code></pre>
-
- 4.触摸结束前，某个系统事件（例如电话呼入 ）会打断触摸过程，系统会自动调用view下面的方法
-
-<pre><code> - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event; //触摸取消(可能会经历)
-</code></pre>
-
- 4个触摸事件的处理方法中，都有 NSSet <em>touches 和 UIEvent </em>event 两个参数:
-
-<ul>
-<li>一次完整的触摸过程，只会产生一个事件对象，4个触摸方法都是同一个event参数</li>
-<li>如果两根手指同时触摸一个view，那么view只会调用一次 touchesBegan:withEvent: 方法，touches参数中装着两个UITouch对象；</li>
-<li>如果这两根手指一前一后分开触摸同一个view，那么view会分别调用两次 touchesBegan:withEvent:方法， 并且每次调用时的touches参数只包含一个UITouch对象；</li>
-<li>根据touches中UITouch个数可以判断出使单点触摸还是多点触摸</li>
-</ul>
-
-
-<p> 提示：touches中存放的都是UITouch对象。</p></li>
-<li><p>加速计事件</p>
-
-<pre><code> - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event;
- - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event;
- - (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event;
-</code></pre></li>
-<li><p>远程控制事件</p>
-
-<pre><code> - (void)remoteControlReceivedWithEvent:(UIEvent *)event;
-</code></pre></li>
+<p> 默认为GET请求; 对于POST请求,  需要创建请求的数据体 .</p></li>
+<li><p>利用 URLConnection 发送网络请求(发送请求并获得结果) ;</p></li>
 </ol>
 
 
-<h3>UITouch</h3>
+<p>NSURLConnection提供了两个静态方法可以直接以同步或异步的方式向服务器发送网络请求.</p>
 
-<p>当用户用一根手指触摸屏幕时，会创建一个与手指相关联的UITouch对象；一根手指对应一个UITouch对象
-UITouch的作用:</p>
+<pre><code>同步请求:
+
+sendSynchronousRequest : returningResponse : error :
+
+异步请求:
+
+sendAsynchronousRequest : queue : completionHandler :
+</code></pre>
+
+<p>在网络请求过程中, 接收数据的过程实际上是通过 NSURLConnectionDataDelegate来实现的, 常用代理方法包括:</p>
+
+<pre><code class="objectice-c">// 服务器开始返回数据
+-(void)connection:didReceiveResponse:
+// 收到服务器返回的数据，本方法会被调用多次
+-(void)connection:didReceiveData:
+// 数据接收完毕，做数据的最后处理
+-(void)connectionDidFinishLoading:
+// 网络连接错误
+-(void)connection:didFailWithError:
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS里程碑事件]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/iosli-cheng-bei-shi-jian/"/>
+    <updated>2016-01-13T04:46:48+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/iosli-cheng-bei-shi-jian</id>
+    <content type="html"><![CDATA[<blockquote><p>记录iOS各种重要里程碑事件</p></blockquote>
+
+<h2>私有成员变量的实现</h2>
+
+<p>1.0时代，在.h文件采用<code>@private</code>关键词</p>
+
+<pre><code>@interface ViewController : UIViewController {
+    @private
+    NSInteger _value;
+}
+</code></pre>
+
+<p>2.0时代 通过在.m文件通过<code>匿名Category</code></p>
+
+<pre><code>@interface ViewController ()
+
+@property (nonatomic) NSInteger value;
+
+@end
+</code></pre>
+
+<p>3.0时代 2013 年的 WWDC 允许在 .m 的 <code>@implementation</code>中</p>
+
+<pre><code>@implementation ViewController {
+    NSInteger _value;
+}
+</code></pre>
+
+<h2>ARC推出</h2>
+
+<p>2011</p>
+
+<h2>自动生成getter和setter方法的<code>@synthesize</code></h2>
+
+<p>2012</p>
+
+<h2>iOS 2.1 to iOS 2.2 API Differences</h2>
+
+<p>Added frameworks:</p>
 
 <ul>
-<li>保存跟手指相关的信息，比如触摸的位置、时间、阶段；</li>
-<li>当手指移动时，系统会更新同一个UITouch对象，使之能够一直保存该手指的触摸位置；</li>
-<li>当手指离开屏幕时，系统会销毁相应的UITouch对象。</li>
+<li>AVFoundation</li>
 </ul>
 
 
-<p>提示：iPhone开发中，要避免使用双击事件。</p>
+<h2>iOS 2.2 to iOS 3.0 API Differences</h2>
 
-<p>UITouch的属性:
-触摸产生时所处的窗口:</p>
+<p>Added frameworks:</p>
 
-<pre><code>@property(nonatomic,readonly,retain) UIWindow *window;
-</code></pre>
+<ul>
+<li>CoreData</li>
+<li>ExternalAccessory</li>
+<li>GameKit</li>
+<li>MapKit</li>
+<li>MessageUI</li>
+<li>MobileCoreServices</li>
+<li>StoreKit</li>
+</ul>
 
-<p>触摸产生时所处的视图</p>
 
-<pre><code> @property(nonatomic,readonly,retain) UIView *view;
-</code></pre>
+<h2>iOS 3.2 to iOS 4.0 API Differences</h2>
 
-<p>短时间内点按屏幕的次数，可以根据tapCount判断单击、双击或更多地点击</p>
+<p>Added frameworks:</p>
 
-<pre><code> @property(nonatomic,readonly) NSUInteger tapCount;
-</code></pre>
+<ul>
+<li>Accelerate</li>
+<li>AssetsLibrary</li>
+<li>CoreMedia</li>
+<li>CoreMotion</li>
+<li>CoreTelephony</li>
+<li>CoreVideo</li>
+<li>EventKit</li>
+<li>EventKitUI</li>
+<li>iAd</li>
+<li>ImageIO</li>
+<li>QuickLook</li>
+</ul>
 
-<p>记录了触摸事件产生或变化时的时间，单位是秒</p>
 
-<pre><code> @property(nonatomic,readonly) NSTimeInterval timestamp;
-</code></pre>
+<h2>iOS 4.3 to iOS 5.0 API Differences</h2>
 
-<p>当前触摸事件所处的状态</p>
+<p>Added frameworks</p>
 
-<pre><code>@property(nonatomic,readonly) UITouchPhase phase;
-/*
-UITouchPhase是一个枚举类型，包含：
-UITouchPhaseBegan（触摸开始）
-UITouchPhaseMoved（接触点移动）
-UITouchPhaseStationary（接触点无移动）
-UITouchPhaseEnded（触摸结束）
-UITouchPhaseCancelled（触摸取消）*/
-</code></pre>
+<ul>
+<li>Accounts</li>
+<li>CoreBluetooth</li>
+<li>CoreImage</li>
+<li>GLKit</li>
+<li>GSS</li>
+<li>NewsstandKit</li>
+<li>Twitter</li>
+</ul>
 
-<p>UITouch的方法：</p>
 
-<pre><code>- (CGPoint)locationInView:(UIView *)view;
-</code></pre>
+<h2>5.1 to iOS 6.0 API Differences</h2>
 
-<p>1.返回值表示触摸在view上的位置；</p>
+<p>Added frameworks</p>
 
-<p>2.这里返回的位置是针对view坐标系的,（以view的左上角为原点（0，0））；</p>
+<ul>
+<li>AdSupport</li>
+<li>MediaToolbox</li>
+<li>PassKit</li>
+<li>Social</li>
+</ul>
 
-<p>3.调用时传入的view参数为nil 的话，返回的是触摸点在UIWindow的位置。</p>
 
-<pre><code>- (CGPoint)previousLocationInView:(UIView *)view;
-</code></pre>
+<h2>6.1 to iOS 7.0 API Differences</h2>
 
-<p>该方法记录了前一个触摸点的位置；</p>
+<p>Added frameworks</p>
 
-<h3>UIEvent</h3>
+<ul>
+<li>GameController</li>
+<li>JavaScriptCore</li>
+<li>MediaAccessibility</li>
+<li>MultipeerConnectivity</li>
+<li>SafariServices</li>
+<li>SpriteKit</li>
+</ul>
 
-<blockquote><p>每产生一个事件，就会产生一个UIEvent对象；</p>
 
-<p>UIEvent:称为事件对象，记录事件产生的时刻和类型。</p></blockquote>
+<h2>iOS 7.1 to iOS 8.0 API Differences</h2>
 
-<p>常见属性：
-1.事件类型</p>
+<p>Added frameworks</p>
 
-<pre><code class="objective-c">@property(nonatomic,readonly) UIEventType  type;
-@property(nonatomic,readonly) UIEventSubtype  subtype;
+<ul>
+<li>Accelerate</li>
+<li>Accounts</li>
+<li>AddressBook</li>
+<li>AddressBookUI</li>
+<li>AudioToolbox</li>
+<li>AudioUnit</li>
+<li>AVFoundation</li>
+<li>AVKit (Added)</li>
+<li>CFNetwork</li>
+<li>CloudKit (Added)</li>
+<li>CoreAudio</li>
+<li>CoreAudioKit (Added)</li>
+<li>CoreAuthentication (Added)</li>
+<li>CoreBluetooth</li>
+<li>CoreData</li>
+<li>CoreFoundation</li>
+<li>CoreImage</li>
+<li>CoreLocation</li>
+<li>CoreMedia</li>
+<li>CoreMotion</li>
+<li>CoreText</li>
+<li>CoreVideo</li>
+<li>EventKit</li>
+<li>EventKitUI</li>
+<li>ExternalAccessory</li>
+<li>Foundation</li>
+<li>GameController</li>
+<li>GameKit</li>
+<li>GLKit</li>
+<li>GSS</li>
+<li>HealthKit (Added)</li>
+<li>HomeKit (Added)</li>
+<li>iAd</li>
+<li>ImageIO</li>
+<li>IOKit</li>
+<li>JavaScriptCore</li>
+<li>LocalAuthentication (Added)</li>
+<li>MapKit</li>
+<li>MediaAccessibility</li>
+<li>MediaPlayer</li>
+<li>MessageUI</li>
+<li>Metal (Added)</li>
+<li>MobileCoreServices</li>
+<li>MultipeerConnectivity</li>
+<li>NetworkExtension (Added)</li>
+<li>NewsstandKit</li>
+<li>NotificationCenter (Added)</li>
+<li>OpenGLES</li>
+<li>PassKit</li>
+<li>Photos (Added)</li>
+<li>PhotosUI (Added)</li>
+<li>PushKit (Added)</li>
+<li>QuartzCore</li>
+<li>QuickLook</li>
+<li>SceneKit (Added)</li>
+<li>Security</li>
+<li>Social</li>
+<li>SpriteKit</li>
+<li>StoreKit</li>
+<li>UIKit</li>
+<li>VideoToolbox</li>
+<li>WebKit (Added)</li>
+</ul>
 
-typedef
-NS_ENUM(NSInteger, UIEventType) {
-    UIEventTypeTouches,
-    UIEventTypeMotion,
-    UIEventTypeRemoteControl,
+
+<h2>iOS 8.3 to iOS 9.0 API Differences</h2>
+
+<p>Added frameworks</p>
+
+<p>Objective-C</p>
+
+<ul>
+<li>/usr/include</li>
+<li>Accelerate</li>
+<li>Accounts</li>
+<li>AddressBook</li>
+<li>AddressBookUI</li>
+<li>AssetsLibrary</li>
+<li>AudioToolbox</li>
+<li>AudioUnit</li>
+<li>AVFoundation</li>
+<li>AVKit</li>
+<li>CFNetwork</li>
+<li>CloudKit</li>
+<li>Contacts (Added)</li>
+<li>ContactsUI (Added)</li>
+<li>CoreAudio</li>
+<li>CoreAudioKit</li>
+<li>CoreBluetooth</li>
+<li>CoreData</li>
+<li>CoreFoundation</li>
+<li>CoreGraphics</li>
+<li>CoreImage</li>
+<li>CoreLocation</li>
+<li>CoreMedia</li>
+<li>CoreMIDI</li>
+<li>CoreMotion</li>
+<li>CoreSpotlight (Added)</li>
+<li>CoreTelephony</li>
+<li>CoreText</li>
+<li>CoreVideo</li>
+<li>EventKit</li>
+<li>EventKitUI</li>
+<li>ExternalAccessory</li>
+<li>Foundation</li>
+<li>GameController</li>
+<li>GameKit</li>
+<li>GameplayKit (Added)</li>
+<li>GLKit</li>
+<li>GSS</li>
+<li>HealthKit</li>
+<li>HomeKit</li>
+<li>iAd</li>
+<li>ImageIO</li>
+<li>JavaScriptCore</li>
+<li>LocalAuthentication</li>
+<li>MapKit</li>
+<li>MediaPlayer</li>
+<li>MediaToolbox</li>
+<li>MessageUI</li>
+<li>Metal</li>
+<li>MetalKit (Added)</li>
+<li>MetalPerformanceShaders (Added)</li>
+<li>MobileCoreServices</li>
+<li>ModelIO (Added)</li>
+<li>MultipeerConnectivity</li>
+<li>NetworkExtension</li>
+<li>NewsstandKit</li>
+<li>OpenAL</li>
+<li>PassKit</li>
+<li>Photos</li>
+<li>PushKit</li>
+<li>QuartzCore</li>
+<li>QuickLook</li>
+<li>ReplayKit (Added)</li>
+<li>SafariServices</li>
+<li>SceneKit</li>
+<li>Security</li>
+<li>SpriteKit</li>
+<li>StoreKit</li>
+<li>SystemConfiguration</li>
+<li>UIKit</li>
+<li>VideoToolbox</li>
+<li>WatchConnectivity (Added)</li>
+<li>WatchKit</li>
+<li>WebKit</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[工厂模式详解]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/gong-han-mo-shi-xiang-jie/"/>
+    <updated>2016-01-13T04:45:13+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/gong-han-mo-shi-xiang-jie</id>
+    <content type="html"><![CDATA[<h1>3种工厂模式</h1>
+
+<p>概述：工厂模式是个系列，分为简单工厂模式， 工厂方法模式， 抽象工厂模式，这三种模式也非常常用。这些模式最最经典的就例子就是设计计算器。
+* Factory Method (工厂方法模式)
+* Abstract Factory (抽象工厂模式）
+* Simple Factory（简单工厂模式）</p>
+
+<p><code>参考GoF《Design Patterns》一书</code></p>
+
+<p>GOF是这样描述工厂模式的：</p>
+
+<blockquote><p>“Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.”</p>
+
+<p>在基类中定义创建对象的一个接口，让子类决定实例化哪个类。工厂方法让一个类的实例化延迟到子类中进行。</p></blockquote>
+
+<h3>1.简单工厂模式</h3>
+
+<p>  严格的说，简单工厂模式并不是23种常用的设计模式之一，它只算工厂模式的一个特殊实现。简单工厂模式在实际中的应用相对于其他2个工厂模式用的还是相对少得多，因为它只适应很多简单的情况，最最重要的是它违背了我们在概述中说的开放-封闭原则。因为每次你要新添加一个功能，都需要在生switch-case 语句（或者if-else 语句）中去修改代码，添加分支条件</p>
+
+<p>  简单工厂模式角色分配：</p>
+
+<ol>
+<li><p>Creator（产品创建者）
+简单工厂模式的核心，它负责实现创建所有实例的内部逻辑。工厂类可以被外界直接调用，创建所需的产品对象。</p></li>
+<li><p>Product （ 产品抽象类）
+简单工厂模式所创建的所有对象的父类，它负责描述所有实例所共有的公共接口。</p></li>
+<li><p>Concrete Product （具体产品）
+是简单工厂模式的创建目标，所有创建的对象都是充当这个角色的某个具体类的实例。</p></li>
+</ol>
+
+
+<p>简单的工厂模式UML图
+<img src="http://ww1.sinaimg.cn/mw690/64124373gw1ezgte12komj20h109smxx.jpg" alt="简单工厂模式" /></p>
+
+<p>考虑下面一个事例： 加入你是一个商人，你做的的是手机生意。现在你生产android 手机和iphone等，考虑到以后你可能还会生产其他手机例如ubuntu手机。假定你选择了简单工厂模式来实现。那么显然，我们需要所有产品的抽象基类（Product） 即是Phone类：
+<code>java
+class Phone   
+{  
+public:  
+    virtual ~Phone(){};//在删除的时候防止内存泄露  
+    virtual void call(string number) = 0;  
 };
-typedef
-NS_ENUM(NSInteger, UIEventSubtype) {
-    // available in iPhone OS 3.0
-    UIEventSubtypeNone                              = 0,    
-    // for UIEventTypeMotion, available in iPhone OS 3.0
-    UIEventSubtypeMotionShake                       = 1,
-    // for UIEventTypeRemoteControl, available in iOS 4.0
-    UIEventSubtypeRemoteControlPlay                 = 100,
-    UIEventSubtypeRemoteControlPause                = 101,
-    UIEventSubtypeRemoteControlStop                 = 102,
-    UIEventSubtypeRemoteControlTogglePlayPause      = 103,
-    UIEventSubtypeRemoteControlNextTrack            = 104,  
-    UIEventSubtypeRemoteControlPreviousTrack        = 105,
-    UIEventSubtypeRemoteControlBeginSeekingBackward = 106,   
-    UIEventSubtypeRemoteControlEndSeekingBackward   = 107,  
-    UIEventSubtypeRemoteControlBeginSeekingForward  = 108,  
-    UIEventSubtypeRemoteControlEndSeekingForward    = 109,
+</code></p>
+
+<p>然后我们需要具体的产品类 Concrete Product： AndroidPhone 和iOSPhone
+```java
+class AndroidPhone : public Phone <br/>
+{<br/>
+public:<br/>
+    void call(string number){ cout&lt;&lt;&ldquo;AndroidPhone is calling&hellip;&rdquo;&lt;&lt;endl;}<br/>
+};</p>
+
+<p>class IosPhone : public Phone<br/>
+{<br/>
+public:<br/>
+    void call(string number) { cout&lt;&lt;&ldquo;IosPhone is calling&hellip;&rdquo;&lt;&lt;endl;}<br/>
 };
+```</p>
+
+<p>最后我们需要Creator
+```java
+class PhoneFactory<br/>
+{<br/>
+public:<br/>
+    Phone* createPhone(string phoneName)<br/>
+    {<br/>
+        if(phoneName == &ldquo;AndroidPhone&rdquo;)<br/>
+        {<br/>
+            return new AndroidPhone();<br/>
+        }else if(phoneName == &ldquo;IosPhone&rdquo;)<br/>
+        {<br/>
+            return new IosPhone();<br/>
+        }</p>
+
+<pre><code>    return NULL;  
+}  
 </code></pre>
 
-<p>2.事件产生的时间</p>
+<p>};
+```</p>
 
-<pre><code>@property(nonatomic,readonly) NSTimeInterval  timestamp;
+<p>客户端这样实现：
+```java
+void main()<br/>
+{<br/>
+    PhoneFactor factory;<br/>
+    Phone<em> myAndroid = factory.createPhone(&ldquo;AndroidPhone&rdquo;);<br/>
+    Phone</em> myIPhone = factory.createPhone(&ldquo;iOSPhone&rdquo;);<br/>
+    if(myAndroid)<br/>
+    {<br/>
+        myAndroid->call(&ldquo;123&rdquo;);<br/>
+        delete myAndroid;<br/>
+        myAndroid = NULL;<br/>
+    }</p>
+
+<pre><code>if(myIPhone)  
+{  
+    myIPhone-&gt;call("123");  
+    delete  myIPhone;  
+    myIPhone = NULL;  
+}  
 </code></pre>
 
-<p> UIEvent还提供了相应的方法可以获得在某个view上面的触摸对象（UITouch）。</p>
+<p>}
+```</p>
 
-<p> 触摸事件的产生：</p>
+<p>这就是简单工厂方法，把所有的创建交给creator,creator 通过switch-case(或者if-else)语句来选择具体创建的对象。简单明了。但是就如上面所说，它最致命的问题的违背了开放-封闭原则。每次你要新添加一个功能，都要修改factor里面的createPhone代码。 但是工厂方法模式可以解决这个问题。</p>
 
-<ol>
-<li><p>发生触摸事件后，系统会将该事件加入到一个由UIApplication管理的事件队列中；</p></li>
-<li><p>UIApplication会从事件队列中取出最前面的事件，并将事件分发下去以便处理，通常，先发送事件给应用程序的主窗口（keyWindow）；</p></li>
-<li><p>主窗口会在视图层次结构中找到一个最合适的视图控件来处理触摸事件，这也是整个事件处理过程的第一步；</p></li>
-<li><p>找到合适的视图控件后，就会调用视图控件的touches方法来做具体的事件处理。</p></li>
-</ol>
+<h3>2.工厂方法模式</h3>
 
+<p>个人觉得工厂方法模式在工厂模式家族中是用的最多模式。上面说过了，如果简单工厂模式，要添加一个新功能，比如我现在要增加WinPhone 的生产，那么我要修改PhoneFactory中的createPhone 中的分支判断条件。这违背了开放-封闭原则，那为什么不能将创建方法放到子类中呢？
+工厂方法的定义就是：定义一个用于创建对象的接口，让子类决定实例化哪一个类，工厂方法使一个类的实例化延迟到其子类。</p>
 
-<p>触摸事件的传递：</p>
+<p>  工厂方法模式角色：
+1. 抽象工厂(Creator)角色：是工厂方法模式的核心，与应用程序无关。任何在模式中创建的对象的工厂类必须实现这个接口。
+2. 具体工厂(Concrete Creator)角色：这是实现抽象工厂接口的具体工厂类，包含与应用程序密切相关的逻辑，并且受到应用程序调用以创建产品对象。
+3. 抽象产品(Product)角色：工厂方法模式所创建的对象的超类型，也就是产品对象的共同父类或共同拥有的接口。
+4. 具体产品(Concrete Product)角色：这个角色实现了抽象产品角色所定义的接口。某具体产品有专门的具体工厂创建，它们之间往往一一对应</p>
 
-<blockquote><p>触摸事件的传递是从父控件传递到子控件；</p>
+<p>工厂方法模式UML图：
+<img src="http://ww1.sinaimg.cn/mw690/64124373gw1ezgtqlod9zj20hy0aijrz.jpg" alt="工厂方法模式" /></p>
 
-<p>如果父控件不能接收触摸事件，那么子控件就不可能接收到触摸事件。</p></blockquote>
+<p>看定义看的晕乎乎的？那么我们来看代码：产品接口，以及其相应的子类。
+```java
+class Phone <br/>
+{<br/>
+public:<br/>
+    virtual ~Phone(){};//在删除的时候防止内存泄露<br/>
+    virtual void call(string number) = 0;<br/>
+};</p>
 
-<p><img src="http://ww4.sinaimg.cn/mw690/64124373gw1eznrp087anj205t07rdfx.jpg" alt="触摸事件" />
-<img src="http://ww2.sinaimg.cn/mw690/64124373gw1eznrrf36ymj2097077dhc.jpg" alt="触摸事件2" /></p>
+<p>class AndroidPhone : public Phone <br/>
+{<br/>
+public:<br/>
+    void call(string number){ cout&lt;&lt;&ldquo;AndroidPhone is calling&hellip;&rdquo;&lt;&lt;endl;}<br/>
+};</p>
 
-<p>UIView不接收触摸事件的三种情况:
-不接受用户交互 ：</p>
-
-<ol>
-<li><p>userInteractionEnable = NO;</p></li>
-<li><p>隐藏 ：hidden = YES;</p></li>
-<li><p>透明：alpha = 0.0 ~ 0.01</p></li>
-</ol>
-
-
-<p>提示：UIImageView的userInteractionEnable默认就是NO，因此UIImageView以及它的子控件默认是不能接收触摸事件的。</p>
-
-<p>触摸事件处理的详细过程：</p>
-
-<ol>
-<li><p>用户点击屏幕后产生的一个触摸事件，经过一些列的传递过程后，会找到最合适的视图控件来处理这个事件</p></li>
-<li><p>找到最合适的视图控件后，就会调用控件的touches方法来作具体的事件处理</p>
-
-<p> touchesBegan…</p>
-
-<p> touchesMoved…</p>
-
-<p> touchedEnded…</p></li>
-</ol>
-
-
-<p>这些touches方法的默认做法是将事件顺着响应者链条向上传递，将事件交给上一个响应者进行处理</p>
-
-<p>响应者链的事件传递过程：</p>
-
-<ol>
-<li><p>如果view的控制器存在，就传递给控制器；如果控制器不存在，则将其传递给它的父视图；</p></li>
-<li><p>在视图层次结构最顶级的视图，如果也不能处理收到的事件或消息，则其将事件或消息传递给window对象进行处理。</p></li>
-<li><p>如果window对象也不处理，则其将事件或消息传递给UIApplication对象；</p></li>
-<li><p>如果UIApplication也不能处理该事件或消息，则将其丢弃</p></li>
-</ol>
-
-
-<h3>监听触摸事件的做法</h3>
-
-<p>如果想监听一个view上面的触摸事件，之前的做法是：</p>
-
-<ol>
-<li><p>自定义一个view；</p></li>
-<li><p>实现view的touches方法，在方法内部实现具体处理代码。</p>
-
-<p> 通过touches方法监听view触摸事件，有很明显的几个缺点：</p>
-
-<ul>
-<li><p>必须得自定义view；</p></li>
-<li><p>由于是在view内部的touches方法中监听触摸事件，因此默认情况下，无法让其他外界对象监听view的触摸事件；</p></li>
-<li><p>不容易区分用户的具体手势行为。</p></li>
-</ul>
-</li>
-</ol>
-
-
-<p>iOS 3.2之后，苹果推出了手势识别功能（Gesture Recognizer）,在触摸事件处理方面，大大简化了开发者的开发难度。</p>
-
-<h3>UIGestureRescognizer</h3>
-
-<p>为了完成手势识别，必须借助于手势识别器：UIGestureRecognizer 。</p>
-
-<p>利用UIGestureRecognizer,能轻松识别用户在某个view上面做的一些常见手势。</p>
-
-<p>UIGestureRecognizer是一个抽象类，定义了所有的手势基本行为，使用它的子类才能处理具体的手势</p>
-
-<ul>
-<li>UITapGestureRecognizer(敲击)</li>
-<li>UIPinchGestureRecognizer(捏合，用于缩放)</li>
-<li>UIPanGestureRecognizer(拖拽)</li>
-<li>UISwipeGestureRecognizer(轻扫)</li>
-<li>UIRotationGestureRecognizer(旋转)</li>
-<li>UILongPressGestureRecognizer(长按)</li>
-</ul>
-
-
-<p>每一个手势识别器的用法都差不多，比如UITapGestureRecognizer的使用步骤如下:</p>
-
-<ol>
-<li><p>创建手势识别器对象；</p>
-
-<p> UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];</p></li>
-<li><p>设置手势识别器对象的具体属性；</p>
-
-<pre><code> // 连续敲击2次
- tap.numberOfTapsRequired = 2;
- // 需要2根手指一起敲击
- tap.numberOfTouchesRequired = 2;
-</code></pre></li>
-<li><p>添加手势识别器到对应的view上</p>
-
-<p> [self.iconView addGestureRecognizer:tap];</p></li>
-<li><p>监听手势的触发</p>
-
-<p> [tap addTarget:self action:@selector(tapIconView:)];</p></li>
-</ol>
-
-
-<p>手势识别的状态</p>
-
-<pre><code class="objective-c">typedef NS_ENUM(NSInteger, UIGestureRecognizerState) {
-    // 没有触摸事件发生，所有手势识别的默认状态
-    UIGestureRecognizerStatePossible,
-    // 一个手势已经开始但尚未改变或者完成时
-    UIGestureRecognizerStateBegan,
-    // 手势状态改变
-    UIGestureRecognizerStateChanged,
-    // 手势完成
-    UIGestureRecognizerStateEnded,
-    // 手势取消，恢复至Possible状态
-    UIGestureRecognizerStateCancelled,
-    // 手势失败，恢复至Possible状态
-    UIGestureRecognizerStateFailed,
-    // 识别到手势识别
-    UIGestureRecognizerStateRecognized = UIGestureRecognizerStateEnded
+<p>class iOSPhone : public Phone<br/>
+{<br/>
+public:<br/>
+    void call(string number) { cout&lt;&lt;&ldquo;iOSPhone is calling&hellip;&rdquo;&lt;&lt;endl;}<br/>
 };
-</code></pre>
+```</p>
 
-<p>参考资料：<a href="http://my.oschina.net/aofe/blog/268749">傲风凌寒的博客</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[__autoreleasing的理解]]></title>
-    <link href="http://wangruofeng.github.io/blog/2016/01/13/autoreleasingde-li-jie/"/>
-    <updated>2016-01-13T04:27:10+08:00</updated>
-    <id>http://wangruofeng.github.io/blog/2016/01/13/autoreleasingde-li-jie</id>
-    <content type="html"><![CDATA[<h3>__autoreleasing 修饰符</h3>
+<p>上面这个和简单工厂方法还是一样的。接下来不一样的来了&hellip;
+```java
+class PhoneFactory<br/>
+{<br/>
+public:<br/>
+    virtual ~PhoneFactory(){};<br/>
+    virtual Phone* createPhone() = 0;<br/>
+};</p>
 
-<p>将对象赋值给附有__autoreleasing 修饰符的变量等同于ARC 无效时调用对象的autorelease方法。我们通过以下源代码来看一下</p>
+<p>class AndroidPhoneFactory : public PhoneFactory<br/>
+{<br/>
+public:<br/>
+    virtual Phone* createPhone()<br/>
+    {<br/>
+        return new AndroidPhone();<br/>
+    }<br/>
+};</p>
 
-<pre><code class="objective-c">@autoreleasepool {
-id __autoreleasing obj  = [[NSObject alloc] init];
+<p>class IosPhoneFactory : public PhoneFactory<br/>
+{<br/>
+public:<br/>
+    virtual Phone* createPhone()<br/>
+    {<br/>
+        return new IosPhone();<br/>
+    }<br/>
+};
+```</p>
+
+<p>工厂方法将PhoneFactory抽象成了基类，PhoneFactory的createPhone不在像以前那样将所有的判断塞到里面。而是改由其子类来实现创建功能，这感觉就是权力下放。
+客户端：</p>
+
+<pre><code class="java">void main()  
+{  
+    PhoneFactory*  androidCreator = new AndroidPhoneFactory();  
+    PhoneFactory*  iosCreator = new IosPhoneFactory();  
+    Phone*  myAndroid = androidCreator-&gt;createPhone();  
+    Phone* myIPhone = iosCreator-&gt;createPhone();  
+    if(myAndroid)  
+    {  
+        myAndroid-&gt;call("123");  
+        delete myAndroid;  
+        myAndroid = NULL;  
+    }  
+
+    if(myIPhone)  
+    {  
+        myIPhone-&gt;call("123");  
+        delete  myIPhone;  
+        myIPhone = NULL;  
+    }  
+
+    delete androidCreator;  
+    delete iosCreator;  
 }
 </code></pre>
 
-<p>该源代码主要将NSObject 类对象注册到autoreleasepool 中，可作如下变换：</p>
+<p>在工厂方法模式中，核心工厂类不在负责产品的创建，而是将具体的创建工作交给子类去完成。也就是后所这个核心工厂仅仅只是提供创建的接口，具体实现方法交给继承它的子类去完成。当我们的系统需要增加其他新功能时，只需要继承PhoneFactory这个类，并且实现createPhone接口。 不需要对原工厂PhoneFactory进行任何修改，这样很好地符合了“开放-封闭“原则。</p>
 
-<pre><code class="objective-c">/* 编译器的模拟代码 */
-id pool = objc_autoreleasePoolPush();
-id obj = objc_msgSend(NSObject, @selector(alloc));
-objc_msgSend(obj, @selector(init));
-objc_autorelease(obj);
-objc_autoreleasePoolPop(pool);
+<p>虽然工厂方法模式满足了"开放-封闭”原则，但是这个模式也仍然有缺点：每次增加一个产品时，都需要增加一个具体类和对象实现工厂，是的系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。这并不是什么好事。</p>
+
+<h3>3.抽象工厂模式</h3>
+
+<p>在工厂方法模式中，其实我们有一个潜在意识的意识。那就是我们生产的都是同一类产品，例如我们生产的都是手机！那么现在假如现在我们又要生产平板了了呢？那么就要用到抽象工厂模式。我抽象工厂模式也用的比较多在工厂模式家族中，仅次于工厂方法模式。在了解抽象工厂模式之前，还是老生常谈的理清下产品等级结构和产品簇的概念。下面的图还是老图。但是我讲讲我的理解：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/64124373gw1ezgtxoyognj20d8087wes.jpg" alt="抽象工厂模式" />
+产品等级结构：产品的等级结构也就是产品的继承结构。我理解就是同一类产品，比如手机是一个系列，有android手机，ios手机，win手机，那么这个抽象类手机和他的子类就构成了一个产品等级结构。那其他的平板显然不是和手机一个系列的，一个平板，一个是手机，所以他们是不同的产品等级结构。</p>
+
+<p>产品族: 在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品。比如分为android产品，和ios产品。其中一个ios产品包含ios手机和ios平板。显然ios手机和ios平板不是同一个产品等级结构的，因为一个是手机，一个是平板。但他们是同一个产品簇&mdash;都是ios产品。
+希望大家通过上面的例子大家明白了这两个概念。</p>
+
+<p> 抽象工厂模式的UML图：
+ <img src="http://ww4.sinaimg.cn/mw690/64124373gw1ezgtzs7hwaj20db09p0ta.jpg" alt="抽象工厂模式" /></p>
+
+<p>接着上面的话题，现在假如我要增加对平板的支持，那么我们肯定先添加两个产品等级结构，一个是手机，一个是平板：</p>
+
+<pre><code class="java">//产品等级结构--手机  
+class Phone   
+{  
+public:  
+    virtual ~Phone(){};//在删除的时候防止内存泄露  
+    virtual void call(string number) = 0;  
+};  
+
+class AndroidPhone : public Phone   
+{  
+public:  
+    void call(string number){ cout&lt;&lt;"AndroidPhone is calling..."&lt;&lt;endl; }  
+};  
+
+class IosPhone : public Phone  
+{  
+public:  
+    void call(string number) { cout&lt;&lt;"IosPhone is calling..."&lt;&lt;endl; }  
+};  
+
+//产品等级结构--平板  
+class Pad  
+{  
+public:  
+    virtual ~Pad(){};  
+    virtual void playMovie() = 0;  
+};  
+
+class AndroidPad : public Pad  
+{  
+public:  
+    virtual void playMovie(){ cout&lt;&lt;"AndriodPad is playing movie..."&lt;&lt;endl; }  
+};  
+
+class IosPad : public Pad  
+{  
+public:  
+    virtual void playMovie(){ cout&lt;&lt;"IosPad is playing movie..."&lt;&lt;endl; }  
+};  
 </code></pre>
 
-<p>这与苹果的autorelease 实现中的说明（参考1.2.7 节）完全相同。虽然ARC 有效和无效时，其在源代码上的表现有所不同，但autorelease 的功能完全一样。</p>
+<p>然后具体的工厂我们整个工厂是生产移动设备的所以我们取名为MobileFactory,然后工厂可以生产平板和手机，故有了createPhone 和createPad两个接口。
+<code>java
+class MobileFactory  
+{  
+public:  
+    virtual ~MobileFactory(){};  
+    virtual Phone* createPhone() = 0;  
+    virtual Pad* createPad() = 0;  
+};
+</code>
+接着是 android 产品簇 的工厂类，负责生产android 的手机和平板：
+<code>java
+class AndroidFactory : public MobileFactory  
+{  
+public:  
+    Phone* createPhone()  
+    {  
+        return new AndroidPhone();  
+    }  
+    Pad* createPad()  
+    {  
+        return new AndroidPad();  
+    }  
+};
+</code></p>
 
-<p>在alloc/new/copy/mutableCopy 方法群之外的方法中使用注册到autoreleasepool 中的对象会如何呢？下面我们来看看NSMutableArray 类的array 类方法。</p>
+<p>接着是ios的产品簇的工厂类，负责生产ios的手机和平板：
+```java
+class IosFactory : public MobileFactory<br/>
+{<br/>
+public:<br/>
+    Phone* createPhone()<br/>
+    {<br/>
+        return new IosPhone();<br/>
+    }</p>
 
-<pre><code class="objective-c">@autoreleasepool {
-id __autoreleasing obj = [NSMutableArray array];
-}
+<pre><code>Pad* createPad()  
+{  
+    return new IosPad();  
+}  
 </code></pre>
 
-<p>这与前面的源代码有何不同呢？</p>
+<p>};
+```</p>
 
-<pre><code class="objective-c">/* 编译器的模拟代码 */
-id pool = objc_autoreleasePoolPush();
-id obj = objc_msgSend(NSMutableArray, @selector(array));
-objc_retainAutoreleasedReturnValue(obj);
-objc_autorelease(obj);
-objc_autoreleasePoolPop(pool);
+<p>最后客户端这样实现：
+```java
+void main()<br/>
+{<br/>
+    MobileFactory<em>  androidCreator = new AndroidFactory();<br/>
+    MobileFactory</em>  iosCreator = new IosFactory();<br/>
+    Phone<em>  myAndroidPhone = androidCreator->createPhone();<br/>
+    Pad</em> myAndroidPad = androidCreator->createPad();<br/>
+    Phone<em> myIosPhone = iosCreator->createPhone();<br/>
+    Pad</em> myIosPad = iosCreator->createPad();</p>
+
+<pre><code>myAndroidPhone-&gt;call("123");  
+myAndroidPad-&gt;playMovie();  
+
+myIosPhone-&gt;call("123");  
+myIosPad-&gt;playMovie();  
+//这里没有做释放和判断，请自己判断和释放  
 </code></pre>
 
-<p>虽然持有对象的方法从alloc 方法变为objc_retainAutoreleasedReturnValue 函数， 但注册autoreleasepool 的方法没有改变，仍是objc_autorelease 函数。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[__attribute__]]></title>
-    <link href="http://wangruofeng.github.io/blog/2016/01/13/attribute/"/>
-    <updated>2016-01-13T04:10:33+08:00</updated>
-    <id>http://wangruofeng.github.io/blog/2016/01/13/attribute</id>
-    <content type="html"><![CDATA[<ul>
-<li>译自 Written by <a href="http://nshipster.com/authors/mattt-thompson/">Mattt Thompson</a> — January 14th, 2013</li>
-<li>原文链接：<a href="http://nshipster.com/__attribute__/">http://nshipster.com/__attribute__/</a></li>
-<li>译者<a href="https://twitter.com/oneruofeng">@oneruofeng</a></li>
-</ul>
+<p>}
+```</p>
 
+<p>总结：
+抽象工厂模式适用于那些有多种产品的产品簇，并且每次使用其中的某一产品簇的产品。
+缺点 ： 抽象工厂模式的添加新功能也非常麻烦，比工厂方法模式都还要复杂的多。
+优点： 当一个产品族中的多个对象被设计成一起工作时，它能够保证客户端始终只使用同一个产品族中的对象</p>
 
-<p>重复发布这个主题已经说明了同编译器保存健康关系的重要性,像任何草稿一样，作为一个实践者的效率取决于他们怎样对待他们的工具，你照顾好它们，它们反过来也会对你有好处。</p>
+<h2>主要用途：</h2>
 
-<p> <code>__attribute__</code>是一个编译器的指令在声明的时候指明了一些参数，这些参数允许更多的检查错误和高级的优化。</p>
+<p>工厂方法要解决的问题是对象的创建时机，它提供了一种扩展的策略，很好地符合了开放封闭原则。工厂方法也叫做虚构造器（Virtual Constructor）。</p>
 
-<p> 语法关键字是<code>__attribute__</code>紧跟2套圆括号（双圆括号让出现的宏更容易辨认，特别是在有多个属性的时候）。在括号内部是一个以逗号分隔的属性列表，<code>__attribute__</code>指令被放在函数，变量和类型声明后面。</p>
+<p><img src="http://cdn.cocimg.com/cms/uploads/allimg/130516/4196_130516112054_1.png" alt="工厂方法的类结构图" /></p>
 
-<pre><code class="objective-c"> // Return the square of a number
-int square(int n) __attribute__((const));
+<h2>什么时候使用工厂方法</h2>
 
-// Declare the availability of a particular API
-void f(void)
-  __attribute__((availability(macosx,introduced=10.4,deprecated=10.6)));
+<p>当是如下情况是，可以使用工厂方法：一个类不知道它所必须创建的对象的类时，一个类希望有它的子类决定所创建的对象时。</p>
 
-// Send printf-like message to stderr and exit
-extern void die(const char *format, ...)
-  __attribute__((noreturn, format(printf, 1, 2)));
-</code></pre>
+<p>更多关于工厂方法的介绍，可以参考本文最后给出的参考内容。下面我们就来看看在iOS中工厂方法的一种实现方法。</p>
 
-<p>假如这个让你想起ISO C语言的 <code>#pragma</code>,你就不会感到孤单了。</p>
+<h2>iOS中工厂方法的实现实例</h2>
 
-<p>实际上，当<code>__attribute__</code>被第一次引入到<code>GCC</code>编译器时，它面临一些阻力，有人建议使用专用的<code>#pragma</code>因为相同的目的。</p>
+<p>如下有一个类图，该图描述了下面即将实现的工厂方法（利用工厂方法，创建出不同的形状）。其中BVShapeFactory为工厂方法的基类，BVShape为形状的基类，BVClient通过BVShapeFactory，利用 BVShapeFactory的子类（BVCircleShapeFactory和BVSquareShapeFactory）分别创建出BVCircleShape和BVSquareShape。
+<img src="http://cdn.cocimg.com/cms/uploads/allimg/130516/4196_130516112123_1.png" alt="工厂方法" /></p>
 
-<p>这里，然而，有2个非常好的理由为什么<code>__attribute__</code>被添加进来</p>
+<p>github下载地址:<a href="https://github.com/BeyondVincent/ios_patterns/tree/master/FactoryMethodPattern">https://github.com/BeyondVincent/ios_patterns/tree/master/FactoryMethodPattern</a></p>
 
-<blockquote><ul>
-<li>从一个宏中产生<code>#pragma</code>命令几乎是不能的（在C99 _Pragma 预算符以前）。</li>
-<li>这里没人知道相同的<code>#pragma</code>在另一个编译器中可能的意思。</li>
-</ul>
-</blockquote>
-
-<p> 引用<a href="http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html">GCC Documentation for Function Attributes</a></p>
-
-<blockquote><ul>
-<li>这里有2个原因被应用到几乎所有的应用推荐使用<code>#pragma</code>,这犯了一个低级错误就是把<code>#pragma</code>使用到任何地方。</li>
-</ul>
-</blockquote>
-
-<p> 确实，假如你在苹果的框架中和牛逼工程师的开源项目中的头文件看一下现代的<code>Objective-c</code>&ndash;<code>__attribute__</code>被大量使用。（相反，<code>#pragma</code>的主要声明名声来着这些天是装饰:<code>#pragma mark</code>）</p>
-
-<p> 所以为了以后不费力，我们还是先看一下最重要的属性：</p>
-
-<hr />
-
-<h2>GCC</h2>
-
-<p><strong>format</strong></p>
-
-<blockquote><p><code>format</code>属性指定了一个函数像<code>printf</code>,<code>scanf</code>,<code>strftime</code>或者<code>strfmo</code>风格的参数，这个参数应该是可以进行类型检查的一个格式化字符串。</p></blockquote>
-
-<pre><code class="objective-c">extern int
-my_printf (void *my_object, const char *my_format, ...)
-  __attribute__((format(printf, 2, 3)));
-</code></pre>
-
-<p>Objective-C程序员也可使用<code>__NSString__</code>来格式化来做到相同的格式化规则，像在<code>NNString</code>中通过 <code>+stringWithFormat:</code> 和 <code>NSLog()</code>格式化字符串一样。</p>
-
-<p><strong>nonnull</strong></p>
-
-<blockquote><p>这个<code>nonnull</code>属性指定了某些函数的参数必须是非空的指针。</p></blockquote>
-
-<pre><code class="objective-c">extern void *
-my_memcpy (void *dest, const void *src, size_t len)
-  __attribute__((nonnull (1, 2)));
-</code></pre>
-
-<p>使用<code>nonnull</code>编码期望这个值遵守一个明确的约定中，这样能帮助捕获潜伏在任何代码调用的NULL指针bugs，请记住：
-<code>编译时的错误 &gt;&gt;  运行时的错误。</code></p>
-
-<p><strong>noreturn</strong></p>
-
-<blockquote><p>一些标准库函数，例如<code>abort</code>和<code>exit</code>,是不能返回的。GCC自动知道这些东西，这个noreturn属性用于指定任何其他函数永远不会返回的情况。</p></blockquote>
-
-<p>例如，AFNetworking 使用<code>noreturn</code>属性在它的<a href="https://github.com/AFNetworking/AFNetworking/blob/1.1.0/AFNetworking/AFURLConnectionOperation.m#L157">网络请求线程进入点的方法</a>里面,这个方法用在当大量产生专用的网络的线程里用来保证分离的线程持续执行在应用的整个生命周期中。</p>
-
-<p><strong>pure/const</strong></p>
-
-<blockquote><p><code>pure</code>属性指定了一个函数除了返回值没有副作用，例如它的返回值仅仅依赖参数和/或者全局变量。这样的函数可以用公共子表达式消除并且循环优化就像一个算数操作符那样。</p>
-
-<p><code>pure</code>属性指定了一个函数不会检查任何值除了它们的参数，并且返回值没有副作用。注意到一个函数有一个指针参数并且需呀检查数据的指向不能声明成<code>const</code>。同样的，一个函数调用一个非<code>nonst</code>函数通常不能为<code>const</code>,一个<code>const</code>函数返回<code>void</code>并没有什么意义。</p></blockquote>
-
-<pre><code class="objective-c">int square(int n) __attribute__((const));
-</code></pre>
-
-<p><code>pure</code>和<code>const</code>是两个执行在一个函数式编程惯例中的参数为了允许有效性能优化。<code>const</code>可以被认为是严格形式的<code>pure</code>因为它不依赖全局变量或者指针。</p>
-
-<p>例如，因为一个函数声明为<code>const</code>的结果并不依赖任何东西除了传进来的参数。函数的结果能够缓存那个结果并且当函数被调用时返回，这样的函数叫做相同的组合参数（也就是说，我们知道一个数字的平方是一个常量，所以我们仅仅需要只计算它一次)。</p>
-
-<p><strong>unused</strong></p>
-
-<blockquote><p>这个属性，附着在一个函数后面，意味着那个函数很可能不会被使用，GCC不会对这个函数产生警告。</p></blockquote>
-
-<p>用<code>__unused</code>关键词可以获得相同的效果，声明这个在方法实现中不会被使用的参数中。知道那以后一些上下文就可以允许编译器来做相应的优化。你很可能喜欢在delegate方法实现李勉使用<code>__unused</code>,因为协议频繁的提高更多的上下文比通常必要的情况，为了满足大量的潜在使用案例。</p>
-
-<h3>LLVM</h3>
-
-<p>像GCC的很多特征一样，Clang也支持<code>__attribute__</code>,添加到它自己的小范围的扩展。为了检查某个属性的可用性，你可以直接使用<code>__has_attribute</code>属性。</p>
-
-<p><strong>availability</strong></p>
-
-<blockquote><p>Clang引进了availability属性，这个可以被取代在声明描述的生命周期中声明相对于操作系统的版本。思考对一个简单函数f：的函数声明</p></blockquote>
-
-<pre><code class="objective-c">void f(void) __attribute__((availability(macosx,introduced=10.4,deprecated=10.6,obsoleted=10.7)));
-</code></pre>
-
-<blockquote><p><code>availability</code>属性声明f在OS X老虎系统中被引入，在OS X雪豹系统中被弃用，在OS X 山狮系统中被废弃。</p>
-
-<p>这个信息被Clang用来决定什么时候使用f：函数式安全的，例如，假如Clang在OS X 美洲豹系统上编译，调用f()函数将成功。假如Clang在OS X雪豹系统中编译，函数调用将成功但是Clang会发出一个警告指明这个函数被弃用了。最后，假如Clang被引进编译OS X山狮系统的代码，函数调用将失败，因为f()函数已经不再可用了。</p>
-
-<p><code>availability</code>属性是一个逗号分隔的列表以平台名开始然后引入一些定语列举出生命周期内的重要里程碑事件附加额外的信息（以任何顺序）。</p></blockquote>
-
-<ul>
-<li>introduced：声明被引入的第一个版本</li>
-<li>deprecated：声明被弃用的第一个版本，这意味着用户应该把这个API移走</li>
-<li>obsoleted： 声明被废弃的第一个版本，这意味着它将被完全移除并且不能再使用</li>
-<li>unavailable：声明在这个平台上将永远不可用</li>
-<li>message：额外的消息将被Clang提供当忽略一个警告或者一个错误在使用一个被弃用或者被废弃的声明。对引导用户替换APIs很有用。</li>
-</ul>
-
-
-<blockquote><p>在声明时可以使用多个availability属性，每个对应不同的平台，仅当availability属性对应相应的目标平台被使用的时候，任何其他才将被忽略。假如没有availability 属性指定可用性对现在的目标平台，availability 属性将被忽略。</p></blockquote>
-
-<h4>支持的平台：</h4>
-
-<ul>
-<li>ios：苹果的iOS操作系统。最小的部署目标被指定通过<code>-mios-version-min=*version*</code>或者<code>-miphoneos-version-min=*version*</code>命令行参数。</li>
-<li>macosx：苹果的OS X 操作系统，最小的部署目标被指定通过<code>-mmacosx-version-min=*version*</code>命令行参数</li>
-</ul>
-
-
-<p><strong>overloadable</strong></p>
-
-<blockquote><p>Clang提供对C++函数在C中重载的支持。在C中函数重载被引进使用<code>overloadable</code>属性。例如，一个可能提供一个重载版本的<code>tgsin</code>函数来精确执行相关的标准函数计算<code>float</code>,<code>double</code>,<code>long double</code>的正弦值：</p></blockquote>
-
-<pre><code class="objective-c">#include &lt;math.h&gt;
-float __attribute__((overloadable)) tgsin(float x) { return sinf(x); }
-double __attribute__((overloadable)) tgsin(double x) { return sin(x); }
-long double __attribute__((overloadable)) tgsin(long double x) { return sinl(x); }
-</code></pre>
-
-<p>请注意<code>overloadable</code>只对函数起作用。你可以重载方法声明在某种范围内通过使用通用的返回值和参数类型，想<code>id</code>或者<code>void *</code>.</p>
-
-<hr />
-
-<p>上下文是国王当它遇到编译器优化时。通过提供限制在怎样解析你的代码，增加你参数尽可能高效代码的可能性。遇到编译器把你打断，这将是一项奖励。</p>
-
-<p>还有<code>__attribute__</code>并不仅仅对编译器有用：下一个人看代码也将感谢这些额外的上下文。所以多走几英尺远将对你的合作中和接替者或者从现在算2年以后的你(那个时候你已经忘记了所以的事情关于这份代码)自己有用</p>
-
-<p>你付出了多少爱,最终你会得到多少爱。</p>
+<p>参考资料
+* <a href="http://doc.okbase.net/luozhonglan/archive/103843.html">iOS设计模式——工厂方法（简单工厂模式，工厂方法模式， 抽象工厂模式）</a>
+* <a href="http://www.cocoachina.com/ios/20130516/6219.html">iOS设计模式(03):工厂方法</a>
+* <a href="http://www.cocoachina.com/ios/20141124/10296.html">Objective-C类族和工厂模式</a>
+* <a href="http://crosbymichael.com/objective-c-design-patterns-factory.html">Objective C Design Patterns - Factory</a>
+* <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/ClassFactoryMethods/ClassFactoryMethods.html">Class Factory Methods</a>&ndash;Apple
+* <a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a>&ndash;raywenderlich
+* <a href="http://www.knowstack.com/abstract-factory-design-pattern-objective-c/">Abstract Factory Design Pattern Objective C</a>
+* <a href="https://www.binpress.com/tutorial/the-factory-design-pattern-explained-by-example/142">The factory design pattern explained by example</a>-php
+* <a href="https://www.safaribooksonline.com/blog/2014/12/10/design-patterns-series-day-3-factory-singleton-patterns/">Design Patterns Series, Day 3: Factory and Singleton Patterns</a>&ndash;safaribooksonline
+* <a href="http://www.bobmccune.com/2011/04/08/automagic-factories-in-objective-c/">Automagic Factories in Objective-C</a>&ndash;bobmccune</p>
 ]]></content>
   </entry>
   
