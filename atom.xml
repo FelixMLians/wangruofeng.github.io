@@ -4,7 +4,7 @@
   <title><![CDATA[王若风的小窝]]></title>
   <link href="http://wangruofeng.github.io/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T05:40:07+08:00</updated>
+  <updated>2016-01-13T05:43:42+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
@@ -578,17 +578,21 @@
 
 <p>github下载地址:<a href="https://github.com/BeyondVincent/ios_patterns/tree/master/FactoryMethodPattern">https://github.com/BeyondVincent/ios_patterns/tree/master/FactoryMethodPattern</a></p>
 
-<p>参考资料
-* <a href="http://doc.okbase.net/luozhonglan/archive/103843.html">iOS设计模式——工厂方法（简单工厂模式，工厂方法模式， 抽象工厂模式）</a>
-* <a href="http://www.cocoachina.com/ios/20130516/6219.html">iOS设计模式(03):工厂方法</a>
-* <a href="http://www.cocoachina.com/ios/20141124/10296.html">Objective-C类族和工厂模式</a>
-* <a href="http://crosbymichael.com/objective-c-design-patterns-factory.html">Objective C Design Patterns - Factory</a>
-* <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/ClassFactoryMethods/ClassFactoryMethods.html">Class Factory Methods</a>&ndash;Apple
-* <a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a>&ndash;raywenderlich
-* <a href="http://www.knowstack.com/abstract-factory-design-pattern-objective-c/">Abstract Factory Design Pattern Objective C</a>
-* <a href="https://www.binpress.com/tutorial/the-factory-design-pattern-explained-by-example/142">The factory design pattern explained by example</a>-php
-* <a href="https://www.safaribooksonline.com/blog/2014/12/10/design-patterns-series-day-3-factory-singleton-patterns/">Design Patterns Series, Day 3: Factory and Singleton Patterns</a>&ndash;safaribooksonline
-* <a href="http://www.bobmccune.com/2011/04/08/automagic-factories-in-objective-c/">Automagic Factories in Objective-C</a>&ndash;bobmccune</p>
+<p>参考资料</p>
+
+<ul>
+<li><a href="http://doc.okbase.net/luozhonglan/archive/103843.html">iOS设计模式——工厂方法（简单工厂模式，工厂方法模式， 抽象工厂模式）</a></li>
+<li><a href="http://www.cocoachina.com/ios/20130516/6219.html">iOS设计模式(03):工厂方法</a></li>
+<li><a href="http://www.cocoachina.com/ios/20141124/10296.html">Objective-C类族和工厂模式</a></li>
+<li><a href="http://crosbymichael.com/objective-c-design-patterns-factory.html">Objective C Design Patterns - Factory</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/ClassFactoryMethods/ClassFactoryMethods.html">Class Factory Methods</a>&ndash;Apple</li>
+<li><a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a>&ndash;raywenderlich</li>
+<li><a href="http://www.knowstack.com/abstract-factory-design-pattern-objective-c/">Abstract Factory Design Pattern Objective C</a></li>
+<li><a href="https://www.binpress.com/tutorial/the-factory-design-pattern-explained-by-example/142">The factory design pattern explained by example</a>-php</li>
+<li><a href="https://www.safaribooksonline.com/blog/2014/12/10/design-patterns-series-day-3-factory-singleton-patterns/">Design Patterns Series, Day 3: Factory and Singleton Patterns</a>&ndash;safaribooksonline</li>
+<li><a href="http://www.bobmccune.com/2011/04/08/automagic-factories-in-objective-c/">Automagic Factories in Objective-C</a>&ndash;bobmccune</li>
+</ul>
+
 ]]></content>
   </entry>
   
