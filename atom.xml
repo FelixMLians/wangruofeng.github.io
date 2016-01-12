@@ -4,7 +4,7 @@
   <title><![CDATA[王若风的小窝]]></title>
   <link href="http://wangruofeng.github.io/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T05:46:32+08:00</updated>
+  <updated>2016-01-13T05:49:37+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GET&amp;POST]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/13/get-and-post/"/>
+    <updated>2016-01-13T05:48:10+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/13/get-and-post</id>
+    <content type="html"><![CDATA[<blockquote><p>GET和POST是两种最常用的与服务器进行交互的HTTP方法 .</p></blockquote>
+
+<h3>GET</h3>
+
+<ul>
+<li>GET的语义是获取指定的URL资源, 将数据按照 variable = value 的形式, 添加到action所指向的URL后面, 并且两者使用 &lsquo; ? '连接, 各变量之间使用 &rsquo; &amp; &lsquo;连接 .</li>
+<li>对用户来说不安全, 因为在传输过程中, 数据被放在请求的URL中.</li>
+<li>传输的数据量小, 这主要是因为受URL长度限制.</li>
+</ul>
+
+
+<h3>URL长度限制</h3>
+
+<p> 在http协议中，其实并没有对url长度作出限制，往往url的最大长度和用户浏览器和Web服务器有关，不一样的浏览器，能接受的最大长度往往是不一样的，当然，不一样的Web服务器能够处理的最大长度的URL的能力也是不一样的。</p>
+
+<pre><code>IE浏览器对URL的最大限制为2083个字符，如果超过这个数字，提交按钮没有任何反应。
+
+Firefox浏览器URL的长度限制为65,536个字符 ;
+
+Apache(Server)能够接受的最大URL长度为8192个字符 ;
+
+如果浏览器的编码为UTF8的话，一个汉字最终编码后的字符长度为9个字符。
+</code></pre>
+
+<p>GET请求示例</p>
+
+<p><img src="http://static.oschina.net/uploads/space/2014/0602/164040_3SOT_1774273.png" alt="GetRequest" /></p>
+
+<h3>POST</h3>
+
+<ul>
+<li>POST语义是向指定URL的资源添加数据.</li>
+<li>将数据放在数据体中, 按照变量和值相对应的方式, 传递到action所指向的URL.</li>
+<li>所有数据对用户来说不可见.</li>
+<li>可以传输大量数据, 上传文件只能使用POST.</li>
+</ul>
+
+
+<p>POST请求示例</p>
+
+<p><img src="http://static.oschina.net/uploads/space/2014/0602/164119_VRKY_1774273.png" alt="PostRequest" /></p>
+
+<h3>在浏览器中判断GET&amp;POST请求</h3>
+
+<p>因为POST请求会向服务器发送数据体, 因此刷新页面时会出现提示窗口. 而GET请求不会向服务器发送数据体, 因此没有提示 .</p>
+
+<p>从请求本质来看, GET请求要比POST更安全, 效率也会更高 .(对服务器而言)</p>
+
+<h3>iOS网络发送网络请求的步骤</h3>
+
+<ol>
+<li><p>实例化URL( 网络资源 ) ;</p></li>
+<li><p>根据URL建立URLRequest ( 网络请求 ) ;</p>
+
+<p> 默认为GET请求; 对于POST请求,  需要创建请求的数据体 .</p></li>
+<li><p>利用 URLConnection 发送网络请求(发送请求并获得结果) ;</p></li>
+</ol>
+
+
+<p>NSURLConnection提供了两个静态方法可以直接以同步或异步的方式向服务器发送网络请求.</p>
+
+<pre><code>同步请求:
+
+sendSynchronousRequest : returningResponse : error :
+
+异步请求:
+
+sendAsynchronousRequest : queue : completionHandler :
+</code></pre>
+
+<p>在网络请求过程中, 接收数据的过程实际上是通过 NSURLConnectionDataDelegate来实现的, 常用代理方法包括:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 服务器开始返回数据</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:didReceiveResponse:</span>
+</span><span class='line'><span class="c1">// 收到服务器返回的数据，本方法会被调用多次</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:didReceiveData:</span>
+</span><span class='line'><span class="c1">// 数据接收完毕，做数据的最后处理</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connectionDidFinishLoading:</span>
+</span><span class='line'><span class="c1">// 网络连接错误</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:didFailWithError:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Http Post and Multipart Forms]]></title>
