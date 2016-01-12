@@ -1,36 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/</loc>
-    <lastmod>2016-01-13T04:51:14+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms/</loc>
-    <lastmod>2016-01-13T04:50:22+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/get-and-post/</loc>
-    <lastmod>2016-01-13T04:48:27+08:00</lastmod>
+    <loc>http://wangruofeng.github.io/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/</loc>
+    <lastmod>2016-01-13T05:05:09+08:00</lastmod>
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/iosli-cheng-bei-shi-jian/</loc>
     <lastmod>2016-01-13T04:46:48+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/gong-han-mo-shi-xiang-jie/</loc>
-    <lastmod>2016-01-13T04:45:13+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/runloopxiang-jie/</loc>
-    <lastmod>2016-01-13T04:44:06+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/nsoperation-and-nsoperationqueue-tutorial-in-swift/</loc>
-    <lastmod>2016-01-13T04:42:47+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/ios7-tintcolorxiang-jie/</loc>
-    <lastmod>2016-01-13T04:41:39+08:00</lastmod>
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/</loc>
@@ -45,10 +21,6 @@
     <lastmod>2016-01-13T04:35:42+08:00</lastmod>
   </url>
   <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/</loc>
-    <lastmod>2016-01-13T04:34:00+08:00</lastmod>
-  </url>
-  <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/blogwang-zhan-bei-wang-lu/</loc>
     <lastmod>2016-01-13T04:29:59+08:00</lastmod>
   </url>
@@ -61,10 +33,6 @@
     <lastmod>2016-01-13T04:10:33+08:00</lastmod>
   </url>
   <url>
-    <loc>http://wangruofeng.github.io/blog/2016/01/13/duo-xian-cheng-zhi-nsthread/</loc>
-    <lastmod>2016-01-13T03:35:48+08:00</lastmod>
-  </url>
-  <url>
     <loc>http://wangruofeng.github.io/blog/archives/</loc>
   </url>
   <url>
@@ -72,9 +40,6 @@
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/categories/ios/</loc>
-  </url>
-  <url>
-    <loc>http://wangruofeng.github.io/blog/categories/wang-luo/</loc>
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/categories/xiao-lu/</loc>
@@ -92,7 +57,7 @@
     <loc>http://wangruofeng.github.io/blog/categories/oc/</loc>
   </url>
   <url>
-    <loc>http://wangruofeng.github.io/blog/categories/swift/</loc>
+    <loc>http://wangruofeng.github.io/blog/categories/wang-luo/</loc>
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/categories/zi-liao-shou-cang/</loc>
