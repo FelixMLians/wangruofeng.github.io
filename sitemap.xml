@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://wangruofeng.github.io/blog/2016/01/13/dong-hua-hui-zhi-cashapelayerde-lu-jing-cgpath/</loc>
+    <lastmod>2016-01-13T04:35:42+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/13/ioszhong-de-hong-mo-shi-jian-he-shou-shi-chu-li/</loc>
     <lastmod>2016-01-13T04:34:00+08:00</lastmod>
   </url>
@@ -34,5 +38,8 @@
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/categories/xiao-lu/</loc>
+  </url>
+  <url>
+    <loc>http://wangruofeng.github.io/blog/categories/dong-hua/</loc>
   </url>
 </urlset>
