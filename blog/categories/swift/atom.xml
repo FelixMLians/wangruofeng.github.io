@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Swift | 王若风的小窝]]></title>
+  <title><![CDATA[Category: Swift | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T17:25:39+08:00</updated>
+  <updated>2016-01-13T17:38:29+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[Ace]]></name>
