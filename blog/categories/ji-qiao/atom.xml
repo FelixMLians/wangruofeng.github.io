@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技巧 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ji-qiao/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T23:29:43+08:00</updated>
+  <updated>2016-01-13T23:31:10+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -798,16 +798,20 @@ rake deploy
 
 <p>现在我们完成了个人博客的初级搭建，足够满足我们的基本需求。</p>
 
-<p>参考资料：
-* 唐巧的博客: [象写程序一样写博客：搭建基于github的博客]（<a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/%EF%BC%89">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/%EF%BC%89</a>
-* 觅珠人: <a href="http://tchen.me/posts/2012-12-16-first-blog.html">第一篇博文：用Octopress搭建博客系统</a>
-* 破船之家: <a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">你好！github页面</a>
-* opoo.org: <a href="http://opoo.org/octopress/">Octopress 博客系统 —— a Blogging Framework for Hackers</a>
-* Ocotpress: <a href="http://octopress.org/docs/">Octopress Documentation</a>
-* Havee’s Space: <a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a>
-* colors4.us: <a href="http://colors4.us/blog/2012/01/08/octopressbo-ke-cong-ling-kai-shi-iii/">Octopress博客从零开始 III</a>
-* 浮生猎趣:<a href="http://blog.lessfun.com/blog/2013/11/27/create-blog-in-github-page-using-octopress-and-binding-domain/">用Octopress在Github搭建博客，并绑定独立域名</a>
-* Aster0id的个人博客:<a href="http://niumeng.me/blog/2015/08/26/create-your-website-1-init/">制作个人博客站（一）：Mac系统下使用 Octopress + GitHub Pages 搭建个人博客</a></p>
+<p>参考资料：</p>
+
+<ul>
+<li>唐巧的博客: [象写程序一样写博客：搭建基于github的博客]（<a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/%EF%BC%89">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/%EF%BC%89</a></li>
+<li>觅珠人: <a href="http://tchen.me/posts/2012-12-16-first-blog.html">第一篇博文：用Octopress搭建博客系统</a></li>
+<li>破船之家: <a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">你好！github页面</a></li>
+<li>opoo.org: <a href="http://opoo.org/octopress/">Octopress 博客系统 —— a Blogging Framework for Hackers</a></li>
+<li>Ocotpress: <a href="http://octopress.org/docs/">Octopress Documentation</a></li>
+<li>Havee’s Space: <a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></li>
+<li>colors4.us: <a href="http://colors4.us/blog/2012/01/08/octopressbo-ke-cong-ling-kai-shi-iii/">Octopress博客从零开始 III</a></li>
+<li>浮生猎趣:<a href="http://blog.lessfun.com/blog/2013/11/27/create-blog-in-github-page-using-octopress-and-binding-domain/">用Octopress在Github搭建博客，并绑定独立域名</a></li>
+<li>Aster0id的个人博客:<a href="http://niumeng.me/blog/2015/08/26/create-your-website-1-init/">制作个人博客站（一）：Mac系统下使用 Octopress + GitHub Pages 搭建个人博客</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
