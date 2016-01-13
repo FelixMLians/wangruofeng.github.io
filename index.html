@@ -9,7 +9,10 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="SQLite Insert 语句 SQLite 的 INSERT INTO 语句用于向数据库的某个表中添加新的数据行。 语法 INSERT INTO 语句有两种基本语法，如下所示： INSERT INTO TABLE_NAME (column1, column2, column3,... &hellip;">
+  <meta name="description" content="SQLite 教程（四） SQLite 运算符 SQLite 运算符是什么？ 运算符是一个保留字或字符，主要用于 SQLite 语句的 WHERE 子句中执行操作，如比较和算术运算。 运算符用于指定 SQLite 语句中的条件，并在语句中连接多个条件。 算术运算符
+比较运算符
+逻辑运算符
+位运算符 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +80,559 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/13/sqlite-jiao-cheng-si/">Sqlite_教程(四)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T23:23:52+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:23 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>SQLite 教程（四）</h1>
+
+<h4>SQLite 运算符</h4>
+
+<p><strong>SQLite 运算符是什么？</strong></p>
+
+<p>运算符是一个保留字或字符，主要用于 SQLite 语句的 WHERE 子句中执行操作，如比较和算术运算。</p>
+
+<p>运算符用于指定 SQLite 语句中的条件，并在语句中连接多个条件。</p>
+
+<ul>
+<li>算术运算符</li>
+<li>比较运算符</li>
+<li>逻辑运算符</li>
+<li>位运算符</li>
+</ul>
+
+
+<hr />
+
+<h4>SQLite 算术运算符</h4>
+
+<p>假设变量 a=10，变量 b=20，则：</p>
+
+<table>
+<thead>
+<tr>
+<th>运算符  </th>
+<th>描述                      </th>
+<th>实例      </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+      </td>
+<td>加法 - 把运算符两边的值相加</td>
+<td>a + b 将得到 30</td>
+</tr>
+<tr>
+<td>-      </td>
+<td>减法 - 左操作数减去右操作数</td>
+<td>a - b 将得到 -10</td>
+</tr>
+<tr>
+<td>*      </td>
+<td>乘法 - 把运算符两边的值相乘</td>
+<td>a * b 将得到 200</td>
+</tr>
+<tr>
+<td>/      </td>
+<td>除法 - 左操作数除以右操作数</td>
+<td>b / a 将得到 2</td>
+</tr>
+<tr>
+<td>%      </td>
+<td>取模 - 左操作数除以右操作数后得到的余数</td>
+<td>b % a will give 0</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><strong>实例</strong></p>
+
+<p>下面是 SQLite 算术运算符的简单实例：</p>
+
+<pre><code>sqlite&gt; .mode line
+sqlite&gt; select 10 + 20;
+10 + 20 = 30
+
+
+sqlite&gt; select 10 - 20;
+10 - 20 = -10
+
+
+sqlite&gt; select 10 * 20;
+10 * 20 = 200
+
+
+sqlite&gt; select 10 / 5;
+10 / 5 = 2
+
+
+sqlite&gt; select 12 %  5;
+12 %  5 = 2
+</code></pre>
+
+<h4>SQLite 比较运算符</h4>
+
+<p>假设变量 a=10，变量 b=20，则：</p>
+
+<table>
+<thead>
+<tr>
+<th>运算符  </th>
+<th>描述                                       </th>
+<th>实例     </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>==     </td>
+<td>检查两个操作数的值是否相等，如果相等则条件为真。</td>
+<td>(a == b) 不为真。</td>
+</tr>
+<tr>
+<td>=      </td>
+<td>检查两个操作数的值是否相等，如果相等则条件为真。</td>
+<td>(a = b) 不为真。</td>
+</tr>
+<tr>
+<td>!=     </td>
+<td>检查两个操作数的值是否相等，如果不相等则条件为真。</td>
+<td>(a != b) 为真。</td>
+</tr>
+<tr>
+<td>&lt;>     </td>
+<td>检查两个操作数的值是否相等，如果不相等则条件为真。</td>
+<td>(a &lt;> b) 为真。</td>
+</tr>
+<tr>
+<td>>      </td>
+<td>检查左操作数的值是否大于右操作数的值，如果是则条件为真。</td>
+<td>(a > b) 不为真。</td>
+</tr>
+<tr>
+<td>&lt;      </td>
+<td>检查左操作数的值是否小于右操作数的值，如果是则条件为真。</td>
+<td>(a &lt; b) 为真。</td>
+</tr>
+<tr>
+<td>>=     </td>
+<td>检查左操作数的值是否大于等于右操作数的值，如果是则条件为真。</td>
+<td>(a >= b) 不为真。</td>
+</tr>
+<tr>
+<td>&lt;=     </td>
+<td>检查左操作数的值是否小于等于右操作数的值，如果是则条件为真。</td>
+<td>(a &lt;= b) 为真。</td>
+</tr>
+<tr>
+<td>!&lt;     </td>
+<td>检查左操作数的值是否不小于右操作数的值，如果是则条件为真。</td>
+<td>(a !&lt; b) 为假</td>
+</tr>
+<tr>
+<td>!>     </td>
+<td>检查左操作数的值是否不大于右操作数的值，如果是则条件为真。</td>
+<td>(a !> b) 为真</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><strong>实例</strong>
+假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面的实例演示了各种 SQLite 比较运算符的用法。</p>
+
+<blockquote><p>在这里，我们使用 WHERE 子句，这将会在后边单独的一个章节中讲解，但现在您需要明白，WHERE 子句是用来设置 SELECT 语句的条件语句。</p></blockquote>
+
+<p>下面的 SELECT 语句列出了 SALARY 大于 50,000.00 的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE SALARY &gt; 50000;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 SALARY 等于 20,000.00 的所有记录：</p>
+
+<pre><code>sqlite&gt;  SELECT * FROM COMPANY WHERE SALARY = 20000;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+3           Teddy       23          Norway      20000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 SALARY 不等于 20,000.00 的所有记录：</p>
+
+<pre><code>sqlite&gt;  SELECT * FROM COMPANY WHERE SALARY != 20000;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 SALARY 不等于 20,000.00 的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE SALARY &lt;&gt; 20000;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 SALARY 大于等于 65,000.00 的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE SALARY &gt;= 65000;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<h4>SQLite 逻辑运算符</h4>
+
+<p>下面是 SQLite 中所有的逻辑运算符列表。</p>
+
+<table>
+<thead>
+<tr>
+<th>运算符    </th>
+<th>描述                              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AND      </td>
+<td>AND 运算符允许在一个 SQL 语句的 WHERE 子句中的多个条件的存在。</td>
+</tr>
+<tr>
+<td>BETWEEN  </td>
+<td>BETWEEN 运算符用于在给定最小值和最大值范围内的一系列值中搜索值。</td>
+</tr>
+<tr>
+<td>EXISTS   </td>
+<td>EXISTS 运算符用于在满足一定条件的指定表中搜索行的存在。</td>
+</tr>
+<tr>
+<td>IN       </td>
+<td>IN 运算符用于把某个值与一系列指定列表的值进行比较。</td>
+</tr>
+<tr>
+<td>NOT IN   </td>
+<td>IN 运算符的对立面，用于把某个值与不在一系列指定列表的值进行比较。</td>
+</tr>
+<tr>
+<td>LIKE     </td>
+<td>LIKE 运算符用于把某个值与使用通配符运算符的相似值进行比较。</td>
+</tr>
+<tr>
+<td>GLOB     </td>
+<td>GLOB 运算符用于把某个值与使用通配符运算符的相似值进行比较。GLOB 与 LIKE 不同之处在于，它是大小写敏感的。</td>
+</tr>
+<tr>
+<td>NOT      </td>
+<td>NOT 运算符是所用的逻辑运算符的对立面。比如 NOT EXISTS、NOT BETWEEN、NOT IN，等等。它是否定运算符。</td>
+</tr>
+<tr>
+<td>OR       </td>
+<td>OR 运算符用于结合一个 SQL 语句的 WHERE 子句中的多个条件。</td>
+</tr>
+<tr>
+<td>IS NULL  </td>
+<td>NULL 运算符用于把某个值与 NULL 值进行比较。</td>
+</tr>
+<tr>
+<td>IS       </td>
+<td>IS 运算符与 = 相似。</td>
+</tr>
+<tr>
+<td>IS NOT   </td>
+<td>IS NOT 运算符与 != 相似。</td>
+</tr>
+<tr>
+<td>||     </td>
+<td>连接两个不同的字符串，得到一个新的字符串。</td>
+</tr>
+<tr>
+<td>UNIQUE   </td>
+<td>UNIQUE 运算符搜索指定表中的每一行，确保唯一性（无重复）。</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><strong>实例</strong>
+假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面的实例演示了 SQLite 逻辑运算符的用法。
+下面的 SELECT 语句列出了 AGE 大于等于 25 且工资大于等于 65000.00 的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE AGE &gt;= 25 AND SALARY &gt;= 65000;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 AGE 大于等于 25 或工资大于等于 65000.00 的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE AGE &gt;= 25 OR SALARY &gt;= 65000;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 AGE 不为 NULL 的所有记录，结果显示所有的记录，意味着没有一个记录的 AGE 等于 NULL：</p>
+
+<pre><code>sqlite&gt;  SELECT * FROM COMPANY WHERE AGE IS NOT NULL;
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 NAME 以 &lsquo;Ki&rsquo; 开始的所有记录，'Ki' 之后的字符不做限制：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE NAME LIKE 'Ki%';
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+6           Kim         22          South-Hall  45000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 NAME 以 &lsquo;Ki&rsquo; 开始的所有记录，'Ki' 之后的字符不做限制：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE NAME GLOB 'Ki*';
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+6           Kim         22          South-Hall  45000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 AGE 的值为 25 或 27 的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE AGE IN ( 25, 27 );
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<p>下面的 SELECT 语句列出了 AGE 的值既不是 25 也不是 27 的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE AGE NOT IN ( 25, 27 );
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+3           Teddy       23          Norway      20000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面的 SELECT 语句使用 SQL 子查询，子查询查找 SALARY > 65000 的带有 AGE 字段的所有记录，后边的 WHERE 子句与 EXISTS 运算符一起使用，列出了外查询中的 AGE 存在于子查询返回的结果中的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT AGE FROM COMPANY 
+        WHERE EXISTS (SELECT AGE FROM COMPANY WHERE SALARY &gt; 65000);
+AGE
+----------
+32
+25
+23
+25
+27
+22
+24
+</code></pre>
+
+<p>下面的 SELECT 语句使用 SQL 子查询，子查询查找 SALARY > 65000 的带有 AGE 字段的所有记录，后边的 WHERE 子句与 > 运算符一起使用，列出了外查询中的 AGE 大于子查询返回的结果中的年龄的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY 
+        WHERE AGE &gt; (SELECT AGE FROM COMPANY WHERE SALARY &gt; 65000);
+ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+</code></pre>
+
+<h4>SQLite 位运算符</h4>
+
+<p>位运算符作用于位，并逐位执行操作。真值表 &amp; 和 | 如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>p  </th>
+<th>q  </th>
+<th>p&amp;q</th>
+<th>p|q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0  </td>
+<td>0  </td>
+<td>0  </td>
+<td>0</td>
+</tr>
+<tr>
+<td>0  </td>
+<td>1  </td>
+<td>0  </td>
+<td>1</td>
+</tr>
+<tr>
+<td>1  </td>
+<td>1  </td>
+<td>1  </td>
+<td>1</td>
+</tr>
+<tr>
+<td>1  </td>
+<td>0  </td>
+<td>0  </td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>假设如果 A = 60，且 B = 13，现在以二进制格式，它们如下所示：</p>
+
+<p>A = 0011 1100</p>
+
+<p>B = 0000 1101</p>
+
+<hr />
+
+<p>A&amp;B = 0000 1100</p>
+
+<p>A|B = 0011 1101</p>
+
+<p>~A  = 1100 0011</p>
+
+<p>下表中列出了 SQLite 语言支持的位运算符。假设变量 A=60，变量 B=13，则：</p>
+
+<table>
+<thead>
+<tr>
+<th>运算符  </th>
+<th>描述                              </th>
+<th>实例     </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;      </td>
+<td>   如果同时存在于两个操作数中，二进制 AND 运算符复制一位到结果中。    </td>
+<td>(A &amp; B) 将得到 12，即为 0000 1100</td>
+</tr>
+<tr>
+<td>|     </td>
+<td>如果存在于任一操作数中，二进制 OR 运算符复制一位到结果中。  </td>
+<td>(A | B) 将得到 61，即为 0011 1101</td>
+</tr>
+<tr>
+<td>~      </td>
+<td>二进制补码运算符是一元运算符，具有"翻转"位效应。    </td>
+<td>(~A ) 将得到 -61，即为 1100 0011，2 的补码形式，带符号的二进制数。</td>
+</tr>
+<tr>
+<td>&lt;&lt;     </td>
+<td>二进制左移运算符。左操作数的值向左移动右操作数指定的位数。    </td>
+<td>A &lt;&lt; 2 将得到 240，即为 1111 0000</td>
+</tr>
+<tr>
+<td>>>     </td>
+<td>二进制右移运算符。左操作数的值向右移动右操作数指定的位数。    </td>
+<td>A >> 2 将得到 15，即为 0000 1111</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><strong>实例</strong></p>
+
+<p>下面的实例演示了 SQLite 位运算符的用法：</p>
+
+<pre><code>sqlite&gt; .mode line
+sqlite&gt; select 60 | 13;
+60 | 13 = 61
+
+sqlite&gt; select 60 &amp; 13;
+60 &amp; 13 = 12
+
+sqlite&gt; select  60 ^ 13;
+10 * 20 = 200
+
+
+sqlite&gt;  select  (~60);
+(~60) = -61
+
+sqlite&gt;  select  (60 &lt;&lt; 2);
+(60 &lt;&lt; 2) = 240
+
+sqlite&gt;  select  (60 &gt;&gt; 2);
+(60 &gt;&gt; 2) = 15
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3354,386 +3910,6 @@ sendAsynchronousRequest : queue : completionHandler :
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/13/duo-xian-cheng-zhi-nsoperation/">多线程之NSOperation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-13T05:14:59+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:14 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>本文目录</h3>
-
-<ul>
-<li>前言</li>
-<li>1.NSInvocationOperation</li>
-<li>2.NSBlokcOperation</li>
-<li>3.NSOperation的其他用法</li>
-<li>4.自定义NSOperation</li>
-</ul>
-
-
-<h2>前言</h2>
-
-<p>1.虽然<code>NSThread</code>也可以实现多线程编程，但是需要我们去管理线程的生命周期，还要考虑线程同步、加锁问题，造成一些性能上的开销。我们也可以配合使用<code>NSOperation</code>和<code>NSOperationQueue</code>实现多线程编程，实现步骤大致是这样的</p>
-
-<ul>
-<li>先将需要执行的操作封装到一个NSOperation对象中</li>
-<li>然后将NSOperation对象添加到NSOperationQueue中</li>
-<li>系统会自动将<code>NSOperation</code>中封装的操作放到一条新线程中执行在此过程中，我们根本不用考虑线程的生命周期、同步、加锁等问题下面列举一个应用场景，比如微博的粉丝列表：</li>
-</ul>
-
-
-<p><img src="http://images.cnitblog.com/blog/497279/201304/19122046-b40c752b60a5413290b569f5377ef7f3.png" alt="微博的粉丝列表" /></p>
-
-<p>每一行的头像肯定要从新浪服务器下载图片后才能显示的，而且是需要异步下载。这时候你就可以把每一行的图片下载操作封装到一个<code>NSOperation</code>对象中，上面有6行，所以要创建6个<code>NSOperation</code>对象，然后添加到<code>NSOperationQueue</code>中，分别下载不同的图片，下载完毕后，回到对应的行将图片显示出来。</p>
-
-<p>2 .默认情况下，<code>NSOperation</code>并不具备封装操作的能力，必须使用它的子类，使用NSOperation子类的方式有3种：</p>
-
-<ul>
-<li>NSInvocationOperation</li>
-<li>NSBlockOperation</li>
-<li>自定义子类继承NSOperation，实现内部相应的方法</li>
-</ul>
-
-
-<p>这讲先介绍如何用<code>NSOperation</code>封装一个操作，后面再结合<code>NSOperationQueue</code>来使用。</p>
-
-<h2>1.NSInvocationOperation</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSInvocationOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">run</span><span class="p">:)</span> <span class="nl">object</span><span class="p">:</span><span class="s">@&quot;mj&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>第1行初始化了一个<code>NSInvocationOperation</code>对象，它是基于一个对象和selector来创建操作</li>
-<li>第2行调用了start方法，紧接着会马上执行封装好的操作，也就是会调用self的run:方法，并且将@&ldquo;mj"作为方法参数</li>
-<li>这里要注意：默认情况下，调用了start方法后并不会开一条新线程去执行操作，而是在当前线程同步执行操作。只有将operation放到一个NSOperationQueue中，才会异步执行操作。</li>
-</ul>
-
-
-<h2>2.NSBlockOperation</h2>
-
-<h3>a.同步执行一个操作</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSBlockOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(){</span>
-</span><span class='line'>         <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;执行了一个新的操作&quot;</span><span class="p">);</span>
-</span><span class='line'> <span class="p">}];</span>
-</span><span class='line'>  <span class="c1">// 开始执行任务</span>
-</span><span class='line'><span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>第1行初始化了一个NSBlockOperation对象，它是用一个Block来封装需要执行的操作</li>
-<li>第2行调用了start方法，紧接着会马上执行Block中的内容</li>
-<li>这里还是在当前线程同步执行操作，并没有异步执行</li>
-</ul>
-
-
-<h3>b.并发执行多个操作</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSBlockOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(){</span>
-</span><span class='line'><span class="err">　　</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;执行第1次操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">operation</span> <span class="nl">addExecutionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'><span class="err">　　</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">operation</span> <span class="nl">addExecutionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'><span class="err">　　</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">operation</span> <span class="nl">addExecutionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'><span class="err">　　</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 开始执行任务</span>
-</span><span class='line'><span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
-
-<ul>
-<li>第1行初始化了一个NSBlockOperation对象</li>
-<li>分别在第5、9、13行通过addExecutionBlock:方法添加了新的操作，包括第1行的操作，一共封装了4个操作</li>
-<li><p>在第18行调用start方法后，就会并发地执行这4个操作，也就是会在不同线程中执行</p>
-
-<pre><code>  1 2013-02-02 21:38:46.102 thread[4602:c07] 又执行了1个新的操作，线程：&lt;NSThread: 0x7121d50&gt;{name = (null), num = 1}
-  2 2013-02-02 21:38:46.102 thread[4602:3f03] 又执行了1个新的操作，线程：&lt;NSThread: 0x742e1d0&gt;{name = (null), num = 5}
-  3 2013-02-02 21:38:46.102 thread[4602:1b03] 执行第1次操作，线程：&lt;NSThread: 0x742de50&gt;{name = (null), num = 3}
-  4 2013-02-02 21:38:46.102 thread[4602:1303] 又执行了1个新的操作，线程：&lt;NSThread: 0x7157bf0&gt;{name = (null), num = 4}
-</code></pre></li>
-</ul>
-
-
-<p>可以看出，每个操作所在线程的num值都不一样，说明是不同线程</p>
-
-<h2>3.NSOperation的其他用法</h2>
-
-<h3>a.取消操作</h3>
-
-<p>operation开始执行之后, 默认会一直执行操作直到完成，我们也可以调用cancel方法中途取消操作</p>
-
-<pre><code>[operation cancel];
-</code></pre>
-
-<h3>b.在操作完成后做一些事情</h3>
-
-<p>如果想在一个NSOperation执行完毕后做一些事情，就调用NSOperation的setCompletionBlock方法来设置想做的事情</p>
-
-<pre><code>operation.completionBlock = ^() {
-    NSLog(@"执行完毕");
-};
-</code></pre>
-
-<p>当operation封装的操作执行完毕后，就会回调Block里面的内容</p>
-
-<h2>4.自定义NSOperation</h2>
-
-<p>如果<code>NSInvocationOperation</code>和<code>NSBlockOperation</code>不能满足需求，我们可以直接新建子类继承NSOperation，并添加任何需要执行的操作。如果只是简单地自定义NSOperation，只需要重载<code>-(void)main</code>这个方法，在这个方法里面添加需要执行的操作。</p>
-
-<p>下面写个子类DownloadOperation来下载图片</p>
-
-<h3>a.继承NSOperation，重写main方法</h3>
-
-<p><em>DownloadOperation.h</em></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
-</span><span class='line'><span class="k">@protocol</span> <span class="nc">DownloadOperationDelegate</span>;
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">DownloadOperation</span> : <span class="bp">NSOperation</span>
-</span><span class='line'><span class="c1">// 图片的url路径</span>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">copy</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">imageUrl</span><span class="p">;</span>
-</span><span class='line'><span class="c1">// 代理</span>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">assign</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithUrl:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span> <span class="nf">delegate:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 图片下载的协议</span>
-</span><span class='line'><span class="k">@protocol</span> <span class="nc">DownloadOperationDelegate</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">downloadFinishWithImage</span><span class="p">:(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="n">image</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>*DownloadOperation.m</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;DownloadOperation.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">DownloadOperation</span>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">delegate</span> <span class="o">=</span> <span class="n">_delegate</span><span class="p">;</span>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">imageUrl</span> <span class="o">=</span> <span class="n">_imageUrl</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 初始化</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithUrl:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span> <span class="nf">delegate:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">imageUrl</span> <span class="o">=</span> <span class="n">url</span><span class="p">;</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">delegate</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="c1">// 释放内存</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">super</span> <span class="n">dealloc</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">_imageUrl</span> <span class="k">release</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 执行主任务</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">main</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// 新建一个自动释放池，如果是异步执行操作，那么将无法访问到主线程的自动释放池</span>
-</span><span class='line'>    <span class="k">@autoreleasepool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// ....</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>在第22行重载了main方法，等会就把下载图片的代码写到这个方法中</li>
-<li>如果这个DownloadOperation是在异步线程中执行操作，也就是说main方法在异步线程调用，那么将无法访问主线程的自动释放池，所以在第24行创建了一个属于当前线程的自动释放池</li>
-</ul>
-
-
-<h3>b.正确响应取消事件</h3>
-
-<ul>
-<li>默认情况下，一个NSOperation开始执行之后，会一直执行任务到结束，就比如上面的DownloadOperation，默认会执行完main方法中的所有代码</li>
-<li>NSOperation提供了一个cancel方法，可以取消当前的操作。</li>
-<li>如果是自定义NSOperation的话，需要手动处理这个取消事件。比如，一旦调用了cancel方法，应该马上终止main方法的执行，并及时回收一些资源。</li>
-<li>处理取消事件的具体做法是：在<code>main</code>方法中定期地调用<code>isCancelled</code>方法检测操作是否已经被取消，也就是说是否调用了<code>cancel</code>方法，如果返回YES，表示已取消，则立即让main方法返回。</li>
-<li>以下地方可能需要调用<code>isCancelled</code>方法:
-
-<ol>
-<li>在执行任何实际的工作之前，也就是在main方法的开头。因为取消可能发生在任何时候，甚至在operation执行之前。</li>
-<li>执行了一段耗时的操作之后也需要检测操作是否已经被取消</li>
-</ol>
-</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">main</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// 新建一个自动释放池，如果是异步执行操作，那么将无法访问到主线程的自动释放池</span>
-</span><span class='line'>    <span class="k">@autoreleasepool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// 获取图片数据</span>
-</span><span class='line'>        <span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">imageUrl</span><span class="p">];</span>
-</span><span class='line'>        <span class="bp">NSData</span> <span class="o">*</span><span class="n">imageData</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">url</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">imageData</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>            <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// 初始化图片</span>
-</span><span class='line'>        <span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageWithData</span><span class="p">:</span><span class="n">imageData</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">image</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>            <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">downloadFinishWithImage</span><span class="p">:)])</span> <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// 把图片数据传回到主线程</span>
-</span><span class='line'>            <span class="p">[(</span><span class="bp">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">performSelectorOnMainThread</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">downloadFinishWithImage</span><span class="p">:)</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">image</span> <span class="nl">waitUntilDone</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>在第4行main方法的开头就先判断operation有没有被取消。如果被取消了，那就没有必要往下执行了</li>
-<li>经过第8行下载图片后，在第10行也需要判断操作有没有被取消</li>
-<li>总之，执行了一段比较耗时的操作之后，都需要判断操作有没有被取消</li>
-<li>图片下载完毕后，在第26行将图片数据传递给了代理(delegate)对象</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -3749,6 +3925,10 @@ sendAsynchronousRequest : queue : completionHandler :
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-si/">Sqlite_教程(四)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/13/sqlite-jiao-cheng-san/">Sqlite_教程(三)</a>
       </li>
     
@@ -3762,10 +3942,6 @@ sendAsynchronousRequest : queue : completionHandler :
     
       <li class="post">
         <a href="/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/">CocoaPods使用指南</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/get-and-post/">GET&amp;POST</a>
       </li>
     
   </ul>
