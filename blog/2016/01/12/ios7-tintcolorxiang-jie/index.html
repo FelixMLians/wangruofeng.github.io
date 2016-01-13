@@ -94,6 +94,8 @@
            | <a href="#disqus_thread"
              data-disqus-identifier="http://wangruofeng.github.io">Comments</a>
         
+	{ % if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_comments == true %}| <a href="{ % if index % }{ % endif %}#comments">Comments</a>
+	{ % endif %}
       </p>
     
   </header>
@@ -278,6 +280,12 @@ self.view.tintAdjustmentMode = UIViewTintAdjustmentModeNormal
 </div>
   </section>
 
+{ % if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %}
+  <section>
+  <h1>Comments</h1>
+   <div id="comments" aria-live="polite">{ % include post/duoshuo.html %}</div>
+  </section>
+{ % endif %}
 </div>
 
 <aside class="sidebar">
@@ -329,7 +337,7 @@ self.view.tintAdjustmentMode = UIViewTintAdjustmentModeNormal
 
         github.showRepos({
             user: 'wangruofeng',
-            count: 0,
+            count: 5,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -344,6 +352,24 @@ self.view.tintAdjustmentMode = UIViewTintAdjustmentModeNormal
 <section>
   <h1>About Me</h1>
   <p>果粉，专注于移动互联网，致力打造高逼格高价值App!</p>
+</section>
+<section>
+<h1>最近评论</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="20">
+</ul>
+<!-- 多说JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangruofeng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
 </section>
 
   
