@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技巧 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ji-qiao/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T18:07:30+08:00</updated>
+  <updated>2016-01-13T18:09:35+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -155,56 +155,56 @@ pod ‘AFNetworking’, ‘~&gt;0′     //高于0的版本，写这个限制和
 
 <pre><code class="``objective-c">  + (UIImage *)rotateImage:(UIImage *)oldImage
            orientation:(UIImageOrientation)orientation;
-</code></pre></blockquote>
-
-<pre><code class="``objective-c">  + (UIImage *)rotateImage:(UIImage *)oldImage orientation:(UIImageOrientation)orientation{
-
-  UIImage *newImage = [UIImage imageWithCGImage:oldImage.CGImage scale:1 orientation:orientation];
-
-  NSString *orientationStr = nil;
-  switch (orientation) {
-      case UIImageOrientationUp: {
-          orientationStr = @"UIImageOrientationUp";
-          break;
-      }
-      case UIImageOrientationDown: {
-          orientationStr = @"UIImageOrientationDown";
-          break;
-      }
-      case UIImageOrientationLeft: {
-          orientationStr = @"UIImageOrientationLeft";
-          break;
-      }
-      case UIImageOrientationRight: {
-          orientationStr = @"UIImageOrientationRight";
-          break;
-      }
-      case UIImageOrientationUpMirrored: {
-          orientationStr = @"UIImageOrientationUpMirrored";
-          break;
-      }
-      case UIImageOrientationDownMirrored: {
-          orientationStr = @"UIImageOrientationDownMirrored";
-          break;
-      }
-      case UIImageOrientationLeftMirrored: {
-          orientationStr = @"UIImageOrientationLeftMirrored";
-          break;
-      }
-      case UIImageOrientationRightMirrored: {
-          orientationStr = @"UIImageOrientationRightMirrored";
-          break;
-      }
-
-  }
-
-  NSLog(@"current orientation: %@",orientationStr);
-
-  return newImage;
-}
-</code></pre></li>
+</code></pre></blockquote></li>
 </ol>
 
+
+<pre><code class="objective-c">    + (UIImage *)rotateImage:(UIImage *)oldImage orientation:(UIImageOrientation)orientation{
+
+    UIImage *newImage = [UIImage imageWithCGImage:oldImage.CGImage scale:1 orientation:orientation];
+
+    NSString *orientationStr = nil;
+    switch (orientation) {
+        case UIImageOrientationUp: {
+            orientationStr = @"UIImageOrientationUp";
+            break;
+        }
+        case UIImageOrientationDown: {
+            orientationStr = @"UIImageOrientationDown";
+            break;
+        }
+        case UIImageOrientationLeft: {
+            orientationStr = @"UIImageOrientationLeft";
+            break;
+        }
+        case UIImageOrientationRight: {
+            orientationStr = @"UIImageOrientationRight";
+            break;
+        }
+        case UIImageOrientationUpMirrored: {
+            orientationStr = @"UIImageOrientationUpMirrored";
+            break;
+        }
+        case UIImageOrientationDownMirrored: {
+            orientationStr = @"UIImageOrientationDownMirrored";
+            break;
+        }
+        case UIImageOrientationLeftMirrored: {
+            orientationStr = @"UIImageOrientationLeftMirrored";
+            break;
+        }
+        case UIImageOrientationRightMirrored: {
+            orientationStr = @"UIImageOrientationRightMirrored";
+            break;
+        }
+
+    }
+
+    NSLog(@"current orientation: %@",orientationStr);
+
+    return newImage;
+}
+</code></pre>
 
 <p>在button点击事件触发时的这样使用</p>
 
@@ -362,6 +362,8 @@ pod ‘AFNetworking’, ‘~&gt;0′     //高于0的版本，写这个限制和
 <p> 现在再测试一下，well，It‘s OK。</p>
 
 <p> have fun!!!</p>
+
+<p>参考资料：</p>
 
 <ul>
 <li><a href="http://www.galloway.me.uk/2012/01/uiimageorientation-exif-orientation-sample-images/">UIImageOrientation / EXIF orientation sample images</a></li>
