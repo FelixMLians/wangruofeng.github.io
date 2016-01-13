@@ -4,7 +4,7 @@
   <title><![CDATA[王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-14T02:09:28+08:00</updated>
+  <updated>2016-01-14T02:11:02+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -270,35 +270,64 @@
 
 <p>3.<strong>使用POSIX（条件锁）创建锁）</strong></p>
 
-<pre><code class="objective-c">
-// 实例类person
-Person *person = [[Person alloc] init];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 实例类person</span>
+</span><span class='line'><span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 创建互斥锁</span>
+</span><span class='line'> <span class="k">__block</span> <span class="kt">pthread_mutex_t</span> <span class="n">mutex</span><span class="p">;</span>
+</span><span class='line'> <span class="n">pthread_mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'> <span class="c1">// 创建条件锁</span>
+</span><span class='line'> <span class="k">__block</span> <span class="kt">pthread_cond_t</span> <span class="n">cond</span><span class="p">;</span>
+</span><span class='line'> <span class="n">pthread_cond_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cond</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'> <span class="c1">// 线程A</span>
+</span><span class='line'> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>     <span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>     <span class="n">pthread_cond_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cond</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>     <span class="p">[</span><span class="n">person</span> <span class="n">personA</span><span class="p">];</span>
+</span><span class='line'>     <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'> <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'> <span class="c1">// 线程B</span>
+</span><span class='line'> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>     <span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>     <span class="p">[</span><span class="n">person</span> <span class="n">personB</span><span class="p">];</span>
+</span><span class='line'>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+</span><span class='line'>     <span class="n">pthread_cond_signal</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cond</span><span class="p">);</span>
+</span><span class='line'>     <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'> <span class="p">});</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
 
-// 创建互斥锁
- __block pthread_mutex_t mutex;
- pthread_mutex_init(&amp;mutex, NULL);
-
- // 创建条件锁
- __block pthread_cond_t cond;
- pthread_cond_init(&amp;cond, NULL);
-
- // 线程A
- dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-     pthread_mutex_lock(&amp;mutex);
-     pthread_cond_wait(&amp;cond, &amp;mutex);
-     [person personA];
-     pthread_mutex_unlock(&amp;mutex);
- });
-
- // 线程B
- dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-     pthread_mutex_lock(&amp;mutex);
-     [person personB];
-     [NSThread sleepForTimeInterval:5];
-     pthread_cond_signal(&amp;cond);
-     pthread_mutex_unlock(&amp;mutex);
- });
-</code></pre>
 
 <p>效果：程序会首先调用线程B，在5秒后再调用线程A。因为在线程A中创建了等待条件锁，线程B有激活锁，只有当线程B执行完后会激活线程A。</p>
 

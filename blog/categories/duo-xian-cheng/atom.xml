@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 多线程 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/duo-xian-cheng/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-14T02:09:28+08:00</updated>
+  <updated>2016-01-14T02:11:02+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -169,8 +169,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
 <p>3.<strong>使用POSIX（条件锁）创建锁）</strong></p>
 
-<pre><code class="objective-c">
-// 实例类person
+<pre><code class="objective-c">// 实例类person
 Person *person = [[Person alloc] init];
 
 // 创建互斥锁
