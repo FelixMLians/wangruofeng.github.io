@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 数据库 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/shu-ju-ku/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-14T01:45:19+08:00</updated>
+  <updated>2016-01-14T01:47:40+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -12,6 +12,324 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SQLite_教程(七)]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/14/sqlite-jiao-cheng-qi/"/>
+    <updated>2016-01-14T01:46:57+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/14/sqlite-jiao-cheng-qi</id>
+    <content type="html"><![CDATA[<h4>SQLite Order By</h4>
+
+<p>SQLite 的 <strong>ORDER BY</strong> 子句是用来基于一个或多个列按升序或降序顺序排列数据。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>ORDER BY 子句的基本语法如下：</p>
+
+<pre><code>SELECT column-list 
+FROM table_name 
+[WHERE condition] 
+[ORDER BY column1, column2, .. columnN] [ASC | DESC];
+</code></pre>
+
+<p>您可以在 ORDER BY 子句中使用多个列。确保您使用的排序列在列清单中。</p>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，它会将结果按 SALARY 升序排序：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY ORDER BY SALARY ASC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>    ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+7           James       24          Houston     10000.0
+2           Allen       25          Texas       15000.0
+1           Paul        32          California  20000.0
+3           Teddy       23          Norway      20000.0
+6           Kim         22          South-Hall  45000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<p>下面是一个实例，它会将结果按 NAME 和 SALARY 升序排序：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY ORDER BY NAME, SALARY ASC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000.0
+5           David       27          Texas       85000.0
+7           James       24          Houston     10000.0
+6           Kim         22          South-Hall  45000.0
+4           Mark        25          Rich-Mond   65000.0
+1           Paul        32          California  20000.0
+3           Teddy       23          Norway      20000.0
+</code></pre>
+
+<p>下面是一个实例，它会将结果按 NAME 降序排序：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY ORDER BY NAME DESC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+3           Teddy       23          Norway      20000.0
+1           Paul        32          California  20000.0
+4           Mark        25          Rich-Mond   65000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+5           David       27          Texas       85000.0
+2           Allen       25          Texas       15000.0
+</code></pre>
+
+<h4>SQLite Group By</h4>
+
+<p>SQLite 的 <strong>GROUP BY</strong> 子句用于与 SELECT 语句一起使用，来对相同的数据进行分组。
+在 SELECT 语句中，GROUP BY 子句放在 WHERE 子句之后，放在 ORDER BY 子句之前。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>下面给出了 GROUP BY 子句的基本语法。GROUP BY 子句必须放在 WHERE 子句中的条件之后，必须放在 ORDER BY 子句之前。</p>
+
+<pre><code>SELECT column-list
+FROM table_name
+WHERE [ conditions ]
+GROUP BY column1, column2....columnN
+ORDER BY column1, column2....columnN
+</code></pre>
+
+<p>您可以在 GROUP BY 子句中使用多个列。确保您使用的分组列在列清单中。</p>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>如果您想了解每个客户的工资总额，则可使用 GROUP BY 查询，如下所示：</p>
+
+<pre><code>sqlite&gt; SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>NAME        SUM(SALARY)
+----------  -----------
+Allen       15000
+David       85000
+James       20000
+Kim         45000
+Mark        65000
+Paul        40000
+Teddy       20000
+</code></pre>
+
+<p>让我们把 ORDER BY 子句与 GROUP BY 子句一起使用，如下所示：</p>
+
+<pre><code>sqlite&gt;  SELECT NAME, SUM(SALARY) 
+         FROM COMPANY GROUP BY NAME ORDER BY NAME DESC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>NAME        SUM(SALARY)
+----------  -----------
+Teddy       20000
+Paul        40000
+Mark        65000
+Kim         45000
+James       20000
+David       85000
+Allen       15000
+</code></pre>
+
+<h4>SQLite Having 子句</h4>
+
+<p>HAVING 子句允许指定条件来过滤将出现在最终结果中的分组结果。</p>
+
+<p>WHERE 子句在所选列上设置条件，而 HAVING 子句则在由 GROUP BY 子句创建的分组上设置条件。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>下面是 HAVING 子句在 SELECT 查询中的位置：</p>
+
+<pre><code>SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+</code></pre>
+
+<p>在一个查询中，HAVING 子句必须放在 GROUP BY 子句之后，必须放在 ORDER BY 子句之前。下面是包含 HAVING 子句的 SELECT 语句的语法：</p>
+
+<pre><code>SELECT column1, column2
+FROM table1, table2
+WHERE [ conditions ]
+GROUP BY column1, column2
+HAVING [ conditions ]
+ORDER BY column1, column2
+</code></pre>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+8           Paul        24          Houston     20000.0
+9           James       44          Norway      5000.0
+10          James       45          Texas       5000.0
+</code></pre>
+
+<p>下面是一个实例，它将显示名称计数小于 2 的所有记录：</p>
+
+<pre><code>sqlite &gt; SELECT * FROM COMPANY GROUP BY name HAVING count(name) &lt; 2;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000
+5           David       27          Texas       85000
+6           Kim         22          South-Hall  45000
+4           Mark        25          Rich-Mond   65000
+3           Teddy       23          Norway      20000
+</code></pre>
+
+<p>下面是一个实例，它将显示名称计数大于 2 的所有记录,注意其实这里只返回最后一条记录：</p>
+
+<pre><code>sqlite &gt; SELECT * FROM COMPANY GROUP BY name HAVING count(name) &gt; 2;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+10          James       45          Texas       5000
+</code></pre>
+
+<h4>SQLite Distinct 关键字</h4>
+
+<p>SQLite 的 <strong>DISTINCT</strong> 关键字与 SELECT 语句一起使用，来消除所有重复的记录，并只获取唯一一次记录。
+有可能出现一种情况，在一个表中有多个重复的记录。当提取这样的记录时，DISTINCT 关键字就显得特别有意义，它只获取唯一一次记录，而不是获取重复记录。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>用于消除重复记录的 DISTINCT 关键字的基本语法如下：</p>
+
+<pre><code>SELECT DISTINCT column1, column2,.....columnN 
+FROM table_name
+WHERE [condition]
+</code></pre>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+8           Paul        24          Houston     20000.0
+9           James       44          Norway      5000.0
+10          James       45          Texas       5000.0
+</code></pre>
+
+<p>首先，让我们来看看下面的 SELECT 查询，它将返回重复的工资记录：</p>
+
+<pre><code>sqlite&gt; SELECT name FROM COMPANY;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>NAME
+----------
+Paul
+Allen
+Teddy
+Mark
+David
+Kim
+James
+Paul
+James
+James
+</code></pre>
+
+<p>现在，让我们在上述的 SELECT 查询中使用 DISTINCT 关键字：</p>
+
+<pre><code>sqlite&gt; SELECT DISTINCT name FROM COMPANY;
+</code></pre>
+
+<p>这将产生以下结果，没有任何重复的条目：</p>
+
+<pre><code>NAME
+----------
+Paul
+Allen
+Teddy
+Mark
+David
+Kim
+James
+</code></pre>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SQLite_教程(五)]]></title>
@@ -1505,423 +1823,6 @@ sqlite&gt;
 </code></pre>
 
 <p>显示结果为空，意味着已经成功从数据库删除表。</p>
-
-<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
-转载请注明出处。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SQLite_教程(一)]]></title>
-    <link href="http://wangruofeng.github.io/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/"/>
-    <updated>2016-01-13T23:18:15+08:00</updated>
-    <id>http://wangruofeng.github.io/blog/2016/01/13/sqlite-jiao-cheng-[?]</id>
-    <content type="html"><![CDATA[<h4>简介：</h4>
-
-<p>SQLite 是一个软件库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。SQLite 是在世界上最广泛部署的 SQL 数据库引擎。SQLite 源代码不受版权限制。
-本教程将告诉您如何使用 SQLite 编程，并让你迅速上手。</p>
-
-<h4>什么是 SQLite？</h4>
-
-<p>SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。
-就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件</p>
-
-<h4>为什么要用 SQLite？</h4>
-
-<ul>
-<li>不需要一个单独的服务器进程或操作的系统（无服务器的）。</li>
-<li>SQLite 不需要配置，这意味着不需要安装或管理。</li>
-<li>一个完整的 SQLite 数据库是存储在一个单一的跨平台的磁盘文件。</li>
-<li>SQLite 是非常小的，是轻量级的，完全配置时小于 400KiB，省略可选功能配置时小于250KiB。</li>
-<li>SQLite 是自给自足的，这意味着不需要任何外部的依赖。</li>
-<li>SQLite 事务是完全兼容 ACID 的，允许从多个进程或线程安全访问。</li>
-<li>SQLite 支持 SQL92（SQL2）标准的大多数查询语言的功能。</li>
-<li>SQLite 使用 ANSI-C 编写的，并提供了简单和易于使用的 API。</li>
-<li>SQLite 可在 UNIX（Linux, Mac OS-X, Android, iOS）和 Windows（Win32, WinCE, WinRT）中运行。</li>
-</ul>
-
-
-<h4>SQLite 命令</h4>
-
-<p>与关系数据库进行交互的标准 SQLite 命令类似于 SQL。命令包括 CREATE、SELECT、INSERT、UPDATE、DELETE 和 DROP。这些命令基于它们的操作性质可分为以下几种：</p>
-
-<h4>DDL - 数据定义语言</h4>
-
-<table>
-<thead>
-<tr>
-<th> 命令   </th>
-<th> 描述 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CREATE </td>
-<td>创建一个新的表，一个表的视图，或者数据库中的其他对象。</td>
-</tr>
-<tr>
-<td>ALTER  </td>
-<td>修改数据库中的某个已有的数据库对象，比如一个表。     </td>
-</tr>
-<tr>
-<td>DROP   </td>
-<td>删除整个表，或者表的视图，或者数据库中的其他对象。   </td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>DML - 数据操作语言</h4>
-
-<table>
-<thead>
-<tr>
-<th> 命令   </th>
-<th> 描述 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>INSERT </td>
-<td>创建一条记录。</td>
-</tr>
-<tr>
-<td>UPDATE </td>
-<td>修改记录。      </td>
-</tr>
-<tr>
-<td>DELETE </td>
-<td>删除记录。      </td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>DQL - 数据查询语言</h4>
-
-<table>
-<thead>
-<tr>
-<th> 命令   </th>
-<th> 描述 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SELECT </td>
-<td>   从一个或多个表中检索某些记录。</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>在 Mac OS X 上安装 SQLite</h4>
-
-<p>最新版本的 Mac OS X 会预安装 SQLite，但是如果没有可用的安装，只需按照如下步骤进行：
-请访问 <a href="http://www.sqlite.org/download.html">SQLite 下载页面</a>，从源代码区下载 sqlite-autoconf-*.tar.gz。
-步骤如下：</p>
-
-<pre><code>$tar xvfz sqlite-autoconf-3071502.tar.gz
-$cd sqlite-autoconf-3071502
-$./configure --prefix=/usr/local
-$make
-$make install
-</code></pre>
-
-<p>上述步骤将在 Mac OS X 机器上安装 SQLite，您可以使用下列命令进行验证：</p>
-
-<pre><code>$sqlite3
-SQLite version 3.7.15.2 2013-01-09 11:53:05
-Enter ".help" for instructions
-Enter SQL statements terminated with a ";"
-sqlite&gt;
-</code></pre>
-
-<p>最后，在 SQLite 命令提示符下，使用 SQLite 命令做练习。</p>
-
-<h4>SQLite语法</h4>
-
-<p><strong>大小写敏感性</strong></p>
-
-<p>有个重要的点值得注意，SQLite 是不区分大小写的，但也有一些命令是大小写敏感的，比如 GLOB 和 glob 在 SQLite 的语句中有不同的含义。</p>
-
-<p><strong>注释</strong></p>
-
-<p>SQLite 注释是附加的注释，可以在 SQLite 代码中添加注释以增加其可读性，他们可以出现在任何空白处，包括在表达式内和其他 SQL 语句的中间，但它们不能嵌套。
-SQL 注释以两个连续的 &ldquo;-&rdquo; 字符（ASCII 0x2d）开始，并扩展至下一个换行符（ASCII 0x0a）或直到输入结束，以先到者为准。
-您也可以使用 C 风格的注释，以 &ldquo;/*&rdquo; 开始，并扩展至下一个 &ldquo;*/&rdquo; 字符对或直到输入结束，以先到者为准。SQLite的注释可以跨越多行。</p>
-
-<h4>SQLite 语句</h4>
-
-<p>所有的 SQLite 语句可以以任何关键字开始，如 SELECT、INSERT、UPDATE、DELETE、ALTER、DROP 等，所有的语句以分号（;）结束。</p>
-
-<p>SQLite ANALYZE 语句：</p>
-
-<pre><code>ANALYZE;
-or
-ANALYZE database_name;
-or
-ANALYZE database_name.table_name;
-</code></pre>
-
-<p>SQLite AND/OR 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  CONDITION-1 {AND|OR} CONDITION-2;
-</code></pre>
-
-<p>SQLite ALTER TABLE 语句：</p>
-
-<pre><code>ALTER TABLE table_name ADD COLUMN column_def...;
-SQLite ALTER TABLE 语句（Rename）：
-ALTER TABLE table_name RENAME TO new_table_name;
-</code></pre>
-
-<p>SQLite ATTACH DATABASE 语句：</p>
-
-<pre><code>ATTACH DATABASE 'DatabaseName' As 'Alias-Name';
-SQLite BEGIN TRANSACTION 语句：
-BEGIN;
-or
-BEGIN EXCLUSIVE TRANSACTION;
-</code></pre>
-
-<p>SQLite BETWEEN 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name BETWEEN val-1 AND val-2;
-</code></pre>
-
-<p>SQLite COMMIT 语句：</p>
-
-<pre><code>COMMIT;
-</code></pre>
-
-<p>SQLite CREATE INDEX 语句：</p>
-
-<pre><code>CREATE INDEX index_name
-ON table_name ( column_name COLLATE NOCASE );
-</code></pre>
-
-<p>SQLite CREATE UNIQUE INDEX 语句：</p>
-
-<pre><code>CREATE UNIQUE INDEX index_name
-ON table_name ( column1, column2,...columnN);
-</code></pre>
-
-<p>SQLite CREATE TABLE 语句：</p>
-
-<pre><code>CREATE TABLE table_name(
-   column1 datatype,
-   column2 datatype,
-   column3 datatype,
-   .....
-   columnN datatype,
-   PRIMARY KEY( one or more columns )
-);
-</code></pre>
-
-<p>SQLite CREATE TRIGGER 语句：</p>
-
-<pre><code>CREATE TRIGGER database_name.trigger_name 
-BEFORE INSERT ON table_name FOR EACH ROW
-BEGIN 
-   stmt1; 
-   stmt2;
-   ....
-END;
-</code></pre>
-
-<p>SQLite CREATE VIEW 语句：</p>
-
-<pre><code>CREATE VIEW database_name.view_name  AS
-SELECT statement....;
-</code></pre>
-
-<p>SQLite CREATE VIRTUAL TABLE 语句：</p>
-
-<pre><code>CREATE VIRTUAL TABLE database_name.table_name USING weblog( access.log );
-or
-CREATE VIRTUAL TABLE database_name.table_name USING fts3( );
-</code></pre>
-
-<p>SQLite COMMIT TRANSACTION 语句：</p>
-
-<pre><code>COMMIT;
-SQLite COUNT 子句：
-SELECT COUNT(column_name)
-FROM   table_name
-WHERE  CONDITION;
-</code></pre>
-
-<p>SQLite DELETE 语句：</p>
-
-<pre><code>DELETE FROM table_name
-WHERE  {CONDITION};
-</code></pre>
-
-<p>SQLite DETACH DATABASE 语句：</p>
-
-<pre><code>DETACH DATABASE 'Alias-Name';
-</code></pre>
-
-<p>SQLite DISTINCT 子句：</p>
-
-<pre><code>SELECT DISTINCT column1, column2....columnN
-FROM   table_name;
-</code></pre>
-
-<p>SQLite DROP INDEX 语句：</p>
-
-<pre><code>DROP INDEX database_name.index_name;
-</code></pre>
-
-<p>SQLite DROP TABLE 语句：</p>
-
-<pre><code>DROP TABLE database_name.table_name;
-</code></pre>
-
-<p>SQLite DROP VIEW 语句：</p>
-
-<pre><code>DROP INDEX database_name.view_name;
-</code></pre>
-
-<p>SQLite DROP TRIGGER 语句：</p>
-
-<pre><code>DROP INDEX database_name.trigger_name;
-</code></pre>
-
-<p>SQLite EXISTS 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name EXISTS (SELECT * FROM   table_name );
-</code></pre>
-
-<p>SQLite EXPLAIN 语句：</p>
-
-<pre><code>EXPLAIN INSERT statement...;
-or 
-EXPLAIN QUERY PLAN SELECT statement...;
-</code></pre>
-
-<p>SQLite GLOB 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name GLOB { PATTERN };
-</code></pre>
-
-<p>SQLite GROUP BY 子句：</p>
-
-<pre><code>SELECT SUM(column_name)
-FROM   table_name
-WHERE  CONDITION
-GROUP BY column_name;
-</code></pre>
-
-<p>SQLite HAVING 子句：</p>
-
-<pre><code>SELECT SUM(column_name)
-FROM   table_name
-WHERE  CONDITION
-GROUP BY column_name
-HAVING (arithematic function condition);
-</code></pre>
-
-<p>SQLite INSERT INTO 语句：</p>
-
-<pre><code>INSERT INTO table_name( column1, column2....columnN)
-VALUES ( value1, value2....valueN);
-</code></pre>
-
-<p>SQLite IN 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name IN (val-1, val-2,...val-N);
-</code></pre>
-
-<p>SQLite Like 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name LIKE { PATTERN };
-</code></pre>
-
-<p>SQLite NOT IN 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name NOT IN (val-1, val-2,...val-N);
-</code></pre>
-
-<p>SQLite ORDER BY 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  CONDITION
-ORDER BY column_name {ASC|DESC};
-</code></pre>
-
-<p>SQLite PRAGMA 语句：</p>
-
-<pre><code>PRAGMA pragma_name;
-
-For example:
-
-PRAGMA page_size;
-PRAGMA cache_size = 1024;
-PRAGMA table_info(table_name);
-</code></pre>
-
-<p>SQLite RELEASE SAVEPOINT 语句：</p>
-
-<pre><code>RELEASE savepoint_name;
-</code></pre>
-
-<p>SQLite REINDEX 语句：</p>
-
-<pre><code>REINDEX collation_name;
-REINDEX database_name.index_name;
-REINDEX database_name.table_name;
-</code></pre>
-
-<p>SQLite ROLLBACK 语句：</p>
-
-<pre><code>ROLLBACK;
-or
-ROLLBACK TO SAVEPOINT savepoint_name;
-</code></pre>
-
-<p>SQLite SAVEPOINT 语句：</p>
-
-<pre><code>SAVEPOINT savepoint_name;
-SQLite SELECT 语句：
-SELECT column1, column2....columnN
-FROM   table_name;
-</code></pre>
-
-<p>SQLite UPDATE 语句：</p>
-
-<pre><code>UPDATE table_name
-SET column1 = value1, column2 = value2....columnN=valueN
-[ WHERE  CONDITION ];
-</code></pre>
-
-<p>SQLite VACUUM 语句：</p>
-
-<pre><code>VACUUM;
-</code></pre>
-
-<p>SQLite WHERE 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  CONDITION;
-</code></pre>
 
 <p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
 转载请注明出处。</p>
