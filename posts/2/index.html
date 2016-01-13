@@ -3534,7 +3534,7 @@ UITouchPhaseCancelled（触摸取消）*/
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/01/13/dong-hua-hui-zhi-cashapelayerde-lu-jing-cgpath/">动画绘制CAShapeLayer的路径CGPath</a></h1>
+      <h1 class="entry-title"><a href="/blog/2016/01/13/dong-hua-hui-zhi-cashapelayerde-lu-jing-cgpath/">用CAShapeLayer动画绘制CGPath</a></h1>
     
     
       <p class="meta">
@@ -3550,14 +3550,12 @@ UITouchPhaseCancelled（触摸取消）*/
   </header>
 
 
-  <div class="entry-content"><h1>Animating the Drawing of a CGPath With CAShapeLayer</h1>
-
-<ul>
+  <div class="entry-content"><ul>
 <li><a href="http://oleb.net/blog/2010/12/animating-drawing-of-cgpath-with-cashapelayer/">原文链接</a></li>
 </ul>
 
 
-<h1>这是什么？</h1>
+<h4>这是什么？</h4>
 
 <blockquote><p>此文将讲解通过形状图层<code>CAShaperLayer</code>的<code>strokeStart</code>和<code>strokeEnd</code>来实现动画绘制路径<code>CGPath</code>,此文是<a href="http://oleb.net">By Ole Begemann</a>创建于December 18, 2010,当时是发布iOS SDK 4.2时<code>CAShapeLayer</code>新增加的两个属性<a href="http://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CAShapeLayer_class/Reference/Reference.html#//apple_ref/doc/uid/TP40008314-CH1-SW16">strokeStart</a>和<a href="http://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CAShapeLayer_class/Reference/Reference.html#//apple_ref/doc/uid/TP40008314-CH1-SW15">strokeEnd</a>,这两个值是两个浮点数取值范围0.0~1.0,用来表明形状图层所指向的路径在绘制开始和结束路径中的相对位置。</p></blockquote>
 
@@ -3605,7 +3603,7 @@ UITouchPhaseCancelled（触摸取消）*/
 
 <p>从Github上获得<a href="http://github.com/ole/Animated-Paths">iPad版的样品工程</a></p>
 
-<h1>你将学到的知识点</h1>
+<h4>你将学到的知识点</h4>
 
 <ul>
 <li>使用<code>CAShapeLayer</code>的<code>strokeStart</code>和<code>strokeEnd</code>来实现路径动画,比较高级复杂的效果像google的下拉刷新转圈就可以从这里引申去实现。</li>
@@ -3615,7 +3613,7 @@ UITouchPhaseCancelled（触摸取消）*/
 </ul>
 
 
-<h1>补充说明</h1>
+<h4>补充说明</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -3657,7 +3655,7 @@ UITouchPhaseCancelled（触摸取消）*/
 </ol>
 
 
-<h3>pathLayer动画实现原理</h3>
+<h4>pathLayer动画实现原理</h4>
 
 <ol>
 <li>先创建一个动画用的图层<code>animationLayer</code>类型<code>CALayer</code>，用来充当动画的画布。</li>
@@ -3669,7 +3667,7 @@ UITouchPhaseCancelled（触摸取消）*/
 </ol>
 
 
-<h3>textLayer动画实现原理</h3>
+<h4>textLayer动画实现原理</h4>
 
 <ol>
 <li>先创建一个动画用的图层<code>animationLayer</code>类型<code>CALayer</code>，用来充当动画的画布</li>
@@ -3682,7 +3680,7 @@ UITouchPhaseCancelled（触摸取消）*/
 </ol>
 
 
-<h3>修复一处bug</h3>
+<h4>修复一处bug</h4>
 
 <p>重复点击<code>UISegmentedControl</code>导致铅笔消失，这是设置了<code>penAnimation.delegate = self;</code>在代理方法里面没有判断结束直接将设置<code>self.penLayer.hidden = YES</code>，导致连续切换时铅笔不见了，要修复这个bug只需加一个判断<code>   if (flag)   self.penLayer.hidden = YES;
 </code>即可,这样的意思是只有当动画完成时才设置<code>self.penLayer.hidden</code>的值，好了现在已经非常完美了，快去动手自己试试吧！🍺</p>
