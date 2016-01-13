@@ -97,8 +97,9 @@
            | <a href="#disqus_thread"
              data-disqus-identifier="http://wangruofeng.github.io">Comments</a>
         
-	{ % if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_comments == true %}| <a href="{ % if index % }{ % endif %}#comments">Comments</a>
-	{ % endif %}
+        { % if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_comments == true %}
+        | <a href="{ % if index % }{ % endif %}#comments">Comments</a>
+    	{ % endif %}
       </p>
     
   </header>
@@ -556,9 +557,9 @@
   </section>
 
 { % if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %}
-  <section>
-  <h1>Comments</h1>
-   <div id="comments" aria-live="polite">{ % include post/duoshuo.html %}</div>
+   <section>
+      <h1>Comments</h1>
+       <div id="comments" aria-live="polite">{ % include post/duoshuo.html %}</div>
   </section>
 { % endif %}
 </div>
