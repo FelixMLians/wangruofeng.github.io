@@ -9,10 +9,8 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="UIImag构造方式 UIImag构造方式大致有4种方式
-* 从本地bundle中加载 imageNamed:，传入一个bundle的文件名即可
-* 从本地一个文件路径读取 imageWithContentsOfFile:，需要传一个文件的文件路径path
-* &hellip;">
+  <meta name="description" content="记录iOS各种重要里程碑事件 私有成员变量的实现 1.0时代，在.h文件采用@private关键词 @interface ViewController : UIViewController { @private NSInteger _value;
+} 2.0时代 通过在. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +78,307 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/13/iosli-cheng-bei-shi-jian/">iOS里程碑事件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T04:46:48+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:46 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>记录iOS各种重要里程碑事件</p></blockquote>
+
+<h2>私有成员变量的实现</h2>
+
+<p>1.0时代，在.h文件采用<code>@private</code>关键词</p>
+
+<pre><code>@interface ViewController : UIViewController {
+    @private
+    NSInteger _value;
+}
+</code></pre>
+
+<p>2.0时代 通过在.m文件通过<code>匿名Category</code></p>
+
+<pre><code>@interface ViewController ()
+
+@property (nonatomic) NSInteger value;
+
+@end
+</code></pre>
+
+<p>3.0时代 2013 年的 WWDC 允许在 .m 的 <code>@implementation</code>中</p>
+
+<pre><code>@implementation ViewController {
+    NSInteger _value;
+}
+</code></pre>
+
+<h2>ARC推出</h2>
+
+<p>2011</p>
+
+<h2>自动生成getter和setter方法的<code>@synthesize</code></h2>
+
+<p>2012</p>
+
+<h2>iOS 2.1 to iOS 2.2 API Differences</h2>
+
+<p>Added frameworks:</p>
+
+<ul>
+<li>AVFoundation</li>
+</ul>
+
+
+<h2>iOS 2.2 to iOS 3.0 API Differences</h2>
+
+<p>Added frameworks:</p>
+
+<ul>
+<li>CoreData</li>
+<li>ExternalAccessory</li>
+<li>GameKit</li>
+<li>MapKit</li>
+<li>MessageUI</li>
+<li>MobileCoreServices</li>
+<li>StoreKit</li>
+</ul>
+
+
+<h2>iOS 3.2 to iOS 4.0 API Differences</h2>
+
+<p>Added frameworks:</p>
+
+<ul>
+<li>Accelerate</li>
+<li>AssetsLibrary</li>
+<li>CoreMedia</li>
+<li>CoreMotion</li>
+<li>CoreTelephony</li>
+<li>CoreVideo</li>
+<li>EventKit</li>
+<li>EventKitUI</li>
+<li>iAd</li>
+<li>ImageIO</li>
+<li>QuickLook</li>
+</ul>
+
+
+<h2>iOS 4.3 to iOS 5.0 API Differences</h2>
+
+<p>Added frameworks</p>
+
+<ul>
+<li>Accounts</li>
+<li>CoreBluetooth</li>
+<li>CoreImage</li>
+<li>GLKit</li>
+<li>GSS</li>
+<li>NewsstandKit</li>
+<li>Twitter</li>
+</ul>
+
+
+<h2>5.1 to iOS 6.0 API Differences</h2>
+
+<p>Added frameworks</p>
+
+<ul>
+<li>AdSupport</li>
+<li>MediaToolbox</li>
+<li>PassKit</li>
+<li>Social</li>
+</ul>
+
+
+<h2>6.1 to iOS 7.0 API Differences</h2>
+
+<p>Added frameworks</p>
+
+<ul>
+<li>GameController</li>
+<li>JavaScriptCore</li>
+<li>MediaAccessibility</li>
+<li>MultipeerConnectivity</li>
+<li>SafariServices</li>
+<li>SpriteKit</li>
+</ul>
+
+
+<h2>iOS 7.1 to iOS 8.0 API Differences</h2>
+
+<p>Added frameworks</p>
+
+<ul>
+<li>Accelerate</li>
+<li>Accounts</li>
+<li>AddressBook</li>
+<li>AddressBookUI</li>
+<li>AudioToolbox</li>
+<li>AudioUnit</li>
+<li>AVFoundation</li>
+<li>AVKit (Added)</li>
+<li>CFNetwork</li>
+<li>CloudKit (Added)</li>
+<li>CoreAudio</li>
+<li>CoreAudioKit (Added)</li>
+<li>CoreAuthentication (Added)</li>
+<li>CoreBluetooth</li>
+<li>CoreData</li>
+<li>CoreFoundation</li>
+<li>CoreImage</li>
+<li>CoreLocation</li>
+<li>CoreMedia</li>
+<li>CoreMotion</li>
+<li>CoreText</li>
+<li>CoreVideo</li>
+<li>EventKit</li>
+<li>EventKitUI</li>
+<li>ExternalAccessory</li>
+<li>Foundation</li>
+<li>GameController</li>
+<li>GameKit</li>
+<li>GLKit</li>
+<li>GSS</li>
+<li>HealthKit (Added)</li>
+<li>HomeKit (Added)</li>
+<li>iAd</li>
+<li>ImageIO</li>
+<li>IOKit</li>
+<li>JavaScriptCore</li>
+<li>LocalAuthentication (Added)</li>
+<li>MapKit</li>
+<li>MediaAccessibility</li>
+<li>MediaPlayer</li>
+<li>MessageUI</li>
+<li>Metal (Added)</li>
+<li>MobileCoreServices</li>
+<li>MultipeerConnectivity</li>
+<li>NetworkExtension (Added)</li>
+<li>NewsstandKit</li>
+<li>NotificationCenter (Added)</li>
+<li>OpenGLES</li>
+<li>PassKit</li>
+<li>Photos (Added)</li>
+<li>PhotosUI (Added)</li>
+<li>PushKit (Added)</li>
+<li>QuartzCore</li>
+<li>QuickLook</li>
+<li>SceneKit (Added)</li>
+<li>Security</li>
+<li>Social</li>
+<li>SpriteKit</li>
+<li>StoreKit</li>
+<li>UIKit</li>
+<li>VideoToolbox</li>
+<li>WebKit (Added)</li>
+</ul>
+
+
+<h2>iOS 8.3 to iOS 9.0 API Differences</h2>
+
+<p>Added frameworks</p>
+
+<p>Objective-C</p>
+
+<ul>
+<li>/usr/include</li>
+<li>Accelerate</li>
+<li>Accounts</li>
+<li>AddressBook</li>
+<li>AddressBookUI</li>
+<li>AssetsLibrary</li>
+<li>AudioToolbox</li>
+<li>AudioUnit</li>
+<li>AVFoundation</li>
+<li>AVKit</li>
+<li>CFNetwork</li>
+<li>CloudKit</li>
+<li>Contacts (Added)</li>
+<li>ContactsUI (Added)</li>
+<li>CoreAudio</li>
+<li>CoreAudioKit</li>
+<li>CoreBluetooth</li>
+<li>CoreData</li>
+<li>CoreFoundation</li>
+<li>CoreGraphics</li>
+<li>CoreImage</li>
+<li>CoreLocation</li>
+<li>CoreMedia</li>
+<li>CoreMIDI</li>
+<li>CoreMotion</li>
+<li>CoreSpotlight (Added)</li>
+<li>CoreTelephony</li>
+<li>CoreText</li>
+<li>CoreVideo</li>
+<li>EventKit</li>
+<li>EventKitUI</li>
+<li>ExternalAccessory</li>
+<li>Foundation</li>
+<li>GameController</li>
+<li>GameKit</li>
+<li>GameplayKit (Added)</li>
+<li>GLKit</li>
+<li>GSS</li>
+<li>HealthKit</li>
+<li>HomeKit</li>
+<li>iAd</li>
+<li>ImageIO</li>
+<li>JavaScriptCore</li>
+<li>LocalAuthentication</li>
+<li>MapKit</li>
+<li>MediaPlayer</li>
+<li>MediaToolbox</li>
+<li>MessageUI</li>
+<li>Metal</li>
+<li>MetalKit (Added)</li>
+<li>MetalPerformanceShaders (Added)</li>
+<li>MobileCoreServices</li>
+<li>ModelIO (Added)</li>
+<li>MultipeerConnectivity</li>
+<li>NetworkExtension</li>
+<li>NewsstandKit</li>
+<li>OpenAL</li>
+<li>PassKit</li>
+<li>Photos</li>
+<li>PushKit</li>
+<li>QuartzCore</li>
+<li>QuickLook</li>
+<li>ReplayKit (Added)</li>
+<li>SafariServices</li>
+<li>SceneKit</li>
+<li>Security</li>
+<li>SpriteKit</li>
+<li>StoreKit</li>
+<li>SystemConfiguration</li>
+<li>UIKit</li>
+<li>VideoToolbox</li>
+<li>WatchConnectivity (Added)</li>
+<li>WatchKit</li>
+<li>WebKit</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1907,6 +2206,10 @@ rake deploy
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-er/">Sqlite_教程(二)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/">Sqlite_教程(一)</a>
       </li>
     
@@ -1920,10 +2223,6 @@ rake deploy
     
       <li class="post">
         <a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/gong-han-mo-shi-xiang-jie/">工厂模式详解</a>
       </li>
     
   </ul>
