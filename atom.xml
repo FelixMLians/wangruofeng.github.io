@@ -4,7 +4,7 @@
   <title><![CDATA[王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-13T23:38:08+08:00</updated>
+  <updated>2016-01-14T01:30:19+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -541,6 +541,9 @@ sqlite&gt;  select  (60 &lt;&lt; 2);
 sqlite&gt;  select  (60 &gt;&gt; 2);
 (60 &gt;&gt; 2) = 15
 </code></pre>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
 ]]></content>
   </entry>
   
@@ -757,6 +760,9 @@ COMPANY
    SALARY         REAL
 )
 </code></pre>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
 ]]></content>
   </entry>
   
@@ -1157,6 +1163,9 @@ sqlite&gt;
 </code></pre>
 
 <p>显示结果为空，意味着已经成功从数据库删除表。</p>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
 ]]></content>
   </entry>
   
@@ -1572,12 +1581,8 @@ FROM   table_name
 WHERE  CONDITION;
 </code></pre>
 
-<p>资料收藏：</p>
-
-<ul>
-<li><a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">SQLite教程</a></li>
-</ul>
-
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
 ]]></content>
   </entry>
   
