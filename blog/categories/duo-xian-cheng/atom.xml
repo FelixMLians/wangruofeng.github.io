@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 多线程 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/duo-xian-cheng/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-14T02:11:02+08:00</updated>
+  <updated>2016-01-14T02:12:33+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -159,7 +159,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 });
 </code></pre>
 
-<p>我在这里解释一下代码。dispatch_semaphore_wait方法是把信号量加1，dispatch_semaphore_signal
+<p>我在这里解释一下代码。<code>dispatch_semaphore_wait</code>方法是把信号量加1，<code>dispatch_semaphore_signal</code>
 是把信号量减1。</p>
 
 <p>我们把信号量当作是一个计数器，当计数器是一个非负整数时，所有通过它的线程都应该把这个整数减1。</p>
@@ -200,9 +200,9 @@ Person *person = [[Person alloc] init];
 
 <p>效果：程序会首先调用线程B，在5秒后再调用线程A。因为在线程A中创建了等待条件锁，线程B有激活锁，只有当线程B执行完后会激活线程A。</p>
 
-<p>pthread_cond_wait方法为等待条件锁。</p>
+<p><code>pthread_cond_wait</code>方法为等待条件锁。</p>
 
-<p>pthread_cond_signal方法为激活一个相同条件的条件锁。</p>
+<p><code>pthread_cond_signal</code>方法为激活一个相同条件的条件锁。</p>
 
 <p>参考资料：<a href="http://www.liuhaihua.cn/archives/25316.html">http://www.liuhaihua.cn/archives/25316.html</a></p>
 ]]></content>
