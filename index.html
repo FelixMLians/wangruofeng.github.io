@@ -9,7 +9,25 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="SQLite Order By SQLite 的 ORDER BY 子句是用来基于一个或多个列按升序或降序顺序排列数据。 语法 ORDER BY 子句的基本语法如下： SELECT column-list FROM table_name [WHERE condition] [ORDER BY &hellip;">
+  <meta name="description" content="“Object－C”语言 1.使用 @synchronized 类实现锁 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+// 实例类person
+Person *person = [[Person alloc] init];
+// 线程A &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +95,323 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/14/iosxian-cheng-an-quan-suo/">iOS线程安全-锁</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-14T02:08:36+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:08 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>“Object－C”语言</h3>
+
+<p>1.<strong>使用 @synchronized 类实现锁</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 实例类person</span>
+</span><span class='line'><span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 线程A</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">@synchronized</span><span class="p">(</span><span class="n">person</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">person</span> <span class="n">personA</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">3</span><span class="p">];</span>
+</span><span class='line'>        <span class="c1">// 线程休眠3秒</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="c1">// 线程B</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">@synchronized</span><span class="p">(</span><span class="n">person</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">person</span> <span class="n">personB</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.<strong>使用 NSRecursiveLock 类实现锁</strong></p>
+
+<blockquote><p>递归锁，递归或循环方法时使用此方法实现锁，可避免死锁等问题</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 实例类person</span>
+</span><span class='line'><span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 创建锁对象</span>
+</span><span class='line'><span class="bp">NSRecursiveLock</span> <span class="o">*</span><span class="n">theLock</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSRecursiveLock</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 创建递归方法</span>
+</span><span class='line'><span class="k">static</span> <span class="nf">void</span> <span class="p">(</span><span class="o">^</span><span class="n">testCode</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="n">testCode</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">int</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">theLock</span> <span class="n">tryLock</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">person</span> <span class="n">personA</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">testCode</span><span class="p">(</span><span class="n">value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">theLock</span> <span class="n">unlock</span><span class="p">];</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//线程A</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">testCode</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//线程B</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">theLock</span> <span class="n">lock</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">person</span> <span class="n">personB</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">theLock</span> <span class="n">unlock</span><span class="p">];</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.<strong>使用 NSConditionLock（条件锁）类实现锁</strong></p>
+
+<blockquote><p>使用此方法可以指定，只有满足条件的时候才可以解锁</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 实例类person</span>
+</span><span class='line'><span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 创建条件锁</span>
+</span><span class='line'><span class="bp">NSConditionLock</span> <span class="o">*</span><span class="n">conditionLock</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSConditionLock</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 线程A</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">conditionLock</span> <span class="n">lock</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">person</span> <span class="n">personA</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">conditionLock</span> <span class="nl">unlockWithCondition</span><span class="p">:</span><span class="mi">10</span><span class="p">];</span>
+</span><span class='line'> <span class="p">});</span>
+</span><span class='line'><span class="c1">// 线程B</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">conditionLock</span> <span class="nl">lockWhenCondition</span><span class="p">:</span><span class="mi">10</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">person</span> <span class="n">personB</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">conditionLock</span> <span class="n">unlock</span><span class="p">];</span>
+</span><span class='line'> <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.<strong>NSDistributedLock（分布式锁）</strong></p>
+
+<blockquote><p>在iOS中不需要用到，也没有这个方法，因此本文不作介绍，这里写出来只是想让大家知道有这个锁存在。
+如果想要学习NSDistributedLock的话，你可以创建MAC OS的项目自己演练，方法请自行Google，谢谢</p></blockquote>
+
+<h3>C语言</h3>
+
+<p>1.<strong>使用 pthread_mutex_t 实现锁</strong></p>
+
+<blockquote><p>注意：必须在头文件导入：#import &lt;pthread.h></p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 实例类person</span>
+</span><span class='line'><span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 创建锁对象</span>
+</span><span class='line'><span class="k">__block</span> <span class="kt">pthread_mutex_t</span> <span class="n">mutex</span><span class="p">;</span>
+</span><span class='line'><span class="n">pthread_mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// 线程A</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">person</span> <span class="n">personA</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="c1">// 线程B</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">person</span> <span class="n">personB</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.<strong>使用 GCD 实现“锁”(信号量）</strong></p>
+
+<blockquote><p>GCD提供一种信号的机制，使用它我们可以创建“锁”</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 实例类person</span>
+</span><span class='line'><span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 创建并设置信量</span>
+</span><span class='line'><span class="kt">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 线程A</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">person</span> <span class="n">personA</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 线程B</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">person</span> <span class="n">personB</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我在这里解释一下代码。dispatch_semaphore_wait方法是把信号量加1，dispatch_semaphore_signal
+是把信号量减1。</p>
+
+<p>我们把信号量当作是一个计数器，当计数器是一个非负整数时，所有通过它的线程都应该把这个整数减1。</p>
+
+<p>如果计数器大于0，那么则允许访问，并把计数器减1。如果为0，则访问被禁止，所有通过它的线程都处于
+等待的状态。</p>
+
+<p>3.<strong>使用POSIX（条件锁）创建锁）</strong></p>
+
+<pre><code class="objective-c">
+// 实例类person
+Person *person = [[Person alloc] init];
+
+// 创建互斥锁
+ __block pthread_mutex_t mutex;
+ pthread_mutex_init(&amp;mutex, NULL);
+
+ // 创建条件锁
+ __block pthread_cond_t cond;
+ pthread_cond_init(&amp;cond, NULL);
+
+ // 线程A
+ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+     pthread_mutex_lock(&amp;mutex);
+     pthread_cond_wait(&amp;cond, &amp;mutex);
+     [person personA];
+     pthread_mutex_unlock(&amp;mutex);
+ });
+
+ // 线程B
+ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+     pthread_mutex_lock(&amp;mutex);
+     [person personB];
+     [NSThread sleepForTimeInterval:5];
+     pthread_cond_signal(&amp;cond);
+     pthread_mutex_unlock(&amp;mutex);
+ });
+</code></pre>
+
+<p>效果：程序会首先调用线程B，在5秒后再调用线程A。因为在线程A中创建了等待条件锁，线程B有激活锁，只有当线程B执行完后会激活线程A。</p>
+
+<p>pthread_cond_wait方法为等待条件锁。</p>
+
+<p>pthread_cond_signal方法为激活一个相同条件的条件锁。</p>
+
+<p>参考资料：<a href="http://www.liuhaihua.cn/archives/25316.html">http://www.liuhaihua.cn/archives/25316.html</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3127,171 +3462,6 @@ sendAsynchronousRequest : queue : completionHandler :
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-13T05:45:41+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:45 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>参考资料：</p>
-
-<ul>
-<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
-<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
-</ul>
-
-
-<p>注意事项：</p>
-
-<ul>
-<li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
-<li><p>通过</p>
-
-<p>  <code>NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];</code>     <br/>
-计算数据的长度</p></li>
-</ul>
-
-
-<h4>POST参数设置</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">//设置header Content-Length</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setValue</span><span class="p">:</span><span class="n">postLength</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Length&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//设置header contentType</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setValue</span><span class="p">:</span><span class="s">@&quot;application/x-www-form-urlencoded&quot;</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Current-Type&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//设置body</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setHTTPBody</span><span class="p">:</span><span class="n">postData</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>备注:普通<code>post</code>的<code>header</code>的<code>Current-Type</code>为<code>application/x-www-form-urlencoded</code></p></blockquote>
-
-<h4>Multipart Forms POST参数设置</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">//设置header contentType</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">contentType</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;multipart/form-data; boundary=%@&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="n">contentType</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Type&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">//设置body contentType</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="s">@&quot;Content-Type: application/octet-stream</span><span class="se">\r\n\r\n</span><span class="s">&quot;</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>备注:<code>Multipart Forms</code>的<code>header</code>的<code>Current-Type</code>为<code>multipart/form-data</code></p></blockquote>
-
-<p>request body like this</p>
-
-<pre><code>    --YOUR_BOUNDARY_STRING
-    Content-Disposition: form-data; name="photo"; filename="calm.jpg"
-    Content-Type: image/jpeg
-
-    YOUR_IMAGE_DATA_GOES_HERE
-    --YOUR_BOUNDARY_STRING
-    Content-Disposition: form-data; name="message"
-
-    My first message
-    --YOUR_BOUNDARY_STRING
-    Content-Disposition: form-data; name="user"
-
-    1
-    --YOUR_BOUNDARY_STRING
-</code></pre>
-
-<p>I’m sending over three variables: an image named photo, a string named message, and an integer named user. It’s important to note the linebreaks and the dashes before the boundary string. These must be included in order to build a good request. Now lets write some objective-c:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">boundary</span> <span class="o">=</span> <span class="s">@&quot;YOUR_BOUNDARY_STRING&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">contentType</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;multipart/form-data; boundary=%@&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="n">contentType</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Type&quot;</span><span class="p">];</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="bp">NSMutableData</span> <span class="o">*</span><span class="n">body</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">photo</span><span class="se">\&quot;</span><span class="s">; filename=</span><span class="se">\&quot;</span><span class="s">%@.jpg</span><span class="se">\&quot;\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">photoKey</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="s">@&quot;Content-Type: application/octet-stream</span><span class="se">\r\n\r\n</span><span class="s">&quot;</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="bp">NSData</span> <span class="nl">dataWithData</span><span class="p">:</span><span class="n">imageData</span><span class="p">]];</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">message</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">message</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">user</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%d&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setHTTPBody</span><span class="p">:</span><span class="n">body</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now all we need to do is make a connection to the server and send the request:</p>
-
-<pre><code>[request setHTTPBody:body];
-</code></pre>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">;</span>
-</span><span class='line'><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="bp">NSURLConnection</span> <span class="nl">sendSynchronousRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">returningResponse</span><span class="p">:</span><span class="o">&amp;</span><span class="n">response</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -3307,6 +3477,10 @@ sendAsynchronousRequest : queue : completionHandler :
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/14/iosxian-cheng-an-quan-suo/">iOS线程安全-锁</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/14/sqlite-jiao-cheng-qi/">SQLite_教程(七)</a>
       </li>
     
@@ -3320,10 +3494,6 @@ sendAsynchronousRequest : queue : completionHandler :
     
       <li class="post">
         <a href="/blog/2016/01/13/sqlite-jiao-cheng-si/">SQLite_教程(四)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/sqlite-jiao-cheng-san/">SQLite_教程(三)</a>
       </li>
     
   </ul>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://wangruofeng.github.io/blog/2016/01/14/iosxian-cheng-an-quan-suo/</loc>
+    <lastmod>2016-01-14T02:08:36+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://wangruofeng.github.io/blog/2016/01/14/sqlite-jiao-cheng-qi/</loc>
     <lastmod>2016-01-14T01:46:57+08:00</lastmod>
   </url>
@@ -131,5 +135,8 @@
   </url>
   <url>
     <loc>http://wangruofeng.github.io/blog/categories/shu-ju-ku/</loc>
+  </url>
+  <url>
+    <loc>http://wangruofeng.github.io/blog/categories/duo-xian-cheng/</loc>
   </url>
 </urlset>
