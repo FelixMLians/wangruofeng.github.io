@@ -9,7 +9,7 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="SQL表达式 表达式是一个或多个值、运算符和计算值的SQL函数的组合。 SQL 表达式与公式类似，都写在查询语言中。您还可以使用特定的数据集来查询数据库。 语法 假设 SELECT 语句的基本语法如下： SELECT column1, column2, columnN FROM &hellip;">
+  <meta name="description" content="SQLite Delete 语句 SQLite 的 DELETE 查询用于删除表中已有的记录。可以使用带有 WHERE 子句的 DELETE 查询来删除选定行，否则所有的记录都会被删除。 语法 带有 WHERE 子句的 DELETE 查询的基本语法如下： DELETE FROM &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,425 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/14/sqlite-jiao-cheng-liu/">SQLite_教程(六)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-14T01:41:01+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:41 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>SQLite Delete 语句</h4>
+
+<p>SQLite 的 <strong>DELETE</strong> 查询用于删除表中已有的记录。可以使用带有 WHERE 子句的 DELETE 查询来删除选定行，否则所有的记录都会被删除。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>带有 WHERE 子句的 DELETE 查询的基本语法如下：</p>
+
+<pre><code>DELETE FROM table_name
+WHERE [condition];
+</code></pre>
+
+<p>您可以使用 AND 或 OR 运算符来结合 N 个数量的条件。</p>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>现在，COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+</code></pre>
+
+<p>如果您想要从 COMPANY 表中删除所有记录，则不需要使用 WHERE 子句，DELETE 查询如下：</p>
+
+<pre><code>sqlite&gt; DELETE FROM COMPANY;
+</code></pre>
+
+<p>现在，COMPANY 表中没有任何的记录，因为所有的记录已经通过 DELETE 语句删除。</p>
+
+<h4>SQLite Like 子句</h4>
+
+<p>SQLite 的 <strong>LIKE</strong> 运算符是用来匹配通配符指定模式的文本值。如果搜索表达式与模式表达式匹配，LIKE 运算符将返回真（true），也就是 1。这里有两个通配符与 LIKE 运算符一起使用：</p>
+
+<ul>
+<li>百分号 （%）</li>
+<li>下划线 （_）</li>
+</ul>
+
+
+<p>百分号（%）代表零个、一个或多个数字或字符。下划线（_）代表一个单一的数字或字符。这些符号可以被组合使用。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>% 和 _ 的基本语法如下：</p>
+
+<pre><code>SELECT FROM table_name
+WHERE column LIKE 'XXXX%'
+
+or 
+
+SELECT FROM table_name
+WHERE column LIKE '%XXXX%'
+
+or
+
+SELECT FROM table_name
+WHERE column LIKE 'XXXX_'
+
+or
+
+SELECT FROM table_name
+WHERE column LIKE '_XXXX'
+
+or
+
+SELECT FROM table_name
+WHERE column LIKE '_XXXX_'
+</code></pre>
+
+<p>您可以使用 AND 或 OR 运算符来结合 N 个数量的条件。在这里，XXXX 可以是任何数字或字符串值。</p>
+
+<p><strong>实例</strong></p>
+
+<p>下面一些实例演示了 带有 &lsquo;%&rsquo; 和 &lsquo;_&rsquo; 运算符的 LIKE 子句不同的地方：</p>
+
+<table>
+<thead>
+<tr>
+<th> 语句                        </th>
+<th>描述             </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WHERE SALARY LIKE &lsquo;200%&rsquo;   </td>
+<td>查找以 200 开头的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY LIKE &lsquo;%200%&rsquo;  </td>
+<td>查找任意位置包含 200 的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY LIKE &lsquo;_00\%&rsquo; </td>
+<td>查找第二位和第三位为 00 的任意值</td>
+</tr>
+<tr>
+<td> WHERE SALARY LIKE &lsquo;2_%_%&rsquo;</td>
+<td>查找以 2 开头，且长度至少为 3 个字符的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY LIKE &lsquo;%2&rsquo;    </td>
+<td>查找以 2 结尾的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY LIKE &lsquo;_2%3&rsquo;  </td>
+<td>查找第二位为 2，且以 3 结尾的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY LIKE &lsquo;2___3&rsquo; </td>
+<td>查找长度为 5 位数，且以 2 开头以 3 结尾的任意值</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>让我们举一个实际的例子，假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，它显示 COMPANY 表中 AGE 以 2 开头的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE AGE  LIKE '2%';
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>    ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，它显示 COMPANY 表中 ADDRESS 文本里包含一个连字符（-）的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE ADDRESS  LIKE '%-%';
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+4           Mark        25          Rich-Mond   65000.0
+6           Kim         22          South-Hall  45000.0
+</code></pre>
+
+<h4>SQLite Glob 子句</h4>
+
+<p>SQLite 的 <strong>GLOB</strong> 运算符是用来匹配通配符指定模式的文本值。如果搜索表达式与模式表达式匹配，GLOB 运算符将返回真（true），也就是 1。与 LIKE 运算符不同的是，GLOB 是大小写敏感的，对于下面的通配符，它遵循 UNIX 的语法。</p>
+
+<ul>
+<li>星号 （*）</li>
+<li>问号 （?）</li>
+</ul>
+
+
+<p>星号（*）代表零个、一个或多个数字或字符。问号（?）代表一个单一的数字或字符。这些符号可以被组合使用。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>* 和 ? 的基本语法如下：</p>
+
+<pre><code>SELECT FROM table_name
+WHERE column GLOB 'XXXX*'
+
+or 
+
+SELECT FROM table_name
+WHERE column GLOB '*XXXX*'
+
+or
+
+SELECT FROM table_name
+WHERE column GLOB 'XXXX?'
+
+or
+
+SELECT FROM table_name
+WHERE column GLOB '?XXXX'
+
+or
+
+SELECT FROM table_name
+WHERE column GLOB '?XXXX?'
+
+or
+
+SELECT FROM table_name
+WHERE column GLOB '????'
+</code></pre>
+
+<p>您可以使用 AND 或 OR 运算符来结合 N 个数量的条件。在这里，XXXX 可以是任何数字或字符串值。</p>
+
+<hr />
+
+<p><strong>实例</strong></p>
+
+<p>下面一些实例演示了 带有 &lsquo;*&rsquo; 和 &lsquo;?&rsquo; 运算符的 GLOB 子句不同的地方：</p>
+
+<table>
+<thead>
+<tr>
+<th> 语句                                  </th>
+<th>描述         </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WHERE SALARY GLOB &lsquo;200*&rsquo;              </td>
+<td>查找以 200 开头的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY GLOB &lsquo;*200*&rsquo;            </td>
+<td>查找任意位置包含 200 的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY GLOB &lsquo;?00*&rsquo;              </td>
+<td>查找第二位和第三位为 00 的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY GLOB &lsquo;2??&rsquo;                </td>
+<td>查找以 2 开头，且长度至少为 3 个字符的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY GLOB &lsquo;*2&rsquo;                </td>
+<td>查找以 2 结尾的任意值 </td>
+</tr>
+<tr>
+<td>WHERE SALARY GLOB &lsquo;?2*3&rsquo;               </td>
+<td>查找第二位为 2，且以 3 结尾的任意值</td>
+</tr>
+<tr>
+<td>WHERE SALARY GLOB &lsquo;2???3&rsquo;              </td>
+<td>查找长度为 5 位数，且以 2 开头以 3 结尾的任意值</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>让我们举一个实际的例子，假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，它显示 COMPANY 表中 AGE 以 2 开头的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE AGE  GLOB '2*';
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，它显示 COMPANY 表中 ADDRESS 文本里包含一个连字符（-）的所有记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY WHERE ADDRESS  GLOB '*-*';
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+4           Mark        25          Rich-Mond   65000.0
+6           Kim         22          South-Hall  45000.0
+</code></pre>
+
+<h4>SQLite Limit 子句</h4>
+
+<p>SQLite 的 <strong>LIMIT</strong> 子句用于限制由 SELECT 语句返回的数据数量。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>带有 LIMIT 子句的 SELECT 语句的基本语法如下：</p>
+
+<pre><code>SELECT column1, column2, columnN 
+FROM table_name
+LIMIT [no of rows]
+</code></pre>
+
+<p>下面是 <code>LIMIT</code> 子句与 <code>OFFSET</code> 子句一起使用时的语法：</p>
+
+<pre><code>SELECT column1, column2, columnN 
+FROM table_name
+LIMIT [no of rows] OFFSET [row num]
+</code></pre>
+
+<p>SQLite 引擎将返回从下一行开始直到给定的 <code>OFFSET</code> 为止的所有行，如下面的最后一个实例所示。</p>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，它限制了您想要从表中提取的行数：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY LIMIT 6;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+</code></pre>
+
+<p>但是，在某些情况下，可能需要从一个特定的偏移开始提取记录(<code>OFFSET下标从0开始</code>)。下面是一个实例，从第三位开始提取 3 个记录：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY LIMIT 3 OFFSET 2;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3138,211 +3557,6 @@ sendAsynchronousRequest : queue : completionHandler :
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/13/duo-xian-cheng-zhi-nsthread/">多线程之NSThread</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-13T05:36:48+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:36 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>本文目录</h2>
-
-<ul>
-<li>前言</li>
-<li>1.获取当前线程</li>
-<li>2.获取主线程</li>
-<li>3.NSThread的创建</li>
-<li>4.暂停当前线程</li>
-<li>5.线程的其他操作</li>
-<li>6.优缺点</li>
-</ul>
-
-
-<h3>前言</h3>
-
-<p>每个iOS应用程序都有个专门用来更新显示UI界面、处理用户触摸事件的主线程，因此不能将其他太耗时的操作放在主线程中执行，不然会造成主线程堵塞(出现卡机现象)，带来极坏的用户体验。一般的解决方案就是将那些耗时的操作放到另外一个线程中去执行，多线程编程是防止主线程堵塞，增加运行效率的最佳方法。</p>
-
-<p>iOS中有3种常见的多线程编程方法
-1. <code>NSThread</code>
-这种方法需要管理线程的生命周期、同步、加锁问题，会导致一定的性能开销</p>
-
-<ol>
-<li><p><code>NSOperation</code>和<code>NSOperationQueue</code>
-是基于OC实现的。NSOperation以面向对象的方式封装了需要执行的操作，然后可以将这个操作放到一个NSOperationQueue中去异步执行。不必关心线程管理、同步等问题。</p></li>
-<li><p><code>Grand Centeral Dispatch</code>
-简称GCD，iOS4才开始支持，是纯C语言的API。自iPad2开始，苹果设备开始有了双核CPU，为了充分利用这2个核，GCD提供了一些新特性来支持多核并行编程</p></li>
-</ol>
-
-
-<p>这篇文章简单介绍<code>NSThread这</code>个类，一个<code>NSThread</code>实例就代表着一条线程</p>
-
-<h3>1.获取当前线程</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSThread</span> <span class="o">*</span><span class="n">current</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.获取主线程</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSThread</span> <span class="o">*</span><span class="n">main</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">mainThread</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;主线程:%@&quot;</span><span class="p">,</span> <span class="n">main</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>打印结果是：</p>
-
-<pre><code>2013-04-18 21:36:38.599 thread[7499:c07] 主线程:&lt;NSThread: 0x71434e0&gt;{name = (null), num = 1}
-</code></pre>
-
-<p>num相当于线程的id，主线程的num是为1的</p>
-
-<h3>3.NSThread的创建</h3>
-
-<h4>a.动态方法</h4>
-
-<pre><code>- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)argument;
-</code></pre>
-
-<p>在第2行创建了一条新线程，然后在第4行调用<code>start</code>方法启动线程，线程启动后会调用self的<code>run:</code>方法，并且将@&ldquo;mj"作为方法参数</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 初始化线程</span>
-</span><span class='line'><span class="bp">NSThread</span> <span class="o">*</span><span class="kr">thread</span> <span class="o">=</span> <span class="p">[[[</span><span class="bp">NSThread</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">run</span><span class="p">:)</span> <span class="nl">object</span><span class="p">:</span><span class="s">@&quot;mj&quot;</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
-</span><span class='line'><span class="c1">// 开启线程</span>
-</span><span class='line'><span class="p">[</span><span class="kr">thread</span> <span class="n">start</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>假如run:方法是这样的：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">run:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span> <span class="p">{</span>
-</span><span class='line'>     <span class="bp">NSThread</span> <span class="o">*</span><span class="n">current</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSThread</span> <span class="n">currentThread</span><span class="p">];</span>
-</span><span class='line'>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;执行了run:方法-参数：%@，当前线程：%@&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">current</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>打印结果为：</p>
-
-<pre><code>2013-04-18 21:40:33.102 thread[7542:3e13] 执行了run:方法-参数：mj，当前线程：&lt;NSThread: 0x889e8d0&gt;{name = (null), num = 3}
-</code></pre>
-
-<p>可以发现，这条线程的num值为3，说明不是主线程，主线程的num为1</p>
-
-<h4>b.静态方法</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">detachNewThreadSelector:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">selector</span> <span class="nf">toTarget:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">target</span> <span class="nf">withObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">argument</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">NSThread</span> <span class="nl">detachNewThreadSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">run</span><span class="p">:)</span> <span class="nl">toTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">withObject</span><span class="p">:</span><span class="s">@&quot;mj&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>c.隐式创建线程</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">performSelectorInBackground</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">run</span><span class="p">:)</span> <span class="nl">withObject</span><span class="p">:</span><span class="s">@&quot;mj&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>会隐式地创建一条新线程，并且在这条线程上调用self的run:方法，以@&ldquo;mj"为方法参数</p>
-
-<h3>4.暂停当前线程</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">2</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSDate</span> <span class="o">*</span><span class="n">date</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeInterval</span><span class="p">:</span><span class="mi">2</span> <span class="nl">sinceDate</span><span class="p">:[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">]];</span>
-</span><span class='line'><span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepUntilDate</span><span class="p">:</span><span class="n">date</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面两种做法都是暂停当前线程2秒</p>
-
-<h3>5.线程的其他操作</h3>
-
-<h4>a.在指定线程上执行操作</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="p">[</span><span class="nb">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">run</span><span class="p">)</span> <span class="nl">onThread</span><span class="p">:</span><span class="kr">thread</span> <span class="nl">withObject</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">waitUntilDone</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>上面代码的意思是在thread这条线程上调用self的run方法</li>
-<li>最后的YES代表：上面的代码会阻塞，等run方法在thread线程执行完毕后，上面的代码才会通过</li>
-</ul>
-
-
-<h4>b.在主线程上执行操作</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">performSelectorOnMainThread</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">run</span><span class="p">)</span> <span class="nl">withObject</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">waitUntilDone</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在主线程调用self的run方法</p>
-
-<h4>c.在当前线程执行操作</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">run</span><span class="p">)</span> <span class="nl">withObject</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在当前线程调用self的run方法</p>
-
-<h3>6.优缺点</h3>
-
-<ol>
-<li>优点：<code>NSThread</code>比其他多线程方案较轻量级，更直观地控制线程对象</li>
-<li>缺点：需要自己管理线程的生命周期，线程同步。线程同步对数据的加锁会有一定的系统开销</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -3358,6 +3572,10 @@ sendAsynchronousRequest : queue : completionHandler :
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-liu/">SQLite_教程(六)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/14/sqlite-jiao-cheng-wu/">SQLite_教程(五)</a>
       </li>
     
@@ -3371,10 +3589,6 @@ sendAsynchronousRequest : queue : completionHandler :
     
       <li class="post">
         <a href="/blog/2016/01/13/sqlite-jiao-cheng-er/">SQLite_教程(二)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/">SQLite_教程(一)</a>
       </li>
     
   </ul>
