@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技巧 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ji-qiao/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-14T18:44:41+08:00</updated>
+  <updated>2016-01-14T20:15:40+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -541,14 +541,14 @@ image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 <li>想了解更多内容可以查看<a href="http://jekyll.bootcss.com/docs/home/">中文文档</a>。</li>
 </ul>
 </li>
-<li><p><a href="http://niumeng.me/blog/2015/08/26/create-your-website-1-init/www.github.com/imathis/octopress">Octopress</a></p>
+<li><a href="http://niumeng.me/blog/2015/08/26/create-your-website-1-init/www.github.com/imathis/octopress">Octopress</a>
 
 <ul>
 <li>Octopress 是基于 Jekyll 的博客框架。他们的关系就像 jQuery 与 js 的关系一样。</li>
 <li>它为我们提供了现成的美观的主题模板，并且配置简单，使用方便，大大降低了我们建站的门槛。</li>
 </ul>
 </li>
-<li><p><a href="http://rogerdudler.github.io/git-guide/index.zh.html">Git</a></p>
+<li><a href="http://rogerdudler.github.io/git-guide/index.zh.html">Git</a>
 
 <ul>
 <li>分布式版本控制工具，跟它有点类似的是SVN，只是两者使用场景不一样。</li>
