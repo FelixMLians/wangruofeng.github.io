@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 多线程 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/duo-xian-cheng/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T18:46:00+08:00</updated>
+  <updated>2016-01-15T19:32:32+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -205,6 +205,8 @@ Person *person = [[Person alloc] init];
 <p><code>pthread_cond_signal</code>方法为激活一个相同条件的条件锁。</p>
 
 <p>参考资料：<a href="http://www.liuhaihua.cn/archives/25316.html">http://www.liuhaihua.cn/archives/25316.html</a></p>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   

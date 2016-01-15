@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T18:46:00+08:00</updated>
+  <updated>2016-01-15T19:32:32+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -1215,6 +1215,8 @@ pod ‘AFNetworking’, ‘~&gt;0.1.2′     //使用大于等于0.1.2但小于0
 pod ‘AFNetworking’, ‘~&gt;0.1′     //使用大于等于0.1但小于1.0的版本
 pod ‘AFNetworking’, ‘~&gt;0′     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
 </code></pre>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -1304,6 +1306,8 @@ sendAsynchronousRequest : queue : completionHandler :
 // 网络连接错误
 -(void)connection:didFailWithError:
 </code></pre>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -1410,6 +1414,8 @@ sendAsynchronousRequest : queue : completionHandler :
 
     [NSURLConnection sendSynchronousRequest:request returningResponse:&amp;response error:&amp;error];
 </code></pre>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -1777,6 +1783,8 @@ public:
 <li><a href="http://www.bobmccune.com/2011/04/08/automagic-factories-in-objective-c/">Automagic Factories in Objective-C</a>&ndash;bobmccune</li>
 </ul>
 
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   

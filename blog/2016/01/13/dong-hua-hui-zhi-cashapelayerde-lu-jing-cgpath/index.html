@@ -230,6 +230,8 @@
 
 <p>重复点击<code>UISegmentedControl</code>导致铅笔消失，这是设置了<code>penAnimation.delegate = self;</code>在代理方法里面没有判断结束直接将设置<code>self.penLayer.hidden = YES</code>，导致连续切换时铅笔不见了，要修复这个bug只需加一个判断<code>   if (flag)   self.penLayer.hidden = YES;
 </code>即可,这样的意思是只有当动画完成时才设置<code>self.penLayer.hidden</code>的值，好了现在已经非常完美了，快去动手自己试试吧！🍺</p>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 </div>
 
 

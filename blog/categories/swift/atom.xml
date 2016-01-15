@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Swift | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T18:46:00+08:00</updated>
+  <updated>2016-01-15T19:32:32+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -623,6 +623,8 @@ filterOperation.addDependency(downloadOperation)
 有件非常重要的事需要注意的就是一个依赖操作将仍然启动假如它依赖的操作被取消，还有它将自然完成。你需要牢记在心。</p>
 
 <p>假如你有任何评论或者问题关于这个教程或者<code>NSOperations</code>,请加<a href="https://github.com/wangruofeng/Github_Blog/pulls">Pull request</a>。</p>
+
+<p>译者注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   

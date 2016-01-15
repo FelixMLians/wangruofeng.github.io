@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技巧 | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ji-qiao/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T18:46:00+08:00</updated>
+  <updated>2016-01-15T19:32:32+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -105,6 +105,8 @@ pod ‘AFNetworking’, ‘~&gt;0.1.2′     //使用大于等于0.1.2但小于0
 pod ‘AFNetworking’, ‘~&gt;0.1′     //使用大于等于0.1但小于1.0的版本
 pod ‘AFNetworking’, ‘~&gt;0′     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
 </code></pre>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -371,6 +373,8 @@ pod ‘AFNetworking’, ‘~&gt;0′     //高于0的版本，写这个限制和
 <li><a href="http://stackoverflow.com/questions/8915630/ios-uiimageview-how-to-handle-uiimage-image-orientation">ios-uiimageview-how-to-handle-uiimage-image-orientation</a></li>
 </ul>
 
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -485,6 +489,8 @@ image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 </code></pre>
 
 <h3>参考链接 <a href="https://www.shinobicontrols.com/blog/ios7-day-by-day-day-6-tint-color">Demo - iOS7 tintColor day by day</a></h3>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -818,6 +824,8 @@ rake deploy
 <li>Aster0id的个人博客:<a href="http://niumeng.me/blog/2015/08/26/create-your-website-1-init/">制作个人博客站（一）：Mac系统下使用 Octopress + GitHub Pages 搭建个人博客</a></li>
 </ul>
 
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Oc | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/oc/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T18:46:00+08:00</updated>
+  <updated>2016-01-15T19:32:32+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -264,6 +264,8 @@
 <li>图片下载完毕后，在第26行将图片数据传递给了代理(delegate)对象</li>
 </ul>
 
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -530,6 +532,8 @@
 <li><a href="http://stackoverflow.com/questions/8915630/ios-uiimageview-how-to-handle-uiimage-image-orientation">ios-uiimageview-how-to-handle-uiimage-image-orientation</a></li>
 </ul>
 
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -702,6 +706,8 @@ self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self
 <li><a href="http://billwang1990.github.io/blog/2013/12/30/nsrunloop-issue/">关于NSRunloop的学习和理解</a></li>
 </ul>
 
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
@@ -816,6 +822,8 @@ image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 </code></pre>
 
 <h3>参考链接 <a href="https://www.shinobicontrols.com/blog/ios7-day-by-day-day-6-tint-color">Demo - iOS7 tintColor day by day</a></h3>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
   </entry>
   
