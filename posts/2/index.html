@@ -9,10 +9,7 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="参考资料： Sending Multipart Forms with Objective-C
-POST multipart/form-data with Objective-C
-Sending an HTTP POST request on iOS
-The Multipart Content- &hellip;">
+  <meta name="description" content="GET和POST是两种最常用的与服务器进行交互的HTTP方法 . GET GET的语义是获取指定的URL资源, 将数据按照 variable = value 的形式, 添加到action所指向的URL后面, 并且两者使用 &lsquo; ? '连接, 各变量之间使用 &rsquo; &amp; & &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +77,124 @@ The Multipart Content- &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/13/get-and-post/">GET&amp;POST</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T05:48:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:48 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>GET和POST是两种最常用的与服务器进行交互的HTTP方法 .</p></blockquote>
+
+<h3>GET</h3>
+
+<ul>
+<li>GET的语义是获取指定的URL资源, 将数据按照 variable = value 的形式, 添加到action所指向的URL后面, 并且两者使用 &lsquo; ? '连接, 各变量之间使用 &rsquo; &amp; &lsquo;连接 .</li>
+<li>对用户来说不安全, 因为在传输过程中, 数据被放在请求的URL中.</li>
+<li>传输的数据量小, 这主要是因为受URL长度限制.</li>
+</ul>
+
+
+<h3>URL长度限制</h3>
+
+<p> 在http协议中，其实并没有对url长度作出限制，往往url的最大长度和用户浏览器和Web服务器有关，不一样的浏览器，能接受的最大长度往往是不一样的，当然，不一样的Web服务器能够处理的最大长度的URL的能力也是不一样的。</p>
+
+<pre><code>IE浏览器对URL的最大限制为2083个字符，如果超过这个数字，提交按钮没有任何反应。
+
+Firefox浏览器URL的长度限制为65,536个字符 ;
+
+Apache(Server)能够接受的最大URL长度为8192个字符 ;
+
+如果浏览器的编码为UTF8的话，一个汉字最终编码后的字符长度为9个字符。
+</code></pre>
+
+<p>GET请求示例</p>
+
+<p><img src="http://static.oschina.net/uploads/space/2014/0602/164040_3SOT_1774273.png" alt="GetRequest" /></p>
+
+<h3>POST</h3>
+
+<ul>
+<li>POST语义是向指定URL的资源添加数据.</li>
+<li>将数据放在数据体中, 按照变量和值相对应的方式, 传递到action所指向的URL.</li>
+<li>所有数据对用户来说不可见.</li>
+<li>可以传输大量数据, 上传文件只能使用POST.</li>
+</ul>
+
+
+<p>POST请求示例</p>
+
+<p><img src="http://static.oschina.net/uploads/space/2014/0602/164119_VRKY_1774273.png" alt="PostRequest" /></p>
+
+<h3>在浏览器中判断GET&amp;POST请求</h3>
+
+<p>因为POST请求会向服务器发送数据体, 因此刷新页面时会出现提示窗口. 而GET请求不会向服务器发送数据体, 因此没有提示 .</p>
+
+<p>从请求本质来看, GET请求要比POST更安全, 效率也会更高 .(对服务器而言)</p>
+
+<h3>iOS网络发送网络请求的步骤</h3>
+
+<ol>
+<li><p>实例化URL( 网络资源 ) ;</p></li>
+<li><p>根据URL建立URLRequest ( 网络请求 ) ;</p>
+
+<p> 默认为GET请求; 对于POST请求,  需要创建请求的数据体 .</p></li>
+<li><p>利用 URLConnection 发送网络请求(发送请求并获得结果) ;</p></li>
+</ol>
+
+
+<p>NSURLConnection提供了两个静态方法可以直接以同步或异步的方式向服务器发送网络请求.</p>
+
+<pre><code>同步请求:
+
+sendSynchronousRequest : returningResponse : error :
+
+异步请求:
+
+sendAsynchronousRequest : queue : completionHandler :
+</code></pre>
+
+<p>在网络请求过程中, 接收数据的过程实际上是通过 NSURLConnectionDataDelegate来实现的, 常用代理方法包括:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 服务器开始返回数据</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:didReceiveResponse:</span>
+</span><span class='line'><span class="c1">// 收到服务器返回的数据，本方法会被调用多次</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:didReceiveData:</span>
+</span><span class='line'><span class="c1">// 数据接收完毕，做数据的最后处理</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connectionDidFinishLoading:</span>
+</span><span class='line'><span class="c1">// 网络连接错误</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:didFailWithError:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3691,134 +3806,6 @@ UITouchPhaseCancelled（触摸取消）*/
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/13/blogwang-zhan-bei-wang-lu/">Blog网站备忘录</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-13T04:29:59+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>用于收藏不错的个人或者公司Blog地址</p></blockquote>
-
-<h2>幽幽传送门</h2>
-
-<ul>
-<li><a href="http://www.jianshu.com/p/e5353a1a752c">我常常浏览的博客和网站
-</a> &ndash;<a href="http://www.jianshu.com/users/b82d2721ba07">叶孤城__</a></li>
-<li><a href="http://www.cocoachina.com/ios/20150626/11348.html">11个超棒的iOS开发学习网站</a></li>
-<li><a href="http://blog.devtang.com/blog/2014/07/27/ios-levelup-tips/">iOS开发如何提高</a></li>
-<li><a href="https://github.com/tangqiaoboy/iOSBlogCN-">中文 iOS/Mac 开发博客列表</a>&ndash;唐巧精心整理了国内40多位iOS开发博主的博客地址列表</li>
-</ul>
-
-
-<h2>简书</h2>
-
-<ul>
-<li><a href="http://www.jianshu.com/users/b82d2721ba07/latest_articles">叶孤城___</a></li>
-<li><a href="http://www.jianshu.com/users/39eeabac725a/latest_articles">MarkNote</a></li>
-<li><a href="http://www.jianshu.com/users/384f80cdc57b/latest_articles">lp_马建成</a></li>
-<li><a href="http://www.jianshu.com/users/7ba5d9065301/latest_articles">seedante
-</a></li>
-<li><a href="http://www.jianshu.com/users/960f3b94323a/latest_articles">大灰灰iOS</a></li>
-<li><a href="http://www.jianshu.com/users/56475732c6e9/latest_articles">StrongX</a></li>
-</ul>
-
-
-<h2>国内个人</h2>
-
-<ul>
-<li><a href="http://onevcat.com/?from=inf&amp;wvr=5&amp;loc=infblog">猫神onevcat</a></li>
-<li><a href="http://blog.devtang.com/">唐巧</a>&ndash;猿题库作者</li>
-<li><a href="http://blog.txx.im/?from=inf&amp;wvr=5&amp;loc=infblog">虾神</a>&ndash;话说你们晓得虾神年纪多大么？反正我是觉得白活了。90后太厉害了。</li>
-<li><a href="http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/">sunnyxx</a></li>
-<li><a href="https://github.com/nixzhu/dev-blog">nixzhu</a>&ndash;有几篇翻译的文章质量不错</li>
-<li><a href="http://beyondvincent.com">破船之家</a>&ndash;这让我想起，喝上一杯朗姆酒🍺</li>
-<li><a href="http://macshuo.com/?page_id=93">MacTalk-池建强的随想录</a>&ndash;Mac开发大牛</li>
-<li><a href="http://www.xuanyusong.com">雨松MOMO</a>&ndash;专注移动互联网，专注Unity3D游戏开发,国内最早开发Unity3d的大神之一</li>
-</ul>
-
-
-<h2>国外个人</h2>
-
-<ul>
-<li><a href="https://www.mikeash.com">mikeash</a>&ndash;白天飞行员，晚上程序员 ：] just this guy, you know?</li>
-<li><a href="https://www.shinobicontrols.com/blog">shinobicontrols</a>&ndash;iOS 最新 API 以及新功能用法</li>
-<li><a href="http://iosdevelopertips.com/user-interface/custom-visual-calendar-control-for-ios.html">iosdevelopertips</a>&ndash;教程配合Demo让你学习成长立竿见影</li>
-<li><a href="http://iosdevweekly.com">iosdevweekly</a>&ndash;很棒的个人技术博客网，已发表230篇文章</li>
-<li><a href="http://ios-goodies.com">ios-goodies</a>&ndash;iOS,UI,UX,Objective-c,Swift,Xcode</li>
-<li><a href="http://nshipster.cn/authors/mattt-thompson/">mattt-thompson</a> &ndash; 不用解释</li>
-<li><a href="http://subjc.com">subjc</a> &ndash;Subjective-C is a study of innovative iOS interfaces.</li>
-<li><a href="http://www.thinkandbuild.it">thinkandbuild</a>&ndash;《Introduction To 3D Drawing in CoreAnimtion》作者</li>
-<li><a href="http://robb.is/">robb.is</a>&ndash;《How to build a nice Hamburger transition in swift》作者</li>
-<li><a href="http://commandshift.co.uk">commandshift</a>&ndash;不多说，质量极高</li>
-<li><a href="http://indieambitions.com/">indieambitions</a>&ndash;raywenderlich常驻作者之一的blog，非常赞。</li>
-<li><a href="http://nvie.com">nvie</a>&ndash;国外一个大神的blog，讲得比较杂，git，ios，python都有涉猎，但是每篇都很精彩。</li>
-<li><a href="http://stuartkhall.com">stuartkhall</a>&ndash;很多关于app上线运营之类的blog，值得一看。</li>
-<li><a href="http://blog.ittybittyapps.com">ittybittyapps</a>&ndash;神器Reveal的作者的blog。</li>
-<li><a href="http://adoptioncurve.net/">adoptioncurve</a>&ndash;更新极快，当时iOS8还没出几个周，作者就写了篇sizeclass解析。非常棒</li>
-<li><a href="http://ciechanowski.me">ciechanowski</a>&ndash;各种数学上几何变化</li>
-<li><a href="https://www.bignerdranch.com/blog/">bignerdranch</a></li>
-<li><a href="http://www.cocoawithlove.com">cocoawithlove</a>&ndash;2008-2011的老文章，现在没怎么跟新了</li>
-<li><a href="http://blog.codinghorror.com/">codinghorror</a> &ndash;<a href="https://twitter.com/codinghorror">Jeff Atwood </a>主站</li>
-<li><a href="http://www.g8production.com/">g8production</a></li>
-</ul>
-
-
-<h2>团体blog</h2>
-
-<ul>
-<li><a href="http://blog.ibireme.com">ibireme</a>&ndash;最近很🔥的YYKit的作者</li>
-<li><a href="http://tech.glowing.com/cn/">Glow技术团队</a></li>
-<li><a href="http://tech.meituan.com">美团点评技术团队</a></li>
-</ul>
-
-
-<h2>优质iOS学习资源</h2>
-
-<ul>
-<li><a href="https://github.com">github</a>&ndash;这个不用我说吧</li>
-<li><a href="http://stackoverflow.com">stackoverflow</a>&ndash;最专业的问答社区</li>
-<li><a href="http://www.raywenderlich.com">raywenderlich</a>&ndash;iOS界的百科全书</li>
-<li><a href="http://nshipster.com">nshipster</a>&ndash;里面文章质量非常的高，最喜欢的几个网站之一<a href="https://github.com/AFNetworking/AFNetworking">AFNetworkting</a>的作者<a href="http://nshipster.com/authors/mattt-thompson/">Mattt Thompson</a>&ndash;经常出没</li>
-<li><a href="http://nshipster.cn">nshipster中国</a></li>
-<li><a href="http://www.objc.io">objc.io</a>&ndash;这个也不用多说了，Raywenderlich是百科全书的话，这个就是深入深入再深入</li>
-<li><a href="http://objcio.cn">objc中国</a></li>
-<li><a href="https://realm.io">realm.io</a>&ndash;一个跨平台的移动数据库引擎</li>
-<li><a href="http://tutsplus.com/">tutsplus</a>&ndash;也是包罗万象的一个网站，有web ios ui，不比Raywenderlich逊色。</li>
-<li><a href="https://maniacdev.com">maniacdev</a>&ndash;类似Raywenderlich，文章质量高，而且涵盖面广</li>
-</ul>
-
-
-<h2>中文网站</h2>
-
-<ul>
-<li><a href="http://www.cocoachina.com">cocoachina</a></li>
-<li><a href="http://www.code4app.com">code4app</a></li>
-<li><a href="http://www.tairan.com">泰然网</a> &ndash;游戏教程不错的网站</li>
-<li><a href="http://blog.jobbole.com">伯乐在线</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -3834,6 +3821,10 @@ UITouchPhaseCancelled（触摸取消）*/
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/15/nsurlsession/">NSURLSession 教程</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/01/14/iosxian-cheng-an-quan-suo/">iOS线程安全-锁</a>
@@ -3877,10 +3868,6 @@ UITouchPhaseCancelled（触摸取消）*/
     
       <li class="post">
         <a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/gong-han-mo-shi-xiang-jie/">工厂模式详解</a>
       </li>
     
   </ul>
