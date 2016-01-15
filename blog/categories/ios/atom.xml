@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T18:16:34+08:00</updated>
+  <updated>2016-01-15T18:17:55+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -23,8 +23,6 @@
 <p>原作者： Charlie Fulton</p>
 
 <p>译者：<a href="https://twitter.com/oneruofeng">@oneruofeng</a></p>
-
-<h1>NSURLSession 教程</h1>
 
 <p>注意：这是一篇来自我们作为即将发布<a href="http://www.raywenderlich.com/?p=49762"> iOS 7 Feast</a>的一部分<a href="http://www.raywenderlich.com/?page_id=48020">iOS 7 by Tutorials</a>的简短版本的章节。我们希望你们喜欢。</p>
 
