@@ -9,8 +9,8 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="SQLite 数据类型 SQLite 数据类型是一个用来指定任何对象的数据类型的属性。SQLite 中的每一列，每个变量和表达式都有相关的数据类型。 您可以在创建表的同时使用这些数据类型。SQLite 使用一个更普遍的动态类型系统。在 SQLite 中，值的数据类型与值本身是相关的， &hellip;">
-  
+  <meta name="description" content="SQLite_教程(二)">
+  <meta name="keywords" content="octopress, iOS, Database, Swift, Objective-c, SQLite">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -274,7 +274,7 @@
 <pre><code>$sqlite3 testDB.db
 SQLite version 3.8.10.2 2015-05-20 18:17:19
 Enter ".help" for usage hints.
-sqlite&gt; 
+sqlite&gt;
 </code></pre>
 
 <p>上面的命令将在当前目录下创建一个文件 testDB.db。该文件将被 SQLite 引擎用作数据库。如果您已经注意到 sqlite3 命令在成功创建数据库文件之后，将提供一个 sqlite> 提示符。
@@ -283,7 +283,7 @@ sqlite&gt;
 <pre><code>sqlite&gt;.databases
 seq  name             file                                                      
 ---- ---------------- --------------------------------------------
-0    main             /Users/wangruofeng/Documents/SQLitePractice/testDB.db 
+0    main             /Users/wangruofeng/Documents/SQLitePractice/testDB.db
 </code></pre>
 
 <p>您可以使用 SQLite .quit 命令退出 sqlite 提示符，如下所示：</p>
@@ -427,7 +427,7 @@ seq  name             file
 
 <p>让我们再创建一个表，我们将在随后章节的练习中使用：</p>
 
-<pre><code>sqlite&gt; CREATE TABLE DEPARTMENT(    
+<pre><code>sqlite&gt; CREATE TABLE DEPARTMENT(
    ID INT PRIMARY KEY      NOT NULL,
    DEPT           CHAR(50) NOT NULL,
    EMP_ID         INT      NOT NULL
@@ -511,7 +511,7 @@ sqlite&gt;
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/shu-ju-ku/'>数据库</a>
+    <a class='category' href='/blog/categories/database/'>database</a>
   
 </span>
 
@@ -609,7 +609,7 @@ var duoshuoQuery = {short_name:"wangruofeng"};
       </li>
     
       <li class="post">
-        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a>
+        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">HTTP POST and Multipart Forms</a>
       </li>
     
   </ul>

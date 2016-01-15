@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 网络 | 王若风的技术博客]]></title>
-  <link href="http://wangruofeng.github.io/blog/categories/wang-luo/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Networking | 王若风的技术博客]]></title>
+  <link href="http://wangruofeng.github.io/blog/categories/networking/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T19:40:30+08:00</updated>
+  <updated>2016-01-15T20:34:16+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -1215,21 +1215,11 @@ sendAsynchronousRequest : queue : completionHandler :
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Http Post and Multipart Forms]]></title>
+    <title type="html"><![CDATA[HTTP POST and Multipart Forms]]></title>
     <link href="http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms/"/>
     <updated>2016-01-13T05:45:41+08:00</updated>
     <id>http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms</id>
-    <content type="html"><![CDATA[<p>参考资料：</p>
-
-<ul>
-<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
-<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
-</ul>
-
-
-<p>注意事项：</p>
+    <content type="html"><![CDATA[<h4><code>HTTP POST</code>使用注意事项：</h4>
 
 <ul>
 <li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
@@ -1317,6 +1307,16 @@ sendAsynchronousRequest : queue : completionHandler :
 
     [NSURLConnection sendSynchronousRequest:request returningResponse:&amp;response error:&amp;error];
 </code></pre>
+
+<p>参考资料：</p>
+
+<ul>
+<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
+</ul>
+
 
 <p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>

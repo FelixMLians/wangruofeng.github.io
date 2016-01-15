@@ -4,7 +4,7 @@
   <title><![CDATA[王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T19:40:30+08:00</updated>
+  <updated>2016-01-15T20:34:16+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -1860,7 +1860,6 @@
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
-<span class='line-number'>28</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 实例类person</span>
 </span><span class='line'><span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'>
@@ -1888,7 +1887,6 @@
 </span><span class='line'>     <span class="n">pthread_cond_signal</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cond</span><span class="p">);</span>
 </span><span class='line'>     <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
 </span><span class='line'> <span class="p">});</span>
-</span><span class='line'>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1919,9 +1917,9 @@
 
 <p>ORDER BY 子句的基本语法如下：</p>
 
-<pre><code>SELECT column-list 
-FROM table_name 
-[WHERE condition] 
+<pre><code>SELECT column-list
+FROM table_name
+[WHERE condition]
 [ORDER BY column1, column2, .. columnN] [ASC | DESC];
 </code></pre>
 
@@ -2051,7 +2049,7 @@ Teddy       20000
 
 <p>让我们把 ORDER BY 子句与 GROUP BY 子句一起使用，如下所示：</p>
 
-<pre><code>sqlite&gt;  SELECT NAME, SUM(SALARY) 
+<pre><code>sqlite&gt;  SELECT NAME, SUM(SALARY)
          FROM COMPANY GROUP BY NAME ORDER BY NAME DESC;
 </code></pre>
 
@@ -2155,7 +2153,7 @@ ORDER BY column1, column2
 
 <p>用于消除重复记录的 DISTINCT 关键字的基本语法如下：</p>
 
-<pre><code>SELECT DISTINCT column1, column2,.....columnN 
+<pre><code>SELECT DISTINCT column1, column2,.....columnN
 FROM table_name
 WHERE [condition]
 </code></pre>
@@ -2298,7 +2296,7 @@ WHERE [condition];
 <pre><code>SELECT FROM table_name
 WHERE column LIKE 'XXXX%'
 
-or 
+or
 
 SELECT FROM table_name
 WHERE column LIKE '%XXXX%'
@@ -2429,7 +2427,7 @@ WHERE column LIKE '_XXXX_'
 <pre><code>SELECT FROM table_name
 WHERE column GLOB 'XXXX*'
 
-or 
+or
 
 SELECT FROM table_name
 WHERE column GLOB '*XXXX*'
@@ -2556,14 +2554,14 @@ WHERE column GLOB '????'
 
 <p>带有 LIMIT 子句的 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 LIMIT [no of rows]
 </code></pre>
 
 <p>下面是 <code>LIMIT</code> 子句与 <code>OFFSET</code> 子句一起使用时的语法：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 LIMIT [no of rows] OFFSET [row num]
 </code></pre>
@@ -2638,8 +2636,8 @@ LIMIT [no of rows] OFFSET [row num]
 
 <p>假设 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
-FROM table_name 
+<pre><code>SELECT column1, column2, columnN
+FROM table_name
 WHERE [CONTION | EXPRESSION];
 </code></pre>
 
@@ -2649,8 +2647,8 @@ WHERE [CONTION | EXPRESSION];
 
 <p>SQLite 的布尔表达式在匹配单个值的基础上获取数据。语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
-FROM table_name 
+<pre><code>SELECT column1, column2, columnN
+FROM table_name
 WHERE SINGLE VALUE MATCHTING EXPRESSION;
 </code></pre>
 
@@ -2691,7 +2689,7 @@ ADDITION = 21
 
 <p>有几个内置的函数，比如 avg()、sum()、count()，等等，执行被称为对一个表或一个特定的表列的汇总数据计算。</p>
 
-<pre><code>sqlite&gt; SELECT COUNT(*) AS "RECORDS" FROM COMPANY; 
+<pre><code>sqlite&gt; SELECT COUNT(*) AS "RECORDS" FROM COMPANY;
 RECORDS = 7
 </code></pre>
 
@@ -2719,7 +2717,7 @@ CURRENT_TIMESTAMP = 2016-01-13 16:29:56
 
 <p>SQLite 的带有 WHERE 子句的 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition]
 </code></pre>
@@ -2816,7 +2814,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>带有 WHERE 子句的 AND 运算符的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition1] AND [condition2]...AND [conditionN];
 </code></pre>
@@ -2855,7 +2853,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>带有 WHERE 子句的 OR 运算符的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition1] OR [condition2]...OR [conditionN]
 </code></pre>
@@ -2955,7 +2953,7 @@ WHERE [condition];
 4           Mark        25          Texas       20000.0
 5           David       27          Texas       20000.0
 6           Kim         22          Texas       20000.0
-7           James       24          Texas       20000.0 
+7           James       24          Texas       20000.0
 </code></pre>
 
 <p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
@@ -3349,7 +3347,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>下面的 SELECT 语句使用 SQL 子查询，子查询查找 SALARY > 65000 的带有 AGE 字段的所有记录，后边的 WHERE 子句与 EXISTS 运算符一起使用，列出了外查询中的 AGE 存在于子查询返回的结果中的所有记录：</p>
 
-<pre><code>sqlite&gt; SELECT AGE FROM COMPANY 
+<pre><code>sqlite&gt; SELECT AGE FROM COMPANY
         WHERE EXISTS (SELECT AGE FROM COMPANY WHERE SALARY &gt; 65000);
 AGE
 ----------
@@ -3364,7 +3362,7 @@ AGE
 
 <p>下面的 SELECT 语句使用 SQL 子查询，子查询查找 SALARY > 65000 的带有 AGE 字段的所有记录，后边的 WHERE 子句与 > 运算符一起使用，列出了外查询中的 AGE 大于子查询返回的结果中的年龄的所有记录：</p>
 
-<pre><code>sqlite&gt; SELECT * FROM COMPANY 
+<pre><code>sqlite&gt; SELECT * FROM COMPANY
         WHERE AGE &gt; (SELECT AGE FROM COMPANY WHERE SALARY &gt; 65000);
 ID          NAME        AGE         ADDRESS     SALARY
 ----------  ----------  ----------  ----------  ----------
@@ -3580,8 +3578,8 @@ VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
 
 <p>您可以通过在一个有一组字段的表上使用 select 语句，填充数据到另一个表中。下面是语法：</p>
 
-<pre><code>INSERT INTO first_table_name [(column1, column2, ... columnN)] 
-   SELECT column1, column2, ...columnN 
+<pre><code>INSERT INTO first_table_name [(column1, column2, ... columnN)]
+   SELECT column1, column2, ...columnN
    FROM second_table_name
    [WHERE condition];
 </code></pre>
@@ -3899,7 +3897,7 @@ COMPANY
 <pre><code>$sqlite3 testDB.db
 SQLite version 3.8.10.2 2015-05-20 18:17:19
 Enter ".help" for usage hints.
-sqlite&gt; 
+sqlite&gt;
 </code></pre>
 
 <p>上面的命令将在当前目录下创建一个文件 testDB.db。该文件将被 SQLite 引擎用作数据库。如果您已经注意到 sqlite3 命令在成功创建数据库文件之后，将提供一个 sqlite> 提示符。
@@ -3908,7 +3906,7 @@ sqlite&gt;
 <pre><code>sqlite&gt;.databases
 seq  name             file                                                      
 ---- ---------------- --------------------------------------------
-0    main             /Users/wangruofeng/Documents/SQLitePractice/testDB.db 
+0    main             /Users/wangruofeng/Documents/SQLitePractice/testDB.db
 </code></pre>
 
 <p>您可以使用 SQLite .quit 命令退出 sqlite 提示符，如下所示：</p>
@@ -4052,7 +4050,7 @@ seq  name             file
 
 <p>让我们再创建一个表，我们将在随后章节的练习中使用：</p>
 
-<pre><code>sqlite&gt; CREATE TABLE DEPARTMENT(    
+<pre><code>sqlite&gt; CREATE TABLE DEPARTMENT(
    ID INT PRIMARY KEY      NOT NULL,
    DEPT           CHAR(50) NOT NULL,
    EMP_ID         INT      NOT NULL
@@ -4333,10 +4331,10 @@ ON table_name ( column1, column2,...columnN);
 
 <p>SQLite CREATE TRIGGER 语句：</p>
 
-<pre><code>CREATE TRIGGER database_name.trigger_name 
+<pre><code>CREATE TRIGGER database_name.trigger_name
 BEFORE INSERT ON table_name FOR EACH ROW
-BEGIN 
-   stmt1; 
+BEGIN
+   stmt1;
    stmt2;
    ....
 END;
@@ -4411,7 +4409,7 @@ WHERE  column_name EXISTS (SELECT * FROM   table_name );
 <p>SQLite EXPLAIN 语句：</p>
 
 <pre><code>EXPLAIN INSERT statement...;
-or 
+or
 EXPLAIN QUERY PLAN SELECT statement...;
 </code></pre>
 
@@ -4778,21 +4776,11 @@ sendAsynchronousRequest : queue : completionHandler :
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Http Post and Multipart Forms]]></title>
+    <title type="html"><![CDATA[HTTP POST and Multipart Forms]]></title>
     <link href="http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms/"/>
     <updated>2016-01-13T05:45:41+08:00</updated>
     <id>http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms</id>
-    <content type="html"><![CDATA[<p>参考资料：</p>
-
-<ul>
-<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
-<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
-</ul>
-
-
-<p>注意事项：</p>
+    <content type="html"><![CDATA[<h4><code>HTTP POST</code>使用注意事项：</h4>
 
 <ul>
 <li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
@@ -4884,22 +4872,22 @@ sendAsynchronousRequest : queue : completionHandler :
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">boundary</span> <span class="o">=</span> <span class="s">@&quot;YOUR_BOUNDARY_STRING&quot;</span><span class="p">;</span>
 </span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">contentType</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;multipart/form-data; boundary=%@&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="n">contentType</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Type&quot;</span><span class="p">];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="bp">NSMutableData</span> <span class="o">*</span><span class="n">body</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">photo</span><span class="se">\&quot;</span><span class="s">; filename=</span><span class="se">\&quot;</span><span class="s">%@.jpg</span><span class="se">\&quot;\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">photoKey</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="s">@&quot;Content-Type: application/octet-stream</span><span class="se">\r\n\r\n</span><span class="s">&quot;</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="bp">NSData</span> <span class="nl">dataWithData</span><span class="p">:</span><span class="n">imageData</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">message</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">message</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">user</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%d&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setHTTPBody</span><span class="p">:</span><span class="n">body</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -4918,6 +4906,16 @@ sendAsynchronousRequest : queue : completionHandler :
 </span><span class='line'>
 </span><span class='line'><span class="p">[</span><span class="bp">NSURLConnection</span> <span class="nl">sendSynchronousRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">returningResponse</span><span class="p">:</span><span class="o">&amp;</span><span class="n">response</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考资料：</p>
+
+<ul>
+<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
+</ul>
 
 
 <p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>

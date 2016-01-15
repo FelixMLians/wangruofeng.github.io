@@ -203,7 +203,7 @@ sendAsynchronousRequest : queue : completionHandler :
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a></h1>
+      <h1 class="entry-title"><a href="/blog/2016/01/13/http-post-and-multipart-forms/">HTTP POST and Multipart Forms</a></h1>
     
     
       <p class="meta">
@@ -219,17 +219,7 @@ sendAsynchronousRequest : queue : completionHandler :
   </header>
 
 
-  <div class="entry-content"><p>参考资料：</p>
-
-<ul>
-<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
-<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
-</ul>
-
-
-<p>注意事项：</p>
+  <div class="entry-content"><h4><code>HTTP POST</code>使用注意事项：</h4>
 
 <ul>
 <li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
@@ -321,22 +311,22 @@ sendAsynchronousRequest : queue : completionHandler :
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">boundary</span> <span class="o">=</span> <span class="s">@&quot;YOUR_BOUNDARY_STRING&quot;</span><span class="p">;</span>
 </span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">contentType</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;multipart/form-data; boundary=%@&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="n">contentType</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Content-Type&quot;</span><span class="p">];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="bp">NSMutableData</span> <span class="o">*</span><span class="n">body</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">photo</span><span class="se">\&quot;</span><span class="s">; filename=</span><span class="se">\&quot;</span><span class="s">%@.jpg</span><span class="se">\&quot;\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">photoKey</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="s">@&quot;Content-Type: application/octet-stream</span><span class="se">\r\n\r\n</span><span class="s">&quot;</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[</span><span class="bp">NSData</span> <span class="nl">dataWithData</span><span class="p">:</span><span class="n">imageData</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">message</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">message</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Content-Disposition: form-data; name=</span><span class="se">\&quot;</span><span class="s">user</span><span class="se">\&quot;\r\n\r\n</span><span class="s">%d&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">body</span> <span class="nl">appendData</span><span class="p">:[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\r\n</span><span class="s">--%@</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">boundary</span><span class="p">]</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
-</span><span class='line'>  
+</span><span class='line'>
 </span><span class='line'>  <span class="p">[</span><span class="n">request</span> <span class="nl">setHTTPBody</span><span class="p">:</span><span class="n">body</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -355,6 +345,16 @@ sendAsynchronousRequest : queue : completionHandler :
 </span><span class='line'>
 </span><span class='line'><span class="p">[</span><span class="bp">NSURLConnection</span> <span class="nl">sendSynchronousRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">returningResponse</span><span class="p">:</span><span class="o">&amp;</span><span class="n">response</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考资料：</p>
+
+<ul>
+<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
+<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
+</ul>
 
 
 <p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
@@ -3887,7 +3887,7 @@ UITouchPhaseCancelled（触摸取消）*/
       </li>
     
       <li class="post">
-        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a>
+        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">HTTP POST and Multipart Forms</a>
       </li>
     
   </ul>

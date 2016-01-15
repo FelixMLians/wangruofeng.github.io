@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 动画 | 王若风的技术博客]]></title>
-  <link href="http://wangruofeng.github.io/blog/categories/dong-hua/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Animation | 王若风的技术博客]]></title>
+  <link href="http://wangruofeng.github.io/blog/categories/animation/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T19:40:30+08:00</updated>
+  <updated>2016-01-15T20:34:16+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>

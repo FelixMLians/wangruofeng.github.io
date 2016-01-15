@@ -9,8 +9,8 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="SQL表达式 表达式是一个或多个值、运算符和计算值的SQL函数的组合。 SQL 表达式与公式类似，都写在查询语言中。您还可以使用特定的数据集来查询数据库。 语法 假设 SELECT 语句的基本语法如下： SELECT column1, column2, columnN FROM &hellip;">
-  
+  <meta name="description" content="SQLite_教程(五)">
+  <meta name="keywords" content="Octopress, iOS, Database, Swift, Objective-c, SQLite">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -108,8 +108,8 @@
 
 <p>假设 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
-FROM table_name 
+<pre><code>SELECT column1, column2, columnN
+FROM table_name
 WHERE [CONTION | EXPRESSION];
 </code></pre>
 
@@ -119,8 +119,8 @@ WHERE [CONTION | EXPRESSION];
 
 <p>SQLite 的布尔表达式在匹配单个值的基础上获取数据。语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
-FROM table_name 
+<pre><code>SELECT column1, column2, columnN
+FROM table_name
 WHERE SINGLE VALUE MATCHTING EXPRESSION;
 </code></pre>
 
@@ -161,7 +161,7 @@ ADDITION = 21
 
 <p>有几个内置的函数，比如 avg()、sum()、count()，等等，执行被称为对一个表或一个特定的表列的汇总数据计算。</p>
 
-<pre><code>sqlite&gt; SELECT COUNT(*) AS "RECORDS" FROM COMPANY; 
+<pre><code>sqlite&gt; SELECT COUNT(*) AS "RECORDS" FROM COMPANY;
 RECORDS = 7
 </code></pre>
 
@@ -189,7 +189,7 @@ CURRENT_TIMESTAMP = 2016-01-13 16:29:56
 
 <p>SQLite 的带有 WHERE 子句的 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition]
 </code></pre>
@@ -286,7 +286,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>带有 WHERE 子句的 AND 运算符的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition1] AND [condition2]...AND [conditionN];
 </code></pre>
@@ -325,7 +325,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>带有 WHERE 子句的 OR 运算符的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition1] OR [condition2]...OR [conditionN]
 </code></pre>
@@ -425,7 +425,7 @@ WHERE [condition];
 4           Mark        25          Texas       20000.0
 5           David       27          Texas       20000.0
 6           Kim         22          Texas       20000.0
-7           James       24          Texas       20000.0 
+7           James       24          Texas       20000.0
 </code></pre>
 
 <p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
@@ -450,7 +450,7 @@ WHERE [condition];
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/shu-ju-ku/'>数据库</a>
+    <a class='category' href='/blog/categories/database/'>database</a>
   
 </span>
 
@@ -548,7 +548,7 @@ var duoshuoQuery = {short_name:"wangruofeng"};
       </li>
     
       <li class="post">
-        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">Http Post and Multipart Forms</a>
+        <a href="/blog/2016/01/13/http-post-and-multipart-forms/">HTTP POST and Multipart Forms</a>
       </li>
     
   </ul>

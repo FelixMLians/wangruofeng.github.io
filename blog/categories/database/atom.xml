@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 数据库 | 王若风的技术博客]]></title>
-  <link href="http://wangruofeng.github.io/blog/categories/shu-ju-ku/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Database | 王若风的技术博客]]></title>
+  <link href="http://wangruofeng.github.io/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T19:40:30+08:00</updated>
+  <updated>2016-01-15T20:34:16+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -28,9 +28,9 @@
 
 <p>ORDER BY 子句的基本语法如下：</p>
 
-<pre><code>SELECT column-list 
-FROM table_name 
-[WHERE condition] 
+<pre><code>SELECT column-list
+FROM table_name
+[WHERE condition]
 [ORDER BY column1, column2, .. columnN] [ASC | DESC];
 </code></pre>
 
@@ -160,7 +160,7 @@ Teddy       20000
 
 <p>让我们把 ORDER BY 子句与 GROUP BY 子句一起使用，如下所示：</p>
 
-<pre><code>sqlite&gt;  SELECT NAME, SUM(SALARY) 
+<pre><code>sqlite&gt;  SELECT NAME, SUM(SALARY)
          FROM COMPANY GROUP BY NAME ORDER BY NAME DESC;
 </code></pre>
 
@@ -264,7 +264,7 @@ ORDER BY column1, column2
 
 <p>用于消除重复记录的 DISTINCT 关键字的基本语法如下：</p>
 
-<pre><code>SELECT DISTINCT column1, column2,.....columnN 
+<pre><code>SELECT DISTINCT column1, column2,.....columnN
 FROM table_name
 WHERE [condition]
 </code></pre>
@@ -407,7 +407,7 @@ WHERE [condition];
 <pre><code>SELECT FROM table_name
 WHERE column LIKE 'XXXX%'
 
-or 
+or
 
 SELECT FROM table_name
 WHERE column LIKE '%XXXX%'
@@ -538,7 +538,7 @@ WHERE column LIKE '_XXXX_'
 <pre><code>SELECT FROM table_name
 WHERE column GLOB 'XXXX*'
 
-or 
+or
 
 SELECT FROM table_name
 WHERE column GLOB '*XXXX*'
@@ -665,14 +665,14 @@ WHERE column GLOB '????'
 
 <p>带有 LIMIT 子句的 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 LIMIT [no of rows]
 </code></pre>
 
 <p>下面是 <code>LIMIT</code> 子句与 <code>OFFSET</code> 子句一起使用时的语法：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 LIMIT [no of rows] OFFSET [row num]
 </code></pre>
@@ -747,8 +747,8 @@ LIMIT [no of rows] OFFSET [row num]
 
 <p>假设 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
-FROM table_name 
+<pre><code>SELECT column1, column2, columnN
+FROM table_name
 WHERE [CONTION | EXPRESSION];
 </code></pre>
 
@@ -758,8 +758,8 @@ WHERE [CONTION | EXPRESSION];
 
 <p>SQLite 的布尔表达式在匹配单个值的基础上获取数据。语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
-FROM table_name 
+<pre><code>SELECT column1, column2, columnN
+FROM table_name
 WHERE SINGLE VALUE MATCHTING EXPRESSION;
 </code></pre>
 
@@ -800,7 +800,7 @@ ADDITION = 21
 
 <p>有几个内置的函数，比如 avg()、sum()、count()，等等，执行被称为对一个表或一个特定的表列的汇总数据计算。</p>
 
-<pre><code>sqlite&gt; SELECT COUNT(*) AS "RECORDS" FROM COMPANY; 
+<pre><code>sqlite&gt; SELECT COUNT(*) AS "RECORDS" FROM COMPANY;
 RECORDS = 7
 </code></pre>
 
@@ -828,7 +828,7 @@ CURRENT_TIMESTAMP = 2016-01-13 16:29:56
 
 <p>SQLite 的带有 WHERE 子句的 SELECT 语句的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition]
 </code></pre>
@@ -925,7 +925,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>带有 WHERE 子句的 AND 运算符的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition1] AND [condition2]...AND [conditionN];
 </code></pre>
@@ -964,7 +964,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>带有 WHERE 子句的 OR 运算符的基本语法如下：</p>
 
-<pre><code>SELECT column1, column2, columnN 
+<pre><code>SELECT column1, column2, columnN
 FROM table_name
 WHERE [condition1] OR [condition2]...OR [conditionN]
 </code></pre>
@@ -1064,7 +1064,7 @@ WHERE [condition];
 4           Mark        25          Texas       20000.0
 5           David       27          Texas       20000.0
 6           Kim         22          Texas       20000.0
-7           James       24          Texas       20000.0 
+7           James       24          Texas       20000.0
 </code></pre>
 
 <p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
@@ -1458,7 +1458,7 @@ ID          NAME        AGE         ADDRESS     SALARY
 
 <p>下面的 SELECT 语句使用 SQL 子查询，子查询查找 SALARY > 65000 的带有 AGE 字段的所有记录，后边的 WHERE 子句与 EXISTS 运算符一起使用，列出了外查询中的 AGE 存在于子查询返回的结果中的所有记录：</p>
 
-<pre><code>sqlite&gt; SELECT AGE FROM COMPANY 
+<pre><code>sqlite&gt; SELECT AGE FROM COMPANY
         WHERE EXISTS (SELECT AGE FROM COMPANY WHERE SALARY &gt; 65000);
 AGE
 ----------
@@ -1473,7 +1473,7 @@ AGE
 
 <p>下面的 SELECT 语句使用 SQL 子查询，子查询查找 SALARY > 65000 的带有 AGE 字段的所有记录，后边的 WHERE 子句与 > 运算符一起使用，列出了外查询中的 AGE 大于子查询返回的结果中的年龄的所有记录：</p>
 
-<pre><code>sqlite&gt; SELECT * FROM COMPANY 
+<pre><code>sqlite&gt; SELECT * FROM COMPANY
         WHERE AGE &gt; (SELECT AGE FROM COMPANY WHERE SALARY &gt; 65000);
 ID          NAME        AGE         ADDRESS     SALARY
 ----------  ----------  ----------  ----------  ----------
@@ -1689,8 +1689,8 @@ VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
 
 <p>您可以通过在一个有一组字段的表上使用 select 语句，填充数据到另一个表中。下面是语法：</p>
 
-<pre><code>INSERT INTO first_table_name [(column1, column2, ... columnN)] 
-   SELECT column1, column2, ...columnN 
+<pre><code>INSERT INTO first_table_name [(column1, column2, ... columnN)]
+   SELECT column1, column2, ...columnN
    FROM second_table_name
    [WHERE condition];
 </code></pre>
