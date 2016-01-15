@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T18:17:55+08:00</updated>
+  <updated>2016-01-15T18:46:00+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -590,12 +590,10 @@ if (httpResp.statusCode == 200) {
 <p>下面是两个主要的部分:</p>
 
 <ol>
-<li>你知道你已经发送一个HTTP请求，所以响应将是一个HTTPP响应。因此这里你可以抛出<code>NSURLResponse</code>到一个<code>NSHTTPURLRequest</code>响应以便你能够接入到接口的状态码。
-假如你收到了一个HTTP状态码200，然后一切正常。</li>
-</ol>
+<li><p>你知道你已经发送一个HTTP请求，所以响应将是一个HTTPP响应。因此这里你可以抛出<code>NSURLResponse</code>到一个<code>NSHTTPURLRequest</code>响应以便你能够接入到接口的状态码。
+假如你收到了一个HTTP状态码200，然后一切正常。</p>
 
-
-<p>HTTP 错误码举例：</p>
+<p>  HTTP 错误码举例：</p>
 
 <ul>
 <li>400 - 输入参数错误。错误消息将表明那个和为什么错误。</li>
@@ -606,9 +604,11 @@ if (httpResp.statusCode == 200) {
 <li>429 - 你的app发送太多请求超出了限制的速率，429能够触发在每个app或者每个用户根部。</li>
 <li>503 - 假如响应包括重发后的头，这就意味做你的<code>OAuth</code> 1.0 app 正在被限速。否则，这个表明了一个短暂的服务器错误，并且你的app应该重新发送这这个请求。</li>
 <li>507 - 用户超出 Dropbox 储存配额。</li>
-<li><p>5xx - 服务器错误。</p></li>
-<li><p>Dropbox API返回JSON类型的数据。所有你收到一个200的响应，然后应该把数据转发成JSON使用iOS的构建JSON序列化的方法。了解更多关于JSON和NSJSONSerialization，查看第23章在 <code>iOS 5 by Tutorials</code>,&ldquo;Working with JSON.&rdquo;</p></li>
+<li>5xx - 服务器错误。</li>
 </ul>
+</li>
+<li><p>Dropbox API返回JSON类型的数据。所有你收到一个200的响应，然后应该把数据转发成JSON使用iOS的构建JSON序列化的方法。了解更多关于JSON和NSJSONSerialization，查看第23章在 <code>iOS 5 by Tutorials</code>,&ldquo;Working with JSON.&rdquo;</p></li>
+</ol>
 
 
 <p>JSON 数据返回从Dropbox将看起来像下面这样：</p>
