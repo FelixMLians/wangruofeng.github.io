@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Favorite | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T20:39:02+08:00</updated>
+  <updated>2016-01-16T19:38:35+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -53,6 +53,18 @@
 <h2>自动生成getter和setter方法的<code>@synthesize</code></h2>
 
 <p>2012</p>
+
+<h2>AutoLayout引入</h2>
+
+<p>iOS 6.0</p>
+
+<h2>Size Classes</h2>
+
+<p>iOS 8.0</p>
+
+<h2>Block</h2>
+
+<p>iOS 4.0</p>
 
 <h2>iOS 2.1 to iOS 2.2 API Differences</h2>
 

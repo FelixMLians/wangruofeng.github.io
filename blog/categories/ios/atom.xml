@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-15T20:39:02+08:00</updated>
+  <updated>2016-01-16T19:38:35+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -12,6 +12,219 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Animation Swift 版]]></title>
+    <link href="http://wangruofeng.github.io/blog/2016/01/16/ios-animation-swift-ban/"/>
+    <updated>2016-01-16T19:34:06+08:00</updated>
+    <id>http://wangruofeng.github.io/blog/2016/01/16/ios-animation-swift-ban</id>
+    <content type="html"><![CDATA[<h1>iOS Animation Swift 版</h1>
+
+<h3>简介</h3>
+
+<p>此文主要记录我学习iOS的动画相关内容用<code>Swift</code>语言，记录下来以供参考，不定时更新。</p>
+
+<h3>目录结构</h3>
+
+<ul>
+<li>Section I: View 动画
+
+<ul>
+<li>View animation</li>
+<li>弹簧动画 - Springs</li>
+<li>转场动画 - Transitions</li>
+<li>关键帧动画 - Keyframe</li>
+</ul>
+</li>
+<li>Section II: Auto Layout 动画</li>
+<li>Section III: Layer 动画</li>
+<li>Section IV: 3D 动画</li>
+<li>Section V: 未来类型的动画</li>
+<li>Section VI: View Controller 动画</li>
+<li>Section VII：第三方动画库</li>
+</ul>
+
+
+<h4>Section I: View 动画</h4>
+
+<h5>View animation</h5>
+
+<p>简介：view 的动画主要是通过UIView的类方法创建，动画内容一般
+放在block里面，可以镶嵌使用，构成链式动画，主要有3个方法,三个访法只需会参数最多的那个就行，函数名<code>animateWithDuration(_:delay:options:animations:completion:)</code>，其他的使用起来都类似。</p>
+
+<pre><code class="swift">class func animateWithDuration(_ duration: NSTimeInterval, animations animations: () -&gt; Void)
+class func animateWithDuration(_ duration: NSTimeInterval, animations animations: () -&gt; Void, completion completion: ((Bool) -&gt; Void)?)
+class func animateWithDuration(_ duration: NSTimeInterval, delay delay: NSTimeInterval, options options: UIViewAnimationOptions, animations animations: () -&gt; Void, completion completion: ((Bool) -&gt; Void)?)
+</code></pre>
+
+<p>使用：
+<code>swift
+UIView.animateWithDuration(0.5, delay: 0, options: [], animations: {
+    //do something
+  }, completion: {_ in
+    //do something
+})
+</code></p>
+
+<blockquote><p>说明：<code>options</code>，动画选项，这个运行你设置一个动画选项集合，传<code>[]</code>表示不需要选项，单个时可以省略放括号例如<code>.Repeat</code>,多个用逗号连接<code>[.Repeat, .CurveEaseInOut]</code></p>
+
+<p><code>completion</code>闭包需要一个参数，不需要使用参数可以用<code>_</code>表示，不需要实现可以直接传<code>nil</code></p></blockquote>
+
+<p>或者像下面这样写</p>
+
+<pre><code class="swift">UIView.animateWithDuration(0.5, delay: 0, options: [], animations: { () -&gt; Void in
+  //do something
+  }) { (_) -&gt; Void in
+  //do something
+}
+</code></pre>
+
+<h5>弹簧动画 - Springs</h5>
+
+<p>简介：弹簧动画是iOS 7.0新增的API，函数名<code>animateWithDuration(_:delay:usingSpringWithDamping:initialSpringVelocity:opti ons:animations:completion:)</code>，</p>
+
+<pre><code class="swift">class func animateWithDuration(_ duration: NSTimeInterval, delay delay: NSTimeInterval, usingSpringWithDamping dampingRatio: CGFloat, initialSpringVelocity velocity: CGFloat, options options: UIViewAnimationOptions, animations animations: () -&gt; Void, completion completion: ((Bool) -&gt; Void)?)
+</code></pre>
+
+<p>使用：
+<code>swift
+UIView.animateWithDuration(0.5, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [], animations: {
+// do something
+}, completion: nil)
+</code></p>
+
+<blockquote><p>说明：<code>usingSpringWithDamping</code>:设置弹簧的阻尼，范围（0.0-1.0），越接近0.0弹簧越有弹性，越接近1.0，效果越僵硬，你可以把当成弹簧的刚度来理解，
+<code>initialSpringVelocity</code>:设置弹簧初始化的速度，设置1.0表示用1秒在动画跨度上完成整个动画距离，值越大或shu'd者越小会导致动画有相应的大的或者较小的速度，可以当成弹簧的初始动量来理解。</p></blockquote>
+
+<h5>转场动画 - Transitions</h5>
+
+<p>简介：前两种创建的动画是基于可动画的接口例如，postion，alpha，frame等等，Transitions是专门处理添加或者移除一个view的动画,系统有2个标准函数，一个是对单个view的处理，一个是处理2个view替换的问题。</p>
+
+<pre><code class="swift">class func transitionWithView(_ view: UIView, duration duration: NSTimeInterval, options options: UIViewAnimationOptions, animations animations: (() -&gt; Void)?, completion completion: ((Bool) -&gt; Void)?)
+class func transitionFromView(_ fromView: UIView, toView toView: UIView, duration duration: NSTimeInterval, options options: UIViewAnimationOptions, completion completion: ((Bool) -&gt; Void)?)
+</code></pre>
+
+<p>使用：
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//add the new view via transition</span>
+</span><span class='line'><span class="bp">UIView</span><span class="p">.</span><span class="n">transitionWithView</span><span class="p">(</span><span class="n">animationContainerView</span><span class="o">!</span><span class="p">,</span> <span class="nl">duration</span><span class="p">:</span> <span class="mf">0.33</span><span class="p">,</span>
+</span><span class='line'><span class="nl">options</span><span class="p">:</span> <span class="p">[.</span><span class="n">CurveEaseOut</span><span class="p">,</span> <span class="p">.</span><span class="n">TransitionFlipFromBottom</span><span class="p">],</span> <span class="nl">animations</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">animationContainerView</span><span class="o">!</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">newView</span><span class="p">)</span> <span class="p">},</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">//remove the view via transition</span>
+</span><span class='line'><span class="bp">UIView</span><span class="p">.</span><span class="n">transitionWithView</span><span class="p">(</span><span class="n">animationContainerView</span><span class="o">!</span><span class="p">,</span> <span class="nl">duration</span><span class="p">:</span> <span class="mf">0.33</span><span class="p">,</span>
+</span><span class='line'><span class="nl">options</span><span class="p">:</span> <span class="p">[.</span><span class="n">CurveEaseOut</span><span class="p">,</span> <span class="p">.</span><span class="n">TransitionFlipFromBottom</span><span class="p">],</span> <span class="nl">animations</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">newView</span><span class="p">.</span><span class="n">removeFromSuperview</span><span class="p">()</span> <span class="p">},</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">//hide the view via transition</span>
+</span><span class='line'><span class="bp">UIView</span><span class="p">.</span><span class="n">transitionWithView</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">newView</span><span class="p">,</span> <span class="nl">duration</span><span class="p">:</span> <span class="mf">0.33</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">[.</span><span class="n">CurveEaseOut</span><span class="p">,</span> <span class="p">.</span><span class="n">TransitionFlipFromBottom</span><span class="p">],</span> <span class="nl">animations</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">newView</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">true</span> <span class="p">},</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">//replace via transition</span>
+</span><span class='line'><span class="bp">UIView</span><span class="p">.</span><span class="n">transitionFromView</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">oldView</span><span class="o">!</span><span class="p">,</span> <span class="nl">toView</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">newView</span><span class="o">!</span><span class="p">,</span> <span class="nl">duration</span><span class="p">:</span> <span class="mf">0.33</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">[.</span><span class="n">TransitionFlipFromTop</span><span class="p">],</span>
+</span><span class='line'><span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h5>关键帧动画 - Keyframe</h5>
+
+<p>简介：关键帧顾名思义就是设定关键的一些帧然后系统会根据一套算法计算中间的其他帧，这样改变的可动画属性时看看起来更加流畅自然，主要有两个函数,一个创建关键帧动画，一个设置具体每帧内容</p>
+
+<pre><code class="swift">class func animateKeyframesWithDuration(_ duration: NSTimeInterval, delay delay: NSTimeInterval, options options: UIViewKeyframeAnimationOptions, animations animations: () -&gt; Void, completion completion: ((Bool) -&gt; Void)?)
++ (void)addKeyframeWithRelativeStartTime:(double)frameStartTime relativeDuration:(double)frameDuration animations:(void (^)(void))animations
+</code></pre>
+
+<p>例如：
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">planeDepart</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="bp">UIView</span><span class="p">.</span><span class="n">animateKeyframesWithDuration</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="nl">delay</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">[],</span> <span class="nl">animations</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//add keyframes&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="bp">UIView</span><span class="p">.</span><span class="n">addKeyframeWithRelativeStartTime</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nl">relativeDuration</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="nl">animations</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="mf">100.0</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-=</span> <span class="mf">10.0</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">UIView</span><span class="p">.</span><span class="n">addKeyframeWithRelativeStartTime</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="nl">relativeDuration</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeRotation</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">(</span><span class="o">-</span><span class="n">M_PI_4</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">UIView</span><span class="p">.</span><span class="n">addKeyframeWithRelativeStartTime</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="nl">relativeDuration</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="mf">100.0</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-=</span> <span class="mf">60.0</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">UIView</span><span class="p">.</span><span class="n">addKeyframeWithRelativeStartTime</span><span class="p">(</span><span class="mf">0.51</span><span class="p">,</span> <span class="nl">relativeDuration</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformIdentity</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="bp">CGPoint</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">originalCenter</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">UIView</span><span class="p">.</span><span class="n">addKeyframeWithRelativeStartTime</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span> <span class="nl">relativeDuration</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">planeImage</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">originalCenter</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">},</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<blockquote><p>说明：这是设计一个飞机沿一条路径起飞然后再归位的一段动画，<code>addKeyframeWithRelativeStartTime(_:relativeDuration:animations:)</code>,第一个参数相对开始时间，是相对于动画持续时间的百分比，例如0.1就是10%，0.25就是25%，如果整个动画持续2秒，0.1就是在2*0.1=0.2秒的时候开始，后面的一个参数是相对持续时间，范围更第一参数类似也(0.0-1.0),只从相对开始时间起，往后推移的相对时间。</p></blockquote>
+
+<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NSURLSession 教程]]></title>
@@ -1503,114 +1716,6 @@ sendAsynchronousRequest : queue : completionHandler :
 // 网络连接错误
 -(void)connection:didFailWithError:
 </code></pre>
-
-<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[HTTP POST and Multipart Forms]]></title>
-    <link href="http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms/"/>
-    <updated>2016-01-13T05:45:41+08:00</updated>
-    <id>http://wangruofeng.github.io/blog/2016/01/13/http-post-and-multipart-forms</id>
-    <content type="html"><![CDATA[<h4><code>HTTP POST</code>使用注意事项：</h4>
-
-<ul>
-<li>http Body 中的NSData 编码方式要用<code>NSASCIIStringEncoding</code>而不是<code>NSUTF8StringEncoding</code></li>
-<li><p>通过</p>
-
-<p>  <code>NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];</code>     <br/>
-计算数据的长度</p></li>
-</ul>
-
-
-<h4>POST参数设置</h4>
-
-<pre><code class="objective-c">        //设置header Content-Length
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        //设置header contentType
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-        //设置body
-        [request setHTTPBody:postData];
-</code></pre>
-
-<blockquote><p>备注:普通<code>post</code>的<code>header</code>的<code>Current-Type</code>为<code>application/x-www-form-urlencoded</code></p></blockquote>
-
-<h4>Multipart Forms POST参数设置</h4>
-
-<pre><code class="objective-c">        //设置header contentType
-        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-        [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-
-        //设置body contentType
-        [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-</code></pre>
-
-<blockquote><p>备注:<code>Multipart Forms</code>的<code>header</code>的<code>Current-Type</code>为<code>multipart/form-data</code></p></blockquote>
-
-<p>request body like this</p>
-
-<pre><code>    --YOUR_BOUNDARY_STRING
-    Content-Disposition: form-data; name="photo"; filename="calm.jpg"
-    Content-Type: image/jpeg
-
-    YOUR_IMAGE_DATA_GOES_HERE
-    --YOUR_BOUNDARY_STRING
-    Content-Disposition: form-data; name="message"
-
-    My first message
-    --YOUR_BOUNDARY_STRING
-    Content-Disposition: form-data; name="user"
-
-    1
-    --YOUR_BOUNDARY_STRING
-</code></pre>
-
-<p>I’m sending over three variables: an image named photo, a string named message, and an integer named user. It’s important to note the linebreaks and the dashes before the boundary string. These must be included in order to build a good request. Now lets write some objective-c:</p>
-
-<pre><code class="objective-c">
-    NSString *boundary = @"YOUR_BOUNDARY_STRING";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-
-    NSMutableData *body = [NSMutableData data];
-
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"photo\"; filename=\"%@.jpg\"\r\n", self.message.photoKey] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[NSData dataWithData:imageData]];
-
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"message\"\r\n\r\n%@", self.message.message] dataUsingEncoding:NSUTF8StringEncoding]];
-
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"user\"\r\n\r\n%d", 1] dataUsingEncoding:NSUTF8StringEncoding]];
-
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-
-    [request setHTTPBody:body];
-</code></pre>
-
-<p>Now all we need to do is make a connection to the server and send the request:</p>
-
-<pre><code>[request setHTTPBody:body];
-</code></pre>
-
-<pre><code class="objective-c">    NSURLResponse *response;
-    NSError *error;
-
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&amp;response error:&amp;error];
-</code></pre>
-
-<p>参考资料：</p>
-
-<ul>
-<li><a href="http://nthn.me/posts/2012/objc-multipart-forms.html">Sending Multipart Forms with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c">POST multipart/form-data with Objective-C</a></li>
-<li><a href="http://stackoverflow.com/questions/15749486/sending-an-http-post-request-on-ios">Sending an HTTP POST request on iOS</a></li>
-<li><a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">The Multipart Content-Type&ndash;w3规范</a></li>
-</ul>
-
 
 <p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
 ]]></content>
