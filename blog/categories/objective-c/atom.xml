@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-c | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-17T17:24:02+08:00</updated>
+  <updated>2016-01-17T21:15:30+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -262,6 +262,17 @@
 <li>经过第8行下载图片后，在第10行也需要判断操作有没有被取消</li>
 <li>总之，执行了一段比较耗时的操作之后，都需要判断操作有没有被取消</li>
 <li>图片下载完毕后，在第26行将图片数据传递给了代理(delegate)对象</li>
+</ul>
+
+
+<p>资料参考：</p>
+
+<ul>
+<li>NSHipster 的<a href="http://nshipster.com/nsoperation/">NSOperation</a></li>
+<li>雷纯锋的博客的<a href="http://www.leichunfeng.com/blog/2015/07/29/ios-concurrency-programming-operation-queues/">《iOS 并发编程之 Operation Queues》</a></li>
+<li>objc的并发编程指南<a href="http://www.objc.io/issue-2/">《Concurrent Programming》</a></li>
+<li><a href="http://stackoverflow.com/questions/10373331/nsoperation-vs-grand-central-dispatch">StackOverflow: NSOperation vs. Grand Central Dispatch</a></li>
+<li><a href="http://eschatologist.net/blog/?p=232">Blog: When to use NSOperation vs. GCD</a></li>
 </ul>
 
 
