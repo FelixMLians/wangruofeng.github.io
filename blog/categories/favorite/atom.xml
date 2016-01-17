@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Favorite | 王若风的技术博客]]></title>
   <link href="http://wangruofeng.github.io/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="http://wangruofeng.github.io/"/>
-  <updated>2016-01-16T23:05:27+08:00</updated>
+  <updated>2016-01-17T17:24:02+08:00</updated>
   <id>http://wangruofeng.github.io/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -62,9 +62,13 @@
 
 <p>iOS 8.0</p>
 
-<h2>Block</h2>
+<h2>Blocks</h2>
 
-<p>iOS 4.0</p>
+<p><a href="https://en.wikipedia.org/wiki/Mac_OS_X_Snow_Leopard">Mac OS X 10.6 &ldquo;Snow Leopard&rdquo;</a> and <a href="https://en.wikipedia.org/wiki/IOS">iOS 4.0</a></p>
+
+<h2>Objective-C 2.0</h2>
+
+<p>At the <a href="https://en.wikipedia.org/wiki/Apple_Worldwide_Developers_Conference">2006 Worldwide Developers Conference</a> release of <a href="https://en.wikipedia.org/wiki/Objective-C#Objective-C_2.0">Objective-C 2.0</a></p>
 
 <h2>iOS 2.1 to iOS 2.2 API Differences</h2>
 
@@ -350,6 +354,7 @@
 <li><a href="http://beyondvincent.com">破船之家</a>&ndash;这让我想起，喝上一杯朗姆酒🍺</li>
 <li><a href="http://macshuo.com/?page_id=93">MacTalk-池建强的随想录</a>&ndash;Mac开发大牛</li>
 <li><a href="http://www.xuanyusong.com">雨松MOMO</a>&ndash;专注移动互联网，专注Unity3D游戏开发,国内最早开发Unity3d的大神之一</li>
+<li><a href="http://yulingtianxia.com">玉令天下的博客</a> &ndash; 关于runtime的资料整理得非常不错</li>
 </ul>
 
 
