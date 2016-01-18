@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Favorite | 王若风的技术博客]]></title>
   <link href="http://blog.wangruofeng007.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="http://blog.wangruofeng007.com/"/>
-  <updated>2016-01-18T22:04:05+08:00</updated>
+  <updated>2016-01-18T22:38:33+08:00</updated>
   <id>http://blog.wangruofeng007.com/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -489,6 +489,20 @@
 <li><a href="http://www.code4app.com">code4app</a></li>
 <li><a href="http://www.tairan.com">泰然网</a> &ndash;游戏教程不错的网站</li>
 <li><a href="http://blog.jobbole.com">伯乐在线</a></li>
+</ul>
+
+
+<h2>Swift：</h2>
+
+<ul>
+<li><a href="http://wiki.jikexueyuan.com/project/swift/">介紹 | 《The Swift Programming Language》中文版</a></li>
+<li><a href="http://swifter.tips">Swift必备Tips</a> &ndash; 猫神的杰作</li>
+<li><a href="http://letsswift.com/swift-site-index/">Let&rsquo;s Swift </a> &ndash; Swift站点导航</li>
+<li><a href="https://objectivec2swift.com/#/converter/code">Swiftify | Objective-C to Swift Converter </a> &ndash; 辅助将旧的* Objective-C代码转成Swift。</li>
+<li><a href="https://swift.org">Swift.org</a> &ndash; Apple Swift 官网</li>
+<li><a href="https://developer.apple.com/swift/blog/">Swift - Blog</a> &ndash; Apple Swift 官方博客</li>
+<li><a href="https://github.com/CocoaChina-editors/Welcome-to-Swift">CocoaChina小组翻译的Swift版本</a></li>
+<li><a href="http://www.tutorialspoint.com/swift/swift_environment.htm">tutorialspoint</a> &ndash; 有一些Swift教程</li>
 </ul>
 
 
