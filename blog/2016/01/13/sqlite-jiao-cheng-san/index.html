@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SQLite_教程(三) - 王若风的技术博客</title>
+  <meta name="author" content="王若风">
+
+  
+  <meta name="description" content="SQLite_教程(三)">
+  <meta name="keywords" content="Octopress, iOS, Database, Swift, Objective-c, SQLite">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.wangruofeng007.com/blog/2016/01/13/sqlite-jiao-cheng-san/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="王若风的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72379345-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">王若风的技术博客</a></h1>
+  
+    <h2>世界尽头与冷酷仙境</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.wangruofeng007.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SQLite_教程(三)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T23:22:37+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:22 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>SQLite Insert 语句</h4>
+
+<p>SQLite 的 INSERT INTO 语句用于向数据库的某个表中添加新的数据行。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>INSERT INTO 语句有两种基本语法，如下所示：</p>
+
+<pre><code>INSERT INTO TABLE_NAME (column1, column2, column3,...columnN)]  
+VALUES (value1, value2, value3,...valueN);
+</code></pre>
+
+<p>在这里，column1, column2,&hellip;columnN 是要插入数据的表中的列的名称。
+如果要为表中的所有列添加值，您也可以不需要在 SQLite 查询中指定列名称。但要确保值的顺序与列在表中的顺序一致。SQLite 的 INSERT INTO 语法如下：</p>
+
+<pre><code>INSERT INTO TABLE_NAME VALUES (value1,value2,value3,...valueN);
+</code></pre>
+
+<hr />
+
+<p><strong>实例</strong></p>
+
+<p>假设您已经在 testDB.db 中创建了 COMPANY表，如下所示：</p>
+
+<pre><code>sqlite&gt; CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+</code></pre>
+
+<p>现在，下面的语句将在 COMPANY 表中创建六个记录：</p>
+
+<pre><code>INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (1, 'Paul', 32, 'California', 20000.00 );
+
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (2, 'Allen', 25, 'Texas', 15000.00 );
+
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );
+
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
+
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (5, 'David', 27, 'Texas', 85000.00 );
+
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+</code></pre>
+
+<p>您也可以使用第二种语法在 COMPANY 表中创建一个记录，如下所示：</p>
+
+<pre><code>INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
+</code></pre>
+
+<p>上面的所有语句将在 COMPANY 表中创建下列记录。下一章会教您如何从一个表中显示所有这些记录。</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<h4>使用一个表来填充另一个表</h4>
+
+<p>您可以通过在一个有一组字段的表上使用 select 语句，填充数据到另一个表中。下面是语法：</p>
+
+<pre><code>INSERT INTO first_table_name [(column1, column2, ... columnN)]
+   SELECT column1, column2, ...columnN
+   FROM second_table_name
+   [WHERE condition];
+</code></pre>
+
+<h4>SQLite Select 语句</h4>
+
+<p>SQLite 的 SELECT 语句用于从 SQLite 数据库表中获取数据，以结果表的形式返回数据。这些结果表也被称为结果集。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>SQLite 的 SELECT 语句的基本语法如下：</p>
+
+<pre><code>SELECT column1, column2, columnN FROM table_name;
+</code></pre>
+
+<p>在这里，column1, column2&hellip;是表的字段，他们的值即是您要获取的。如果您想获取所有可用的字段，那么可以使用下面的语法：</p>
+
+<pre><code>SELECT * FROM table_name;
+</code></pre>
+
+<hr />
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，使用 SELECT 语句获取并显示所有这些记录。在这里，前三个命令被用来设置正确格式化的输出。</p>
+
+<pre><code>sqlite&gt;.header on
+sqlite&gt;.mode column
+sqlite&gt; SELECT * FROM COMPANY;
+</code></pre>
+
+<p>最后，将得到以下的结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>如果只想获取 COMPANY 表中指定的字段，则使用下面的查询：</p>
+
+<pre><code>sqlite&gt; SELECT ID, NAME, SALARY FROM COMPANY;
+</code></pre>
+
+<p>上面的查询会产生以下结果：</p>
+
+<pre><code>ID          NAME        SALARY
+----------  ----------  ----------
+1           Paul        20000.0
+2           Allen       15000.0
+3           Teddy       20000.0
+4           Mark        65000.0
+5           David       85000.0
+6           Kim         45000.0
+7           James       10000.0
+</code></pre>
+
+<hr />
+
+<p><strong>设置输出列的宽度</strong></p>
+
+<p>有时，由于要显示的列的默认宽度导致 .mode column，这种情况下，输出被截断。此时，您可以使用 .width num, num&hellip;. 命令设置显示列的宽度，如下所示：</p>
+
+<pre><code>sqlite&gt;.width 10, 20, 10
+sqlite&gt;SELECT * FROM COMPANY;
+</code></pre>
+
+<p>上面的 .width 命令设置第一列的宽度为 10，第二列的宽度为 20，第三列的宽度为 10。因此上述 SELECT 语句将得到以下结果：</p>
+
+<pre><code>ID          NAME                  AGE         ADDRESS     SALARY
+----------  --------------------  ----------  ----------  ----------
+1           Paul                  32          California  20000.0
+2           Allen                 25          Texas       15000.0
+3           Teddy                 23          Norway      20000.0
+4           Mark                  25          Rich-Mond   65000.0
+5           David                 27          Texas       85000.0
+6           Kim                   22          South-Hall  45000.0
+7           James                 24          Houston     10000.0
+</code></pre>
+
+<p><strong>Schema 信息</strong>
+因为所有的点命令只在 SQLite 提示符中可用，所以当您进行带有 SQLite 的编程时，您要使用下面的带有 sqlite_master 表的 SELECT 语句来列出所有在数据库中创建的表：</p>
+
+<pre><code>sqlite&gt; SELECT tbl_name FROM sqlite_master WHERE type = 'table';
+</code></pre>
+
+<p>假设在 testDB.db 中已经存在唯一的 COMPANY 表，则将产生以下结果：</p>
+
+<pre><code>tbl_name
+----------
+COMPANY
+</code></pre>
+
+<p>您可以列出关于 COMPANY 表的完整信息，如下所示：</p>
+
+<pre><code>sqlite&gt; SELECT sql FROM sqlite_master WHERE type = 'table' AND tbl_name = 'COMPANY';
+</code></pre>
+
+<p>假设在 testDB.db 中已经存在唯一的 COMPANY 表，则将产生以下结果：</p>
+
+<pre><code>CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+)
+</code></pre>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">王若风</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T23:22:37+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:22 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/database/'>database</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/13/sqlite-jiao-cheng-er/" title="Previous Post: SQLite_教程(二)">&laquo; SQLite_教程(二)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/13/sqlite-jiao-cheng-si/" title="Next Post: SQLite_教程(四)">SQLite_教程(四) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+   <!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/blog/2016/01/13/sqlite-jiao-cheng-san" data-title="SQLite_教程(三)" data-url="http://blog.wangruofeng007.com/blog/2016/01/13/sqlite-jiao-cheng-san/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangruofeng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+  </section>
+ 
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/animation/'>animation (2)</a></li>
+<li class='category'><a href='/blog/categories/database/'>database (7)</a></li>
+<li class='category'><a href='/blog/categories/design-patterns/'>design_patterns (1)</a></li>
+<li class='category'><a href='/blog/categories/efficiency/'>efficiency (2)</a></li>
+<li class='category'><a href='/blog/categories/favorite/'>favorite (3)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (20)</a></li>
+<li class='category'><a href='/blog/categories/memory-management/'>memory_management (1)</a></li>
+<li class='category'><a href='/blog/categories/multithreading/'>multithreading (1)</a></li>
+<li class='category'><a href='/blog/categories/networking/'>networking (6)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (4)</a></li>
+<li class='category'><a href='/blog/categories/skill/'>skill (5)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/18/tableviewxing-neng-you-hua/">TableView性能优化</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/16/ios-animation-swift-ban/">iOS Animation Swift 版</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/15/nsurlsession/">NSURLSession 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/iosxian-cheng-an-quan-suo/">iOS线程安全-锁</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-qi/">SQLite_教程(七)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-liu/">SQLite_教程(六)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-wu/">SQLite_教程(五)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-si/">SQLite_教程(四)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-san/">SQLite_教程(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-er/">SQLite_教程(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/">SQLite_教程(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/">CocoaPods使用指南</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>About Me</h1>
+  <p>嗨,我是王若风。🍀</p>
+  <p>来自美丽的天府の国,现居深圳。</p>
+  <p>专注于移动互联网,热爱摄影旅行。</p>
+  <p>正在修行,探寻程序の美!</p>
+</section>
+<section>
+<h1>最近评论</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="20">
+</ul>
+<!-- 多说JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangruofeng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 王若风 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

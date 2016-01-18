@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SQLite_教程(一) - 王若风的技术博客</title>
+  <meta name="author" content="王若风">
+
+  
+  <meta name="description" content="SQLite_教程(一)">
+  <meta name="keywords" content="octopress, iOS, Database, Swift, Objective-c, SQLite">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.wangruofeng007.com/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="王若风的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72379345-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">王若风的技术博客</a></h1>
+  
+    <h2>世界尽头与冷酷仙境</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.wangruofeng007.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SQLite_教程(一)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T23:18:15+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:18 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>简介：</h4>
+
+<p>SQLite 是一个软件库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。SQLite 是在世界上最广泛部署的 SQL 数据库引擎。SQLite 源代码不受版权限制。
+本教程将告诉您如何使用 SQLite 编程，并让你迅速上手。</p>
+
+<h4>什么是 SQLite？</h4>
+
+<p>SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。
+就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件</p>
+
+<h4>为什么要用 SQLite？</h4>
+
+<ul>
+<li>不需要一个单独的服务器进程或操作的系统（无服务器的）。</li>
+<li>SQLite 不需要配置，这意味着不需要安装或管理。</li>
+<li>一个完整的 SQLite 数据库是存储在一个单一的跨平台的磁盘文件。</li>
+<li>SQLite 是非常小的，是轻量级的，完全配置时小于 400KiB，省略可选功能配置时小于250KiB。</li>
+<li>SQLite 是自给自足的，这意味着不需要任何外部的依赖。</li>
+<li>SQLite 事务是完全兼容 ACID 的，允许从多个进程或线程安全访问。</li>
+<li>SQLite 支持 SQL92（SQL2）标准的大多数查询语言的功能。</li>
+<li>SQLite 使用 ANSI-C 编写的，并提供了简单和易于使用的 API。</li>
+<li>SQLite 可在 UNIX（Linux, Mac OS-X, Android, iOS）和 Windows（Win32, WinCE, WinRT）中运行。</li>
+</ul>
+
+
+<h4>SQLite 命令</h4>
+
+<p>与关系数据库进行交互的标准 SQLite 命令类似于 SQL。命令包括 CREATE、SELECT、INSERT、UPDATE、DELETE 和 DROP。这些命令基于它们的操作性质可分为以下几种：</p>
+
+<h4>DDL - 数据定义语言</h4>
+
+<table>
+<thead>
+<tr>
+<th> 命令   </th>
+<th> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CREATE </td>
+<td>创建一个新的表，一个表的视图，或者数据库中的其他对象。</td>
+</tr>
+<tr>
+<td>ALTER  </td>
+<td>修改数据库中的某个已有的数据库对象，比如一个表。     </td>
+</tr>
+<tr>
+<td>DROP   </td>
+<td>删除整个表，或者表的视图，或者数据库中的其他对象。   </td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>DML - 数据操作语言</h4>
+
+<table>
+<thead>
+<tr>
+<th> 命令   </th>
+<th> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INSERT </td>
+<td>创建一条记录。</td>
+</tr>
+<tr>
+<td>UPDATE </td>
+<td>修改记录。      </td>
+</tr>
+<tr>
+<td>DELETE </td>
+<td>删除记录。      </td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>DQL - 数据查询语言</h4>
+
+<table>
+<thead>
+<tr>
+<th> 命令   </th>
+<th> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SELECT </td>
+<td>   从一个或多个表中检索某些记录。</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>在 Mac OS X 上安装 SQLite</h4>
+
+<p>最新版本的 Mac OS X 会预安装 SQLite，但是如果没有可用的安装，只需按照如下步骤进行：
+请访问 <a href="http://www.sqlite.org/download.html">SQLite 下载页面</a>，从源代码区下载 sqlite-autoconf-*.tar.gz。
+步骤如下：</p>
+
+<pre><code>$tar xvfz sqlite-autoconf-3071502.tar.gz
+$cd sqlite-autoconf-3071502
+$./configure --prefix=/usr/local
+$make
+$make install
+</code></pre>
+
+<p>上述步骤将在 Mac OS X 机器上安装 SQLite，您可以使用下列命令进行验证：</p>
+
+<pre><code>$sqlite3
+SQLite version 3.7.15.2 2013-01-09 11:53:05
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite&gt;
+</code></pre>
+
+<p>最后，在 SQLite 命令提示符下，使用 SQLite 命令做练习。</p>
+
+<h4>SQLite语法</h4>
+
+<p><strong>大小写敏感性</strong></p>
+
+<p>有个重要的点值得注意，SQLite 是不区分大小写的，但也有一些命令是大小写敏感的，比如 GLOB 和 glob 在 SQLite 的语句中有不同的含义。</p>
+
+<p><strong>注释</strong></p>
+
+<p>SQLite 注释是附加的注释，可以在 SQLite 代码中添加注释以增加其可读性，他们可以出现在任何空白处，包括在表达式内和其他 SQL 语句的中间，但它们不能嵌套。
+SQL 注释以两个连续的 &ldquo;-&rdquo; 字符（ASCII 0x2d）开始，并扩展至下一个换行符（ASCII 0x0a）或直到输入结束，以先到者为准。
+您也可以使用 C 风格的注释，以 &ldquo;/*&rdquo; 开始，并扩展至下一个 &ldquo;*/&rdquo; 字符对或直到输入结束，以先到者为准。SQLite的注释可以跨越多行。</p>
+
+<h4>SQLite 语句</h4>
+
+<p>所有的 SQLite 语句可以以任何关键字开始，如 SELECT、INSERT、UPDATE、DELETE、ALTER、DROP 等，所有的语句以分号（;）结束。</p>
+
+<p>SQLite ANALYZE 语句：</p>
+
+<pre><code>ANALYZE;
+or
+ANALYZE database_name;
+or
+ANALYZE database_name.table_name;
+</code></pre>
+
+<p>SQLite AND/OR 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  CONDITION-1 {AND|OR} CONDITION-2;
+</code></pre>
+
+<p>SQLite ALTER TABLE 语句：</p>
+
+<pre><code>ALTER TABLE table_name ADD COLUMN column_def...;
+SQLite ALTER TABLE 语句（Rename）：
+ALTER TABLE table_name RENAME TO new_table_name;
+</code></pre>
+
+<p>SQLite ATTACH DATABASE 语句：</p>
+
+<pre><code>ATTACH DATABASE 'DatabaseName' As 'Alias-Name';
+SQLite BEGIN TRANSACTION 语句：
+BEGIN;
+or
+BEGIN EXCLUSIVE TRANSACTION;
+</code></pre>
+
+<p>SQLite BETWEEN 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  column_name BETWEEN val-1 AND val-2;
+</code></pre>
+
+<p>SQLite COMMIT 语句：</p>
+
+<pre><code>COMMIT;
+</code></pre>
+
+<p>SQLite CREATE INDEX 语句：</p>
+
+<pre><code>CREATE INDEX index_name
+ON table_name ( column_name COLLATE NOCASE );
+</code></pre>
+
+<p>SQLite CREATE UNIQUE INDEX 语句：</p>
+
+<pre><code>CREATE UNIQUE INDEX index_name
+ON table_name ( column1, column2,...columnN);
+</code></pre>
+
+<p>SQLite CREATE TABLE 语句：</p>
+
+<pre><code>CREATE TABLE table_name(
+   column1 datatype,
+   column2 datatype,
+   column3 datatype,
+   .....
+   columnN datatype,
+   PRIMARY KEY( one or more columns )
+);
+</code></pre>
+
+<p>SQLite CREATE TRIGGER 语句：</p>
+
+<pre><code>CREATE TRIGGER database_name.trigger_name
+BEFORE INSERT ON table_name FOR EACH ROW
+BEGIN
+   stmt1;
+   stmt2;
+   ....
+END;
+</code></pre>
+
+<p>SQLite CREATE VIEW 语句：</p>
+
+<pre><code>CREATE VIEW database_name.view_name  AS
+SELECT statement....;
+</code></pre>
+
+<p>SQLite CREATE VIRTUAL TABLE 语句：</p>
+
+<pre><code>CREATE VIRTUAL TABLE database_name.table_name USING weblog( access.log );
+or
+CREATE VIRTUAL TABLE database_name.table_name USING fts3( );
+</code></pre>
+
+<p>SQLite COMMIT TRANSACTION 语句：</p>
+
+<pre><code>COMMIT;
+SQLite COUNT 子句：
+SELECT COUNT(column_name)
+FROM   table_name
+WHERE  CONDITION;
+</code></pre>
+
+<p>SQLite DELETE 语句：</p>
+
+<pre><code>DELETE FROM table_name
+WHERE  {CONDITION};
+</code></pre>
+
+<p>SQLite DETACH DATABASE 语句：</p>
+
+<pre><code>DETACH DATABASE 'Alias-Name';
+</code></pre>
+
+<p>SQLite DISTINCT 子句：</p>
+
+<pre><code>SELECT DISTINCT column1, column2....columnN
+FROM   table_name;
+</code></pre>
+
+<p>SQLite DROP INDEX 语句：</p>
+
+<pre><code>DROP INDEX database_name.index_name;
+</code></pre>
+
+<p>SQLite DROP TABLE 语句：</p>
+
+<pre><code>DROP TABLE database_name.table_name;
+</code></pre>
+
+<p>SQLite DROP VIEW 语句：</p>
+
+<pre><code>DROP INDEX database_name.view_name;
+</code></pre>
+
+<p>SQLite DROP TRIGGER 语句：</p>
+
+<pre><code>DROP INDEX database_name.trigger_name;
+</code></pre>
+
+<p>SQLite EXISTS 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  column_name EXISTS (SELECT * FROM   table_name );
+</code></pre>
+
+<p>SQLite EXPLAIN 语句：</p>
+
+<pre><code>EXPLAIN INSERT statement...;
+or
+EXPLAIN QUERY PLAN SELECT statement...;
+</code></pre>
+
+<p>SQLite GLOB 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  column_name GLOB { PATTERN };
+</code></pre>
+
+<p>SQLite GROUP BY 子句：</p>
+
+<pre><code>SELECT SUM(column_name)
+FROM   table_name
+WHERE  CONDITION
+GROUP BY column_name;
+</code></pre>
+
+<p>SQLite HAVING 子句：</p>
+
+<pre><code>SELECT SUM(column_name)
+FROM   table_name
+WHERE  CONDITION
+GROUP BY column_name
+HAVING (arithematic function condition);
+</code></pre>
+
+<p>SQLite INSERT INTO 语句：</p>
+
+<pre><code>INSERT INTO table_name( column1, column2....columnN)
+VALUES ( value1, value2....valueN);
+</code></pre>
+
+<p>SQLite IN 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  column_name IN (val-1, val-2,...val-N);
+</code></pre>
+
+<p>SQLite Like 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  column_name LIKE { PATTERN };
+</code></pre>
+
+<p>SQLite NOT IN 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  column_name NOT IN (val-1, val-2,...val-N);
+</code></pre>
+
+<p>SQLite ORDER BY 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  CONDITION
+ORDER BY column_name {ASC|DESC};
+</code></pre>
+
+<p>SQLite PRAGMA 语句：</p>
+
+<pre><code>PRAGMA pragma_name;
+
+For example:
+
+PRAGMA page_size;
+PRAGMA cache_size = 1024;
+PRAGMA table_info(table_name);
+</code></pre>
+
+<p>SQLite RELEASE SAVEPOINT 语句：</p>
+
+<pre><code>RELEASE savepoint_name;
+</code></pre>
+
+<p>SQLite REINDEX 语句：</p>
+
+<pre><code>REINDEX collation_name;
+REINDEX database_name.index_name;
+REINDEX database_name.table_name;
+</code></pre>
+
+<p>SQLite ROLLBACK 语句：</p>
+
+<pre><code>ROLLBACK;
+or
+ROLLBACK TO SAVEPOINT savepoint_name;
+</code></pre>
+
+<p>SQLite SAVEPOINT 语句：</p>
+
+<pre><code>SAVEPOINT savepoint_name;
+SQLite SELECT 语句：
+SELECT column1, column2....columnN
+FROM   table_name;
+</code></pre>
+
+<p>SQLite UPDATE 语句：</p>
+
+<pre><code>UPDATE table_name
+SET column1 = value1, column2 = value2....columnN=valueN
+[ WHERE  CONDITION ];
+</code></pre>
+
+<p>SQLite VACUUM 语句：</p>
+
+<pre><code>VACUUM;
+</code></pre>
+
+<p>SQLite WHERE 子句：</p>
+
+<pre><code>SELECT column1, column2....columnN
+FROM   table_name
+WHERE  CONDITION;
+</code></pre>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">王若风</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-13T23:18:15+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:18 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/database/'>database</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/" title="Previous Post: CocoaPods使用指南">&laquo; CocoaPods使用指南</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/13/sqlite-jiao-cheng-er/" title="Next Post: SQLite_教程(二)">SQLite_教程(二) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+   <!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/blog/2016/01/13/sqlite-jiao-cheng-[?]" data-title="SQLite_教程(一)" data-url="http://blog.wangruofeng007.com/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangruofeng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+  </section>
+ 
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/animation/'>animation (2)</a></li>
+<li class='category'><a href='/blog/categories/database/'>database (7)</a></li>
+<li class='category'><a href='/blog/categories/design-patterns/'>design_patterns (1)</a></li>
+<li class='category'><a href='/blog/categories/efficiency/'>efficiency (2)</a></li>
+<li class='category'><a href='/blog/categories/favorite/'>favorite (3)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (20)</a></li>
+<li class='category'><a href='/blog/categories/memory-management/'>memory_management (1)</a></li>
+<li class='category'><a href='/blog/categories/multithreading/'>multithreading (1)</a></li>
+<li class='category'><a href='/blog/categories/networking/'>networking (6)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (4)</a></li>
+<li class='category'><a href='/blog/categories/skill/'>skill (5)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/18/tableviewxing-neng-you-hua/">TableView性能优化</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/16/ios-animation-swift-ban/">iOS Animation Swift 版</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/15/nsurlsession/">NSURLSession 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/iosxian-cheng-an-quan-suo/">iOS线程安全-锁</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-qi/">SQLite_教程(七)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-liu/">SQLite_教程(六)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-wu/">SQLite_教程(五)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-si/">SQLite_教程(四)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-san/">SQLite_教程(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-er/">SQLite_教程(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/">SQLite_教程(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/">CocoaPods使用指南</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>About Me</h1>
+  <p>嗨,我是王若风。🍀</p>
+  <p>来自美丽的天府の国,现居深圳。</p>
+  <p>专注于移动互联网,热爱摄影旅行。</p>
+  <p>正在修行,探寻程序の美!</p>
+</section>
+<section>
+<h1>最近评论</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="20">
+</ul>
+<!-- 多说JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangruofeng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 王若风 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

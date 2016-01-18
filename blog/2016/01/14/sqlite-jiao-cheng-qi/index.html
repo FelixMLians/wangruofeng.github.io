@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SQLite_教程(七) - 王若风的技术博客</title>
+  <meta name="author" content="王若风">
+
+  
+  <meta name="description" content="SQLite_教程(七)">
+  <meta name="keywords" content="Octopress, iOS, Database, Swift, Objective-c, SQLite">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.wangruofeng007.com/blog/2016/01/14/sqlite-jiao-cheng-qi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="王若风的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72379345-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">王若风的技术博客</a></h1>
+  
+    <h2>世界尽头与冷酷仙境</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.wangruofeng007.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SQLite_教程(七)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-14T01:46:57+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:46 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>SQLite Order By</h4>
+
+<p>SQLite 的 <strong>ORDER BY</strong> 子句是用来基于一个或多个列按升序或降序顺序排列数据。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>ORDER BY 子句的基本语法如下：</p>
+
+<pre><code>SELECT column-list
+FROM table_name
+[WHERE condition]
+[ORDER BY column1, column2, .. columnN] [ASC | DESC];
+</code></pre>
+
+<p>您可以在 ORDER BY 子句中使用多个列。确保您使用的排序列在列清单中。</p>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>下面是一个实例，它会将结果按 SALARY 升序排序：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY ORDER BY SALARY ASC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>    ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+7           James       24          Houston     10000.0
+2           Allen       25          Texas       15000.0
+1           Paul        32          California  20000.0
+3           Teddy       23          Norway      20000.0
+6           Kim         22          South-Hall  45000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+</code></pre>
+
+<p>下面是一个实例，它会将结果按 NAME 和 SALARY 升序排序：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY ORDER BY NAME, SALARY ASC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000.0
+5           David       27          Texas       85000.0
+7           James       24          Houston     10000.0
+6           Kim         22          South-Hall  45000.0
+4           Mark        25          Rich-Mond   65000.0
+1           Paul        32          California  20000.0
+3           Teddy       23          Norway      20000.0
+</code></pre>
+
+<p>下面是一个实例，它会将结果按 NAME 降序排序：</p>
+
+<pre><code>sqlite&gt; SELECT * FROM COMPANY ORDER BY NAME DESC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+3           Teddy       23          Norway      20000.0
+1           Paul        32          California  20000.0
+4           Mark        25          Rich-Mond   65000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+5           David       27          Texas       85000.0
+2           Allen       25          Texas       15000.0
+</code></pre>
+
+<h4>SQLite Group By</h4>
+
+<p>SQLite 的 <strong>GROUP BY</strong> 子句用于与 SELECT 语句一起使用，来对相同的数据进行分组。
+在 SELECT 语句中，GROUP BY 子句放在 WHERE 子句之后，放在 ORDER BY 子句之前。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>下面给出了 GROUP BY 子句的基本语法。GROUP BY 子句必须放在 WHERE 子句中的条件之后，必须放在 ORDER BY 子句之前。</p>
+
+<pre><code>SELECT column-list
+FROM table_name
+WHERE [ conditions ]
+GROUP BY column1, column2....columnN
+ORDER BY column1, column2....columnN
+</code></pre>
+
+<p>您可以在 GROUP BY 子句中使用多个列。确保您使用的分组列在列清单中。</p>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+</code></pre>
+
+<p>如果您想了解每个客户的工资总额，则可使用 GROUP BY 查询，如下所示：</p>
+
+<pre><code>sqlite&gt; SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>NAME        SUM(SALARY)
+----------  -----------
+Allen       15000
+David       85000
+James       20000
+Kim         45000
+Mark        65000
+Paul        40000
+Teddy       20000
+</code></pre>
+
+<p>让我们把 ORDER BY 子句与 GROUP BY 子句一起使用，如下所示：</p>
+
+<pre><code>sqlite&gt;  SELECT NAME, SUM(SALARY)
+         FROM COMPANY GROUP BY NAME ORDER BY NAME DESC;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>NAME        SUM(SALARY)
+----------  -----------
+Teddy       20000
+Paul        40000
+Mark        65000
+Kim         45000
+James       20000
+David       85000
+Allen       15000
+</code></pre>
+
+<h4>SQLite Having 子句</h4>
+
+<p>HAVING 子句允许指定条件来过滤将出现在最终结果中的分组结果。</p>
+
+<p>WHERE 子句在所选列上设置条件，而 HAVING 子句则在由 GROUP BY 子句创建的分组上设置条件。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>下面是 HAVING 子句在 SELECT 查询中的位置：</p>
+
+<pre><code>SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+</code></pre>
+
+<p>在一个查询中，HAVING 子句必须放在 GROUP BY 子句之后，必须放在 ORDER BY 子句之前。下面是包含 HAVING 子句的 SELECT 语句的语法：</p>
+
+<pre><code>SELECT column1, column2
+FROM table1, table2
+WHERE [ conditions ]
+GROUP BY column1, column2
+HAVING [ conditions ]
+ORDER BY column1, column2
+</code></pre>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+8           Paul        24          Houston     20000.0
+9           James       44          Norway      5000.0
+10          James       45          Texas       5000.0
+</code></pre>
+
+<p>下面是一个实例，它将显示名称计数小于 2 的所有记录：</p>
+
+<pre><code>sqlite &gt; SELECT * FROM COMPANY GROUP BY name HAVING count(name) &lt; 2;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+2           Allen       25          Texas       15000
+5           David       27          Texas       85000
+6           Kim         22          South-Hall  45000
+4           Mark        25          Rich-Mond   65000
+3           Teddy       23          Norway      20000
+</code></pre>
+
+<p>下面是一个实例，它将显示名称计数大于 2 的所有记录,注意其实这里只返回最后一条记录：</p>
+
+<pre><code>sqlite &gt; SELECT * FROM COMPANY GROUP BY name HAVING count(name) &gt; 2;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+10          James       45          Texas       5000
+</code></pre>
+
+<h4>SQLite Distinct 关键字</h4>
+
+<p>SQLite 的 <strong>DISTINCT</strong> 关键字与 SELECT 语句一起使用，来消除所有重复的记录，并只获取唯一一次记录。
+有可能出现一种情况，在一个表中有多个重复的记录。当提取这样的记录时，DISTINCT 关键字就显得特别有意义，它只获取唯一一次记录，而不是获取重复记录。</p>
+
+<hr />
+
+<p><strong>语法</strong></p>
+
+<p>用于消除重复记录的 DISTINCT 关键字的基本语法如下：</p>
+
+<pre><code>SELECT DISTINCT column1, column2,.....columnN
+FROM table_name
+WHERE [condition]
+</code></pre>
+
+<p><strong>实例</strong></p>
+
+<p>假设 COMPANY 表有以下记录：</p>
+
+<pre><code>ID          NAME        AGE         ADDRESS     SALARY
+----------  ----------  ----------  ----------  ----------
+1           Paul        32          California  20000.0
+2           Allen       25          Texas       15000.0
+3           Teddy       23          Norway      20000.0
+4           Mark        25          Rich-Mond   65000.0
+5           David       27          Texas       85000.0
+6           Kim         22          South-Hall  45000.0
+7           James       24          Houston     10000.0
+8           Paul        24          Houston     20000.0
+9           James       44          Norway      5000.0
+10          James       45          Texas       5000.0
+</code></pre>
+
+<p>首先，让我们来看看下面的 SELECT 查询，它将返回重复的工资记录：</p>
+
+<pre><code>sqlite&gt; SELECT name FROM COMPANY;
+</code></pre>
+
+<p>这将产生以下结果：</p>
+
+<pre><code>NAME
+----------
+Paul
+Allen
+Teddy
+Mark
+David
+Kim
+James
+Paul
+James
+James
+</code></pre>
+
+<p>现在，让我们在上述的 SELECT 查询中使用 DISTINCT 关键字：</p>
+
+<pre><code>sqlite&gt; SELECT DISTINCT name FROM COMPANY;
+</code></pre>
+
+<p>这将产生以下结果，没有任何重复的条目：</p>
+
+<pre><code>NAME
+----------
+Paul
+Allen
+Teddy
+Mark
+David
+Kim
+James
+</code></pre>
+
+<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
+转载请注明出处。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">王若风</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-14T01:46:57+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:46 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/database/'>database</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/14/sqlite-jiao-cheng-liu/" title="Previous Post: SQLite_教程(六)">&laquo; SQLite_教程(六)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/14/iosxian-cheng-an-quan-suo/" title="Next Post: iOS线程安全-锁">iOS线程安全-锁 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+   <!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/blog/2016/01/14/sqlite-jiao-cheng-qi" data-title="SQLite_教程(七)" data-url="http://blog.wangruofeng007.com/blog/2016/01/14/sqlite-jiao-cheng-qi/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangruofeng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+  </section>
+ 
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/animation/'>animation (2)</a></li>
+<li class='category'><a href='/blog/categories/database/'>database (7)</a></li>
+<li class='category'><a href='/blog/categories/design-patterns/'>design_patterns (1)</a></li>
+<li class='category'><a href='/blog/categories/efficiency/'>efficiency (2)</a></li>
+<li class='category'><a href='/blog/categories/favorite/'>favorite (3)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (20)</a></li>
+<li class='category'><a href='/blog/categories/memory-management/'>memory_management (1)</a></li>
+<li class='category'><a href='/blog/categories/multithreading/'>multithreading (1)</a></li>
+<li class='category'><a href='/blog/categories/networking/'>networking (6)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (4)</a></li>
+<li class='category'><a href='/blog/categories/skill/'>skill (5)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/18/tableviewxing-neng-you-hua/">TableView性能优化</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/16/ios-animation-swift-ban/">iOS Animation Swift 版</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/15/nsurlsession/">NSURLSession 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/iosxian-cheng-an-quan-suo/">iOS线程安全-锁</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-qi/">SQLite_教程(七)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-liu/">SQLite_教程(六)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/14/sqlite-jiao-cheng-wu/">SQLite_教程(五)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-si/">SQLite_教程(四)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-san/">SQLite_教程(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-er/">SQLite_教程(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/">SQLite_教程(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/">CocoaPods使用指南</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>About Me</h1>
+  <p>嗨,我是王若风。🍀</p>
+  <p>来自美丽的天府の国,现居深圳。</p>
+  <p>专注于移动互联网,热爱摄影旅行。</p>
+  <p>正在修行,探寻程序の美!</p>
+</section>
+<section>
+<h1>最近评论</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="20">
+</ul>
+<!-- 多说JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangruofeng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 王若风 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
