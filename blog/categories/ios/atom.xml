@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 王若风的技术博客]]></title>
   <link href="http://blog.wangruofeng007.com/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://blog.wangruofeng007.com/"/>
-  <updated>2016-01-18T22:02:26+08:00</updated>
+  <updated>2016-01-18T22:04:05+08:00</updated>
   <id>http://blog.wangruofeng007.com/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -12,6 +12,79 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TableView性能优化]]></title>
+    <link href="http://blog.wangruofeng007.com/blog/2016/01/18/tableviewxing-neng-you-hua/"/>
+    <updated>2016-01-18T22:00:04+08:00</updated>
+    <id>http://blog.wangruofeng007.com/blog/2016/01/18/tableviewxing-neng-you-hua</id>
+    <content type="html"><![CDATA[<blockquote><p>此文整理一下TableView优化相关的方案和思路。</p></blockquote>
+
+<h4>TableView为什么会卡？</h4>
+
+<p>主要由以下原因：</p>
+
+<ul>
+<li><code>cellForRowAtIndexPath:</code>方法中处理了过多业务</li>
+<li>tableviewCell的subview层级太复杂，做了大量透明处理</li>
+<li>cell的height动态变化时计算方式不对</li>
+</ul>
+
+
+<h4>优化核心思想：<code>UITableViewCell</code>重用机制</h4>
+
+<p>简单的理解就是：UITableView只会创建一屏幕（或一屏幕多一点）的UITableViewCell，其他都是从中取出来重用的。每当Cell滑出屏幕时，就会放入到一个集合（或数组）中（这里就相当于一个重用池），当要显示某一位置的Cell时，会先去集合（或数组）中取，如果有，就直接拿来显示；如果没有，才会创建。这样做的好处可想而知，极大的减少了内存的开销。</p>
+
+<h4>Tips：</h4>
+
+<ol>
+<li>提前计算并缓存好高度（布局），因为<code>heightForRowAtIndexPath:</code>是调用最频繁的方法；</li>
+<li>异步绘制,遇到复杂界面,参考<code>Facebook</code>的<code>AsyncDisplayKit</code>和<a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a>异步绘制框架；</li>
+<li>缓存图片（<code>SDWebImage</code>），提前处理好<code>UIImageView</code>图片的尺寸按需加载而不是加载原图；</li>
+<li>计算等耗时操作异步处理，处理完再回主线程更新UI；</li>
+<li>图文混排不定高度采用<code>CoreText</code>排版，缓存Cell高度参考<a href="https://github.com/ibireme/YYKit">YYKit</a>；</li>
+<li>实现Cell的<code>drawRect:</code>方法直接绘制，减少<code>UIView</code>，<code>UIImageView</code>，<code>UILabel</code>等容器的使用。</li>
+</ol>
+
+
+<h4>Bonus：</h4>
+
+<ol>
+<li>正确使用reuseIdentifier来重用Cell；</li>
+<li>尽量少用或不用透明图层或View；</li>
+<li>如果Cell内现实的内容来自web，使用异步加载，缓存请求结果；</li>
+<li>减少subviews的数量在<code>heightForRowAtIndexPath:</code>中尽量不使用<code>cellForRowAtIndexPath:</code>，如果你需要用到它，只用一次然后缓存结果；</li>
+<li>尽量少用addView给Cell动态添加View，可以初始化时就添加，然后通过hide来控制是否显示；</li>
+<li>固定高度不要实现<code>heightForRowAtIndexPath:</code>方法。</li>
+</ol>
+
+
+<p>可以通过实现以下方法，可以减少高度计算次数</p>
+
+<pre><code class="objective-c">@property (nonatomic) CGFloat rowHeight;             // will return the default value if unset
+@property (nonatomic) CGFloat sectionHeaderHeight;   // will return the default value if unset
+@property (nonatomic) CGFloat sectionFooterHeight;   // will return the default value if unset
+@property (nonatomic) CGFloat estimatedRowHeight NS_AVAILABLE_IOS(7_0); // default is 0, which means there is no estimate
+@property (nonatomic) CGFloat estimatedSectionHeaderHeight NS_AVAILABLE_IOS(7_0); // default is 0, which means there is no estimate
+@property (nonatomic) CGFloat estimatedSectionFooterHeight NS_AVAILABLE_IOS(7_0); // default is 0, which means there is no estimate
+</code></pre>
+
+<p>参考资料：</p>
+
+<ul>
+<li><a href="http://ealui.com/index.php/blog/view/code-uitableviewcell-optimizations">code-uitableviewcell-optimizations-part-1</a></li>
+<li><a href="http://ealui.com/blog/view/code-uitableviewcell-optimization-part-2">code-uitableviewcell-optimization-part-2</a></li>
+<li><a href="https://medium.com/ios-os-x-development/perfect-smooth-scrolling-in-uitableviews-fd609d5275a5#.b176bxlm3">Perfect smooth scrolling in UITableViews</a></li>
+<li><a href="http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/">优化UITableViewCell高度计算的那些事</a></li>
+<li><a href="http://www.cocoachina.com/ios/20150602/11968.html">详细整理：UITableView优化技巧</a></li>
+<li><a href="http://www.cnblogs.com/wengzilin/p/4288027.html">UITableview性能优化总结</a></li>
+<li><a href="https://github.com/nixzhu/dev-blog/blob/master/2014-11-22-asyncdisplaykit-tutorial-achieving-60-fps-scrolling.md">AsyncDisplayKit 教程：达到 60 FPS 的滚动帧率</a></li>
+<li><a href="https://github.com/facebook/AsyncDisplayKit">AsyncDisplayKit</a></li>
+<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Animation Swift 版]]></title>
@@ -1624,97 +1697,6 @@ pod ‘AFNetworking’, ‘&lt;=2.0′     //使用小于或等于2.0的版本
 pod ‘AFNetworking’, ‘~&gt;0.1.2′     //使用大于等于0.1.2但小于0.2的版本，相当于&gt;=0.1.2并且&lt;0.2.0
 pod ‘AFNetworking’, ‘~&gt;0.1′     //使用大于等于0.1但小于1.0的版本
 pod ‘AFNetworking’, ‘~&gt;0′     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
-</code></pre>
-
-<p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GET&amp;POST]]></title>
-    <link href="http://blog.wangruofeng007.com/blog/2016/01/13/get-and-post/"/>
-    <updated>2016-01-13T05:48:10+08:00</updated>
-    <id>http://blog.wangruofeng007.com/blog/2016/01/13/get-and-post</id>
-    <content type="html"><![CDATA[<blockquote><p>GET和POST是两种最常用的与服务器进行交互的HTTP方法 .</p></blockquote>
-
-<h3>GET</h3>
-
-<ul>
-<li>GET的语义是获取指定的URL资源, 将数据按照 variable = value 的形式, 添加到action所指向的URL后面, 并且两者使用 &lsquo; ? '连接, 各变量之间使用 &rsquo; &amp; &lsquo;连接 .</li>
-<li>对用户来说不安全, 因为在传输过程中, 数据被放在请求的URL中.</li>
-<li>传输的数据量小, 这主要是因为受URL长度限制.</li>
-</ul>
-
-
-<h3>URL长度限制</h3>
-
-<p> 在http协议中，其实并没有对url长度作出限制，往往url的最大长度和用户浏览器和Web服务器有关，不一样的浏览器，能接受的最大长度往往是不一样的，当然，不一样的Web服务器能够处理的最大长度的URL的能力也是不一样的。</p>
-
-<pre><code>IE浏览器对URL的最大限制为2083个字符，如果超过这个数字，提交按钮没有任何反应。
-
-Firefox浏览器URL的长度限制为65,536个字符 ;
-
-Apache(Server)能够接受的最大URL长度为8192个字符 ;
-
-如果浏览器的编码为UTF8的话，一个汉字最终编码后的字符长度为9个字符。
-</code></pre>
-
-<p>GET请求示例</p>
-
-<p><img src="http://static.oschina.net/uploads/space/2014/0602/164040_3SOT_1774273.png" alt="GetRequest" /></p>
-
-<h3>POST</h3>
-
-<ul>
-<li>POST语义是向指定URL的资源添加数据.</li>
-<li>将数据放在数据体中, 按照变量和值相对应的方式, 传递到action所指向的URL.</li>
-<li>所有数据对用户来说不可见.</li>
-<li>可以传输大量数据, 上传文件只能使用POST.</li>
-</ul>
-
-
-<p>POST请求示例</p>
-
-<p><img src="http://static.oschina.net/uploads/space/2014/0602/164119_VRKY_1774273.png" alt="PostRequest" /></p>
-
-<h3>在浏览器中判断GET&amp;POST请求</h3>
-
-<p>因为POST请求会向服务器发送数据体, 因此刷新页面时会出现提示窗口. 而GET请求不会向服务器发送数据体, 因此没有提示 .</p>
-
-<p>从请求本质来看, GET请求要比POST更安全, 效率也会更高 .(对服务器而言)</p>
-
-<h3>iOS网络发送网络请求的步骤</h3>
-
-<ol>
-<li><p>实例化URL( 网络资源 ) ;</p></li>
-<li><p>根据URL建立URLRequest ( 网络请求 ) ;</p>
-
-<p> 默认为GET请求; 对于POST请求,  需要创建请求的数据体 .</p></li>
-<li><p>利用 URLConnection 发送网络请求(发送请求并获得结果) ;</p></li>
-</ol>
-
-
-<p>NSURLConnection提供了两个静态方法可以直接以同步或异步的方式向服务器发送网络请求.</p>
-
-<pre><code>同步请求:
-
-sendSynchronousRequest : returningResponse : error :
-
-异步请求:
-
-sendAsynchronousRequest : queue : completionHandler :
-</code></pre>
-
-<p>在网络请求过程中, 接收数据的过程实际上是通过 NSURLConnectionDataDelegate来实现的, 常用代理方法包括:</p>
-
-<pre><code class="objective-c">// 服务器开始返回数据
--(void)connection:didReceiveResponse:
-// 收到服务器返回的数据，本方法会被调用多次
--(void)connection:didReceiveData:
-// 数据接收完毕，做数据的最后处理
--(void)connectionDidFinishLoading:
-// 网络连接错误
--(void)connection:didFailWithError:
 </code></pre>
 
 <p>备注：欢迎转载，但请一定注明出处！ <a href="http://blog.wangruofeng007.com">http://blog.wangruofeng007.com</a></p>
