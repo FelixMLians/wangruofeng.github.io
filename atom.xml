@@ -4,7 +4,7 @@
   <title><![CDATA[王若风的技术博客]]></title>
   <link href="http://blog.wangruofeng007.com/atom.xml" rel="self"/>
   <link href="http://blog.wangruofeng007.com/"/>
-  <updated>2016-01-18T22:38:33+08:00</updated>
+  <updated>2016-01-18T23:21:37+08:00</updated>
   <id>http://blog.wangruofeng007.com/</id>
   <author>
     <name><![CDATA[王若风]]></name>
@@ -7716,6 +7716,15 @@ UITouchPhaseCancelled（触摸取消）*/
 <h2>AutoLayout引入</h2>
 
 <p>iOS 6.0</p>
+
+<h2>Swift</h2>
+
+<ul>
+<li><a href="http://baike.baidu.com/view/404495.htm">WWDC</a> 1.0 版本发布 &ndash; 2014.06.02</li>
+<li>Swift 2.0发布   &ndash; 2015.08.07</li>
+<li>Open Source &ndash; 2015.12.04</li>
+</ul>
+
 
 <h2>Size Classes</h2>
 
