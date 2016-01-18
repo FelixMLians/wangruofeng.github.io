@@ -1,9 +1,12 @@
 ---
 layout: post
 title: "多线程之NSThread"
-date: 2016-01-13 03:35:48 +0800
+date: 2016-01-13 05:36:48 +0800
 comments: true
-categories: 
+tags: [iOS, 多线程, NSThread]
+keywords: Octopress, iOS, 多线程 , Swift, Objective-c, NSThread
+categories: iOS Networking
+description: 多线程之NSThread
 ---
 
 ## 本文目录
@@ -132,3 +135,5 @@ NSDate *date = [NSDate dateWithTimeInterval:2 sinceDate:[NSDate date]];
 ### 6.优缺点
 1. 优点：`NSThread`比其他多线程方案较轻量级，更直观地控制线程对象
 2. 缺点：需要自己管理线程的生命周期，线程同步。线程同步对数据的加锁会有一定的系统开销
+
+备注：欢迎转载，但请一定注明出处！ <http://blog.wangruofeng007.com>

@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://wangruofeng.github.io
-title: 王若风的小窝
-subtitle: 诗意的栖居
-author: Ace
+url: http://blog.wangruofeng007.com
+title: 王若风的技术博客
+subtitle: 世界尽头与冷酷仙境
+author: 王若风
 simple_search: https://www.google.com/search
 description: 王若风的技术博客
 
@@ -43,7 +43,7 @@ highlighter: pygments # default python pygments have been replaced by pygments.r
 
 paginate: 10          # Posts per page on the blog index
 paginate_path: "posts/:num"  # Directory base for pagination URLs eg. /posts/2/
-recent_posts: 5       # Posts in the sidebar Recent Posts section
+recent_posts: 12       # Posts in the sidebar Recent Posts section
 excerpt_link: "Read on &rarr;"  # "Continue reading" link text at the bottom of excerpted articles
 excerpt_separator: "<!--more-->"
 
@@ -51,7 +51,7 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+default_asides: [asides/category_list.html, asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html, custom/asides/about.html, custom/asides/recent_comments.html]
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
@@ -64,14 +64,14 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-github_user:
-github_repo_count: 0
-github_show_profile_link: true
-github_skip_forks: true
+github_user: 
+github_repo_count: 5
+github_show_profile_link: false
+github_skip_forks: false
 
 # Twitter
 twitter_user:
-twitter_tweet_button: true
+twitter_tweet_button: false
 
 # Google +1
 google_plus_one: false
@@ -95,7 +95,19 @@ disqus_short_name:
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-72379345-1
 
 # Facebook Like
 facebook_like: false
+
+# duoshuo comments
+duoshuo_comments: true
+duoshuo_short_name: wangruofeng
+
+# duoshuo config
+duoshuo_asides_num: 10      # 侧边栏评论显示条目数
+duoshuo_asides_avatars: 0   # 侧边栏评论是否显示头像
+duoshuo_asides_time: 1      # 侧边栏评论是否显示时间
+duoshuo_asides_title: 1     # 侧边栏评论是否显示标题
+duoshuo_asides_admin: 0     # 侧边栏评论是否显示作者评论
+duoshuo_asides_length: 20   # 侧边栏评论截取的长度
