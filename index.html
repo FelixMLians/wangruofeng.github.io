@@ -9,10 +9,9 @@
   <meta name="author" content="王若风">
 
   
-  <meta name="description" content="简介 此文主要记录我学习iOS的动画相关内容用Swift语言，记录下来以供参考，不定时更新。 目录结构 Section I: View 动画 View animation
-弹簧动画 - Springs
-转场动画 - Transitions
-关键帧动画 - Keyframe Section II &hellip;">
+  <meta name="description" content="此文整理一下TableView优化相关的方案和思路。 TableView为什么会卡？ 主要由以下原因： cellForRowAtIndexPath:方法中处理了过多业务
+tableviewCell的subview层级太复杂，做了大量透明处理
+cell的height动态变化时计算方式不对 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +79,106 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/18/tableviewxing-neng-you-hua/">TableView性能优化</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-18T22:00:04+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:00 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>此文整理一下TableView优化相关的方案和思路。</p></blockquote>
+
+<h4>TableView为什么会卡？</h4>
+
+<p>主要由以下原因：</p>
+
+<ul>
+<li><code>cellForRowAtIndexPath:</code>方法中处理了过多业务</li>
+<li>tableviewCell的subview层级太复杂，做了大量透明处理</li>
+<li>cell的height动态变化时计算方式不对</li>
+</ul>
+
+
+<h4>优化核心思想：<code>UITableViewCell</code>重用机制</h4>
+
+<p>简单的理解就是：UITableView只会创建一屏幕（或一屏幕多一点）的UITableViewCell，其他都是从中取出来重用的。每当Cell滑出屏幕时，就会放入到一个集合（或数组）中（这里就相当于一个重用池），当要显示某一位置的Cell时，会先去集合（或数组）中取，如果有，就直接拿来显示；如果没有，才会创建。这样做的好处可想而知，极大的减少了内存的开销。</p>
+
+<h4>Tips：</h4>
+
+<ol>
+<li>提前计算并缓存好高度（布局），因为<code>heightForRowAtIndexPath:</code>是调用最频繁的方法；</li>
+<li>异步绘制,遇到复杂界面,参考<code>Facebook</code>的<code>AsyncDisplayKit</code>和<a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a>异步绘制框架；</li>
+<li>缓存图片（<code>SDWebImage</code>），提前处理好<code>UIImageView</code>图片的尺寸按需加载而不是加载原图；</li>
+<li>计算等耗时操作异步处理，处理完再回主线程更新UI；</li>
+<li>图文混排不定高度采用<code>CoreText</code>排版，缓存Cell高度参考<a href="https://github.com/ibireme/YYKit">YYKit</a>；</li>
+<li>实现Cell的<code>drawRect:</code>方法直接绘制，减少<code>UIView</code>，<code>UIImageView</code>，<code>UILabel</code>等容器的使用。</li>
+</ol>
+
+
+<h4>Bonus：</h4>
+
+<ol>
+<li>正确使用reuseIdentifier来重用Cell；</li>
+<li>尽量少用或不用透明图层或View；</li>
+<li>如果Cell内现实的内容来自web，使用异步加载，缓存请求结果；</li>
+<li>减少subviews的数量在<code>heightForRowAtIndexPath:</code>中尽量不使用<code>cellForRowAtIndexPath:</code>，如果你需要用到它，只用一次然后缓存结果；</li>
+<li>尽量少用addView给Cell动态添加View，可以初始化时就添加，然后通过hide来控制是否显示；</li>
+<li>固定高度不要实现<code>heightForRowAtIndexPath:</code>方法。</li>
+</ol>
+
+
+<p>可以通过实现以下方法，可以减少高度计算次数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">rowHeight</span><span class="p">;</span>             <span class="c1">// will return the default value if unset</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">sectionHeaderHeight</span><span class="p">;</span>   <span class="c1">// will return the default value if unset</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">sectionFooterHeight</span><span class="p">;</span>   <span class="c1">// will return the default value if unset</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">estimatedRowHeight</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">7</span><span class="n">_0</span><span class="p">);</span> <span class="c1">// default is 0, which means there is no estimate</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">estimatedSectionHeaderHeight</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">7</span><span class="n">_0</span><span class="p">);</span> <span class="c1">// default is 0, which means there is no estimate</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">estimatedSectionFooterHeight</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">7</span><span class="n">_0</span><span class="p">);</span> <span class="c1">// default is 0, which means there is no estimate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考资料：</p>
+
+<ul>
+<li><a href="http://ealui.com/index.php/blog/view/code-uitableviewcell-optimizations">code-uitableviewcell-optimizations-part-1</a></li>
+<li><a href="http://ealui.com/blog/view/code-uitableviewcell-optimization-part-2">code-uitableviewcell-optimization-part-2</a></li>
+<li><a href="https://medium.com/ios-os-x-development/perfect-smooth-scrolling-in-uitableviews-fd609d5275a5#.b176bxlm3">Perfect smooth scrolling in UITableViews</a></li>
+<li><a href="http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/">优化UITableViewCell高度计算的那些事</a></li>
+<li><a href="http://www.cocoachina.com/ios/20150602/11968.html">详细整理：UITableView优化技巧</a></li>
+<li><a href="http://www.cnblogs.com/wengzilin/p/4288027.html">UITableview性能优化总结</a></li>
+<li><a href="https://github.com/nixzhu/dev-blog/blob/master/2014-11-22-asyncdisplaykit-tutorial-achieving-60-fps-scrolling.md">AsyncDisplayKit 教程：达到 60 FPS 的滚动帧率</a></li>
+<li><a href="https://github.com/facebook/AsyncDisplayKit">AsyncDisplayKit</a></li>
+<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -4606,443 +4705,6 @@ sqlite&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/13/sqlite-jiao-cheng-%5B%3F%5D/">SQLite_教程(一)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-13T23:18:15+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:18 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>简介：</h4>
-
-<p>SQLite 是一个软件库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。SQLite 是在世界上最广泛部署的 SQL 数据库引擎。SQLite 源代码不受版权限制。
-本教程将告诉您如何使用 SQLite 编程，并让你迅速上手。</p>
-
-<h4>什么是 SQLite？</h4>
-
-<p>SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库一样，您不需要在系统中配置。
-就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件</p>
-
-<h4>为什么要用 SQLite？</h4>
-
-<ul>
-<li>不需要一个单独的服务器进程或操作的系统（无服务器的）。</li>
-<li>SQLite 不需要配置，这意味着不需要安装或管理。</li>
-<li>一个完整的 SQLite 数据库是存储在一个单一的跨平台的磁盘文件。</li>
-<li>SQLite 是非常小的，是轻量级的，完全配置时小于 400KiB，省略可选功能配置时小于250KiB。</li>
-<li>SQLite 是自给自足的，这意味着不需要任何外部的依赖。</li>
-<li>SQLite 事务是完全兼容 ACID 的，允许从多个进程或线程安全访问。</li>
-<li>SQLite 支持 SQL92（SQL2）标准的大多数查询语言的功能。</li>
-<li>SQLite 使用 ANSI-C 编写的，并提供了简单和易于使用的 API。</li>
-<li>SQLite 可在 UNIX（Linux, Mac OS-X, Android, iOS）和 Windows（Win32, WinCE, WinRT）中运行。</li>
-</ul>
-
-
-<h4>SQLite 命令</h4>
-
-<p>与关系数据库进行交互的标准 SQLite 命令类似于 SQL。命令包括 CREATE、SELECT、INSERT、UPDATE、DELETE 和 DROP。这些命令基于它们的操作性质可分为以下几种：</p>
-
-<h4>DDL - 数据定义语言</h4>
-
-<table>
-<thead>
-<tr>
-<th> 命令   </th>
-<th> 描述 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CREATE </td>
-<td>创建一个新的表，一个表的视图，或者数据库中的其他对象。</td>
-</tr>
-<tr>
-<td>ALTER  </td>
-<td>修改数据库中的某个已有的数据库对象，比如一个表。     </td>
-</tr>
-<tr>
-<td>DROP   </td>
-<td>删除整个表，或者表的视图，或者数据库中的其他对象。   </td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>DML - 数据操作语言</h4>
-
-<table>
-<thead>
-<tr>
-<th> 命令   </th>
-<th> 描述 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>INSERT </td>
-<td>创建一条记录。</td>
-</tr>
-<tr>
-<td>UPDATE </td>
-<td>修改记录。      </td>
-</tr>
-<tr>
-<td>DELETE </td>
-<td>删除记录。      </td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>DQL - 数据查询语言</h4>
-
-<table>
-<thead>
-<tr>
-<th> 命令   </th>
-<th> 描述 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SELECT </td>
-<td>   从一个或多个表中检索某些记录。</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>在 Mac OS X 上安装 SQLite</h4>
-
-<p>最新版本的 Mac OS X 会预安装 SQLite，但是如果没有可用的安装，只需按照如下步骤进行：
-请访问 <a href="http://www.sqlite.org/download.html">SQLite 下载页面</a>，从源代码区下载 sqlite-autoconf-*.tar.gz。
-步骤如下：</p>
-
-<pre><code>$tar xvfz sqlite-autoconf-3071502.tar.gz
-$cd sqlite-autoconf-3071502
-$./configure --prefix=/usr/local
-$make
-$make install
-</code></pre>
-
-<p>上述步骤将在 Mac OS X 机器上安装 SQLite，您可以使用下列命令进行验证：</p>
-
-<pre><code>$sqlite3
-SQLite version 3.7.15.2 2013-01-09 11:53:05
-Enter ".help" for instructions
-Enter SQL statements terminated with a ";"
-sqlite&gt;
-</code></pre>
-
-<p>最后，在 SQLite 命令提示符下，使用 SQLite 命令做练习。</p>
-
-<h4>SQLite语法</h4>
-
-<p><strong>大小写敏感性</strong></p>
-
-<p>有个重要的点值得注意，SQLite 是不区分大小写的，但也有一些命令是大小写敏感的，比如 GLOB 和 glob 在 SQLite 的语句中有不同的含义。</p>
-
-<p><strong>注释</strong></p>
-
-<p>SQLite 注释是附加的注释，可以在 SQLite 代码中添加注释以增加其可读性，他们可以出现在任何空白处，包括在表达式内和其他 SQL 语句的中间，但它们不能嵌套。
-SQL 注释以两个连续的 &ldquo;-&rdquo; 字符（ASCII 0x2d）开始，并扩展至下一个换行符（ASCII 0x0a）或直到输入结束，以先到者为准。
-您也可以使用 C 风格的注释，以 &ldquo;/*&rdquo; 开始，并扩展至下一个 &ldquo;*/&rdquo; 字符对或直到输入结束，以先到者为准。SQLite的注释可以跨越多行。</p>
-
-<h4>SQLite 语句</h4>
-
-<p>所有的 SQLite 语句可以以任何关键字开始，如 SELECT、INSERT、UPDATE、DELETE、ALTER、DROP 等，所有的语句以分号（;）结束。</p>
-
-<p>SQLite ANALYZE 语句：</p>
-
-<pre><code>ANALYZE;
-or
-ANALYZE database_name;
-or
-ANALYZE database_name.table_name;
-</code></pre>
-
-<p>SQLite AND/OR 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  CONDITION-1 {AND|OR} CONDITION-2;
-</code></pre>
-
-<p>SQLite ALTER TABLE 语句：</p>
-
-<pre><code>ALTER TABLE table_name ADD COLUMN column_def...;
-SQLite ALTER TABLE 语句（Rename）：
-ALTER TABLE table_name RENAME TO new_table_name;
-</code></pre>
-
-<p>SQLite ATTACH DATABASE 语句：</p>
-
-<pre><code>ATTACH DATABASE 'DatabaseName' As 'Alias-Name';
-SQLite BEGIN TRANSACTION 语句：
-BEGIN;
-or
-BEGIN EXCLUSIVE TRANSACTION;
-</code></pre>
-
-<p>SQLite BETWEEN 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name BETWEEN val-1 AND val-2;
-</code></pre>
-
-<p>SQLite COMMIT 语句：</p>
-
-<pre><code>COMMIT;
-</code></pre>
-
-<p>SQLite CREATE INDEX 语句：</p>
-
-<pre><code>CREATE INDEX index_name
-ON table_name ( column_name COLLATE NOCASE );
-</code></pre>
-
-<p>SQLite CREATE UNIQUE INDEX 语句：</p>
-
-<pre><code>CREATE UNIQUE INDEX index_name
-ON table_name ( column1, column2,...columnN);
-</code></pre>
-
-<p>SQLite CREATE TABLE 语句：</p>
-
-<pre><code>CREATE TABLE table_name(
-   column1 datatype,
-   column2 datatype,
-   column3 datatype,
-   .....
-   columnN datatype,
-   PRIMARY KEY( one or more columns )
-);
-</code></pre>
-
-<p>SQLite CREATE TRIGGER 语句：</p>
-
-<pre><code>CREATE TRIGGER database_name.trigger_name
-BEFORE INSERT ON table_name FOR EACH ROW
-BEGIN
-   stmt1;
-   stmt2;
-   ....
-END;
-</code></pre>
-
-<p>SQLite CREATE VIEW 语句：</p>
-
-<pre><code>CREATE VIEW database_name.view_name  AS
-SELECT statement....;
-</code></pre>
-
-<p>SQLite CREATE VIRTUAL TABLE 语句：</p>
-
-<pre><code>CREATE VIRTUAL TABLE database_name.table_name USING weblog( access.log );
-or
-CREATE VIRTUAL TABLE database_name.table_name USING fts3( );
-</code></pre>
-
-<p>SQLite COMMIT TRANSACTION 语句：</p>
-
-<pre><code>COMMIT;
-SQLite COUNT 子句：
-SELECT COUNT(column_name)
-FROM   table_name
-WHERE  CONDITION;
-</code></pre>
-
-<p>SQLite DELETE 语句：</p>
-
-<pre><code>DELETE FROM table_name
-WHERE  {CONDITION};
-</code></pre>
-
-<p>SQLite DETACH DATABASE 语句：</p>
-
-<pre><code>DETACH DATABASE 'Alias-Name';
-</code></pre>
-
-<p>SQLite DISTINCT 子句：</p>
-
-<pre><code>SELECT DISTINCT column1, column2....columnN
-FROM   table_name;
-</code></pre>
-
-<p>SQLite DROP INDEX 语句：</p>
-
-<pre><code>DROP INDEX database_name.index_name;
-</code></pre>
-
-<p>SQLite DROP TABLE 语句：</p>
-
-<pre><code>DROP TABLE database_name.table_name;
-</code></pre>
-
-<p>SQLite DROP VIEW 语句：</p>
-
-<pre><code>DROP INDEX database_name.view_name;
-</code></pre>
-
-<p>SQLite DROP TRIGGER 语句：</p>
-
-<pre><code>DROP INDEX database_name.trigger_name;
-</code></pre>
-
-<p>SQLite EXISTS 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name EXISTS (SELECT * FROM   table_name );
-</code></pre>
-
-<p>SQLite EXPLAIN 语句：</p>
-
-<pre><code>EXPLAIN INSERT statement...;
-or
-EXPLAIN QUERY PLAN SELECT statement...;
-</code></pre>
-
-<p>SQLite GLOB 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name GLOB { PATTERN };
-</code></pre>
-
-<p>SQLite GROUP BY 子句：</p>
-
-<pre><code>SELECT SUM(column_name)
-FROM   table_name
-WHERE  CONDITION
-GROUP BY column_name;
-</code></pre>
-
-<p>SQLite HAVING 子句：</p>
-
-<pre><code>SELECT SUM(column_name)
-FROM   table_name
-WHERE  CONDITION
-GROUP BY column_name
-HAVING (arithematic function condition);
-</code></pre>
-
-<p>SQLite INSERT INTO 语句：</p>
-
-<pre><code>INSERT INTO table_name( column1, column2....columnN)
-VALUES ( value1, value2....valueN);
-</code></pre>
-
-<p>SQLite IN 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name IN (val-1, val-2,...val-N);
-</code></pre>
-
-<p>SQLite Like 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name LIKE { PATTERN };
-</code></pre>
-
-<p>SQLite NOT IN 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  column_name NOT IN (val-1, val-2,...val-N);
-</code></pre>
-
-<p>SQLite ORDER BY 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  CONDITION
-ORDER BY column_name {ASC|DESC};
-</code></pre>
-
-<p>SQLite PRAGMA 语句：</p>
-
-<pre><code>PRAGMA pragma_name;
-
-For example:
-
-PRAGMA page_size;
-PRAGMA cache_size = 1024;
-PRAGMA table_info(table_name);
-</code></pre>
-
-<p>SQLite RELEASE SAVEPOINT 语句：</p>
-
-<pre><code>RELEASE savepoint_name;
-</code></pre>
-
-<p>SQLite REINDEX 语句：</p>
-
-<pre><code>REINDEX collation_name;
-REINDEX database_name.index_name;
-REINDEX database_name.table_name;
-</code></pre>
-
-<p>SQLite ROLLBACK 语句：</p>
-
-<pre><code>ROLLBACK;
-or
-ROLLBACK TO SAVEPOINT savepoint_name;
-</code></pre>
-
-<p>SQLite SAVEPOINT 语句：</p>
-
-<pre><code>SAVEPOINT savepoint_name;
-SQLite SELECT 语句：
-SELECT column1, column2....columnN
-FROM   table_name;
-</code></pre>
-
-<p>SQLite UPDATE 语句：</p>
-
-<pre><code>UPDATE table_name
-SET column1 = value1, column2 = value2....columnN=valueN
-[ WHERE  CONDITION ];
-</code></pre>
-
-<p>SQLite VACUUM 语句：</p>
-
-<pre><code>VACUUM;
-</code></pre>
-
-<p>SQLite WHERE 子句：</p>
-
-<pre><code>SELECT column1, column2....columnN
-FROM   table_name
-WHERE  CONDITION;
-</code></pre>
-
-<p>资料整理于：<a href="http://www.runoob.com/sqlite/sqlite-tutorial.html">RUNOOB.COM-SQLite教程</a>
-转载请注明出处。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -5056,6 +4718,10 @@ WHERE  CONDITION;
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/18/tableviewxing-neng-you-hua/">TableView性能优化</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/01/16/ios-animation-swift-ban/">iOS Animation Swift 版</a>
@@ -5099,10 +4765,6 @@ WHERE  CONDITION;
     
       <li class="post">
         <a href="/blog/2016/01/13/cocoapodsshi-yong-zhi-nan/">CocoaPods使用指南</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/13/get-and-post/">GET&amp;POST</a>
       </li>
     
   </ul>
