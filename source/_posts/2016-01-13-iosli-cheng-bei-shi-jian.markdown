@@ -59,6 +59,8 @@ iOS 8.0
 ## Objective-C 2.0
 At the [2006 Worldwide Developers Conference](https://en.wikipedia.org/wiki/Apple_Worldwide_Developers_Conference) release of [Objective-C 2.0](https://en.wikipedia.org/wiki/Objective-C#Objective-C_2.0)
 
+## Watch OS
+2015.05.21
 
 ## iOS 2.1 to iOS 2.2 API Differences
 
